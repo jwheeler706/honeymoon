@@ -466,11 +466,13 @@ function MapGlyph({ className, icon }: { className: string; icon: string }) {
     return (
       <span className="map-glyph food" aria-hidden="true">
         <svg viewBox="0 0 24 24">
-          <path d="M7 3v8" />
-          <path d="M4.5 3v5.5C4.5 10 5.6 11 7 11s2.5-1 2.5-2.5V3" />
-          <path d="M7 11v10" />
-          <path d="M16 3c1.8 1.7 2.7 3.7 2.7 6.1V21" />
-          <path d="M14.1 13.5h4.6" />
+          <path d="M6.5 3v7.5" />
+          <path d="M4.5 3v7.5" />
+          <path d="M8.5 3v7.5" />
+          <path d="M4.5 10.5h4" />
+          <path d="M6.5 10.5V21" />
+          <path d="M16.5 3v18" />
+          <path d="M16.5 3c2 1.8 3 4 3 6.7v1.8h-3" />
         </svg>
       </span>
     );
