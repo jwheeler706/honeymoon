@@ -427,7 +427,6 @@ function formatRarotongaTime(date = new Date()) {
     hour: "numeric",
     minute: "2-digit",
     timeZone: tripTimeZone,
-    timeZoneName: "short",
   }).format(date);
 }
 
@@ -528,7 +527,7 @@ function headerContext(now = new Date()): HeaderContext {
   if (now < tripStart) {
     return {
       key: "countdown",
-      eyebrow: `Rarotonga now · ${formatRarotongaTime(now)}`,
+      eyebrow: `Time in Rarotonga · ${formatRarotongaTime(now)}`,
       title: countdownText(now),
       subtitle: "Honeymoon itinerary · Oct 9-17",
     };
@@ -539,7 +538,7 @@ function headerContext(now = new Date()): HeaderContext {
   if (now >= tripEnd || !current) {
     return {
       key: "beach",
-      eyebrow: `Rarotonga now · ${formatRarotongaTime(now)}`,
+      eyebrow: `Time in Rarotonga · ${formatRarotongaTime(now)}`,
       title: "Rarotonga",
       subtitle: "Honeymoon itinerary · Oct 9-17",
     };
@@ -547,7 +546,7 @@ function headerContext(now = new Date()): HeaderContext {
 
   return {
     key: headerKeyForEvent(current.event),
-    eyebrow: `${current.day.weekday} · ${formatRarotongaTime(now)}`,
+    eyebrow: `Time in Rarotonga · ${formatRarotongaTime(now)}`,
     title: current.event.title,
     subtitle: `${formatTime(current.event.time)} · ${current.day.title}`,
   };
