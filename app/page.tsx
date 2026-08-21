@@ -168,8 +168,8 @@ const mapPlaces: MapPlace[] = [
     type: "lodging",
     area: "Titikaveka",
     note: "Home base for slow mornings, villa time, and easy returns.",
-    x: 61,
-    y: 72,
+    x: 64,
+    y: 78,
   },
   {
     id: "punanga-nui-market",
@@ -180,8 +180,8 @@ const mapPlaces: MapPlace[] = [
     type: "activity",
     area: "Avarua",
     note: "Good first-morning option if the late arrival does not win.",
-    x: 48,
-    y: 18,
+    x: 46,
+    y: 32,
   },
   {
     id: "nautilus",
@@ -192,8 +192,8 @@ const mapPlaces: MapPlace[] = [
     type: "reservation",
     area: "Muri",
     note: "Confirmed opening honeymoon dinner at 6:00 PM.",
-    x: 78,
-    y: 63,
+    x: 76,
+    y: 68,
   },
   {
     id: "tamarind",
@@ -204,8 +204,8 @@ const mapPlaces: MapPlace[] = [
     type: "reservation",
     area: "Avarua",
     note: "Confirmed dinner at 6:15 PM.",
-    x: 44,
-    y: 16,
+    x: 47,
+    y: 30,
   },
   {
     id: "black-rock",
@@ -216,8 +216,8 @@ const mapPlaces: MapPlace[] = [
     type: "activity",
     area: "Northwest coast",
     note: "Driver-day scenic stop candidate.",
-    x: 17,
-    y: 34,
+    x: 19,
+    y: 31,
   },
   {
     id: "otb",
@@ -228,8 +228,8 @@ const mapPlaces: MapPlace[] = [
     type: "reservation",
     area: "West side",
     note: "Confirmed dinner; exact time TBD.",
-    x: 18,
-    y: 58,
+    x: 14,
+    y: 50,
   },
   {
     id: "turtles",
@@ -241,7 +241,7 @@ const mapPlaces: MapPlace[] = [
     area: "Avaavaroa Passage / Takitumu",
     note: "Confirmed 2:30 PM snorkel with Snorkel Cook Islands.",
     x: 50,
-    y: 77,
+    y: 84,
   },
   {
     id: "raemaru",
@@ -252,8 +252,8 @@ const mapPlaces: MapPlace[] = [
     type: "activity",
     area: "Arorangi",
     note: "Preferred hike option if weather and energy are right.",
-    x: 21,
-    y: 47,
+    x: 27,
+    y: 50,
   },
   {
     id: "antipodes",
@@ -264,8 +264,8 @@ const mapPlaces: MapPlace[] = [
     type: "reservation",
     area: "Northwest hills",
     note: "Pending for Oct 14 or Oct 15.",
-    x: 24,
-    y: 31,
+    x: 20,
+    y: 34,
   },
   {
     id: "muri-easy",
@@ -276,8 +276,8 @@ const mapPlaces: MapPlace[] = [
     type: "meal",
     area: "Muri",
     note: "Easy dinner option if the day stays open.",
-    x: 78,
-    y: 64,
+    x: 76,
+    y: 68,
   },
   {
     id: "aitutaki",
@@ -969,10 +969,10 @@ function MapView({
       <div className="map-header">
         <div>
           <p className="section-label">Island map</p>
-          <h2 id="map-title">Anchors, excursions, and loose options</h2>
+          <h2 id="map-title">Rarotonga satellite map</h2>
           <p>
-            Filter by date range to see what is relevant for that part of the trip.
-            Pins include confirmed plans and flexible ideas worth keeping nearby.
+            Filter by date range to see the confirmed plans and flexible ideas
+            pinned around the island.
           </p>
         </div>
         <div className="date-range">
@@ -1006,9 +1006,8 @@ function MapView({
       </div>
 
       <div className="map-layout">
-        <div className="island-map" role="img" aria-label="Stylized map of Rarotonga itinerary locations">
-          <div className="island-shape" />
-          <div className="lagoon-ring" />
+        <div className="island-map" role="img" aria-label="Satellite map of Rarotonga itinerary locations">
+          <div className="map-vignette" />
           <span className="map-label north">Avarua</span>
           <span className="map-label east">Muri</span>
           <span className="map-label south">Titikaveka</span>
@@ -1025,6 +1024,14 @@ function MapView({
               <span>{typeIcons[place.type]}</span>
             </button>
           ))}
+          <a
+            className="map-credit"
+            href="https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer"
+            rel="noreferrer"
+            target="_blank"
+          >
+            Satellite imagery
+          </a>
         </div>
 
         <div className="map-details">
