@@ -1237,25 +1237,23 @@ function ReservationsView({ reservations }: { reservations: Reservation[] }) {
   return (
     <section className="reservations-view" aria-labelledby="reservations-title">
       <div className="reservations-header">
-          <p className="section-label">Saved</p>
-        <h2 id="reservations-title">Reservations and anchors</h2>
+        <p className="section-label">Saved</p>
+        <h2 id="reservations-title">Plans</h2>
       </div>
       <div className="reservation-list">
-        {reservations.map((reservation) => (
-          <article className="reservation-row" key={`${reservation.date}-${reservation.name}`}>
-            <div>
-              <time>{formatDate(reservation.date)}</time>
+        {reservations.map((reservation) => {
+          const when = reservation.time ? `${formatDate(reservation.date)} · ${formatTime(reservation.time)}` : formatDate(reservation.date);
+          return (
+            <article className="reservation-row" key={`${reservation.date}-${reservation.name}`}>
+              <div className="reservation-main">
+                <time>{when}</time>
+                <span className={`status-dot ${reservation.status}`} aria-label={statusLabels[reservation.status]} />
+              </div>
               <strong>{reservation.name}</strong>
               <p>{reservation.notes}</p>
-            </div>
-            <div>
-              <span className={`status-badge ${reservation.status}`}>
-                {statusLabels[reservation.status]}
-              </span>
-              <small>{formatTime(reservation.time)}</small>
-            </div>
-          </article>
-        ))}
+            </article>
+          );
+        })}
       </div>
     </section>
   );
