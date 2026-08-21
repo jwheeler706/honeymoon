@@ -1297,26 +1297,38 @@ function MapView({
 }
 
 function ReservationsView({ reservations }: { reservations: Reservation[] }) {
+  const groups = reservations.reduce<Array<{ date: string; items: Reservation[] }>>((accumulator, reservation) => {
+    const current = accumulator[accumulator.length - 1];
+    if (current?.date === reservation.date) {
+      current.items.push(reservation);
+    } else {
+      accumulator.push({ date: reservation.date, items: [reservation] });
+    }
+    return accumulator;
+  }, []);
+
   return (
     <section className="reservations-view" aria-labelledby="reservations-title">
-      <div className="reservations-header">
-        <p className="section-label">Saved</p>
-        <h2 id="reservations-title">Plans</h2>
-      </div>
+      <h2 className="sr-only" id="reservations-title">Saved plans</h2>
       <div className="reservation-list">
-        {reservations.map((reservation) => {
-          const when = reservation.time ? `${formatDate(reservation.date)} · ${formatTime(reservation.time)}` : formatDate(reservation.date);
-          return (
-            <article className="reservation-row" key={`${reservation.date}-${reservation.name}`}>
-              <div className="reservation-main">
-                <time>{when}</time>
-                <span className={`status-dot ${reservation.status}`} aria-label={statusLabels[reservation.status]} />
-              </div>
-              <strong>{reservation.name}</strong>
-              <p>{reservation.notes}</p>
-            </article>
-          );
-        })}
+        {groups.map((group) => (
+          <section className="reservation-day" key={group.date} aria-label={formatLongDate(group.date)}>
+            <h3>{formatLongDate(group.date)}</h3>
+            {group.items.map((reservation) => {
+              const when = reservation.time ? formatTime(reservation.time) : "Time TBD";
+              return (
+                <article className="reservation-row" key={`${reservation.date}-${reservation.name}`}>
+                  <div className="reservation-main">
+                    <time>{when}</time>
+                    <span className={`status-dot ${reservation.status}`} aria-label={statusLabels[reservation.status]} />
+                  </div>
+                  <strong>{reservation.name}</strong>
+                  <p>{reservation.notes}</p>
+                </article>
+              );
+            })}
+          </section>
+        ))}
       </div>
     </section>
   );

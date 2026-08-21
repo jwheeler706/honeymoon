@@ -1188,10 +1188,9 @@ button {
 }
 
 .reservations-view {
-  padding: 14px;
+  padding: 12px;
 }
 
-.reservations-header,
 .gallery-header {
   margin-bottom: 10px;
 }
@@ -1202,11 +1201,30 @@ button {
 
 .reservation-list {
   display: grid;
+  gap: 14px;
+}
+
+.reservation-day {
+  display: grid;
   gap: 7px;
 }
 
+.reservation-day + .reservation-day {
+  padding-top: 13px;
+  border-top: 1px solid var(--line);
+}
+
+.reservation-day h3 {
+  margin: 0;
+  color: var(--lagoon);
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
 .reservation-row {
-  padding: 10px 11px;
+  padding: 9px 10px;
   border: 1px solid var(--line);
   border-radius: 8px;
   background: var(--panel-strong);
