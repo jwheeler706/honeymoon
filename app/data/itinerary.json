@@ -8,7 +8,7 @@
     "lodging": {
       "name": "Sea Change Villas",
       "area": "Titikaveka",
-      "notes": "Primary home base in Titikaveka. Favor slow mornings, private villa time, nearby beach/lagoon time, and easy returns after excursions."
+      "notes": "Home base in Titikaveka."
     },
     "transportPlan": {
       "arrival": "Late night arrival on Friday, October 9, 2026. Arrival transfer details TBD.",
@@ -62,7 +62,7 @@
       "status": "confirmed",
       "theme": "arrival",
       "lodging": "Sea Change Villas",
-      "summary": "Travel day from LAX through Honolulu, landing in Rarotonga late evening. Get to Sea Change Villas and keep the night simple.",
+      "summary": "LAX to Rarotonga. Easy arrival night.",
       "events": [
         {
           "title": "AS 803 to Honolulu",
@@ -110,11 +110,11 @@
           "time": "23:30",
           "status": "confirmed",
           "type": "lodging",
-          "notes": "Treat this as a low-effort arrival night. Note to confirm: exact late check-in timing and arrival instructions with Sea Change Villas."
+          "notes": "Confirm late check-in instructions."
         }
       ],
-      "transport": "Total travel time is 15h 50m. Arrival transfer details TBD after landing at RAR.",
-      "notes": "No dinner reservation should be assumed."
+      "transport": "15h 50m travel. Arrival transfer TBD.",
+      "notes": "Keep it simple."
     },
     {
       "date": "2026-10-10",
@@ -122,14 +122,14 @@
       "title": "Avarua, Market, and Nautilus",
       "status": "confirmed",
       "theme": "light exploration",
-      "summary": "Ease into the first full day with optional Punanga Nui Market / Avarua if energy allows, then protect afternoon downtime before the opening honeymoon dinner at Nautilus.",
+      "summary": "Easy first day. Nautilus at night.",
       "events": [
         {
           "title": "Punanga Nui Market / Avarua",
           "time": "morning",
           "status": "suggested",
           "type": "activity",
-          "notes": "Optional depending on arrival fatigue. Driver is available, but do not force this if the late arrival catches up."
+          "notes": "Only if we feel like it."
         },
         {
           "title": "Relax at Sea Change Villas",
@@ -146,8 +146,8 @@
           "notes": "Confirmed reservation."
         }
       ],
-      "transport": "Driver / car service available. Keep the routing simple and preserve afternoon downtime before dinner.",
-      "notes": "Keep the first full day relaxed."
+      "transport": "Driver available.",
+      "notes": "Stay relaxed."
     },
     {
       "date": "2026-10-11",
@@ -155,25 +155,25 @@
       "title": "West and North Island Day",
       "status": "planned",
       "theme": "chauffeured scenic day",
-      "summary": "Use driver time for a broader north/west island day with beaches, Aroa, Arorangi, Black Rock, drinks or lunch, then confirmed Tamarind House main restaurant dinner.",
+      "summary": "North/west island day. Tamarind at night.",
       "events": [
         {
           "title": "Driver-based north/west island exploration",
           "time": "daytime",
           "status": "planned",
           "type": "activity",
-          "notes": "Potential stops include Aroa, Arorangi, Black Rock, beach hopping, and scenic drink/lunch stops. Use driver time for destinations farther from Titikaveka."
+          "notes": "Aroa, Arorangi, Black Rock, beach stops."
         },
         {
           "title": "Dinner at Tamarind House main restaurant",
           "time": "18:15",
           "status": "confirmed",
           "type": "reservation",
-          "notes": "Confirmed reservation at the main restaurant, not Ukulele Bar."
+          "notes": "Main restaurant."
         }
       ],
-      "transport": "Driver / car service planned for the daytime north/west exploration and dinner logistics as needed.",
-      "notes": "Do not add another major activity around the confirmed dinner."
+      "transport": "Driver day.",
+      "notes": "Do not overpack."
     },
     {
       "date": "2026-10-12",
@@ -181,25 +181,25 @@
       "title": "West-Side Beach Day and OTB",
       "status": "confirmed",
       "theme": "beach and dinner",
-      "summary": "A west-side day using the driver for beach, snorkeling, and exploration, ending with OTB / On the Beach Bar & Restaurant dinner and sunset.",
+      "summary": "West-side beach day. OTB at sunset.",
       "events": [
         {
           "title": "West-side beach and lagoon time",
           "time": "daytime",
           "status": "planned",
           "type": "activity",
-          "notes": "Beach, snorkeling, and west-side exploration are the main shape of the day. Use driver time for the farther west-side routing."
+          "notes": "Beach, snorkel, wander."
         },
         {
           "title": "Dinner at OTB / On the Beach Bar & Restaurant",
           "time": null,
           "status": "confirmed",
           "type": "reservation",
-          "notes": "Confirmed reservation; exact time not provided. Keep this as a west-side-focused day ending with dinner/sunset."
+          "notes": "Time TBD."
         }
       ],
-      "transport": "Driver / car service planned. Confirm exact dinner transport timing once OTB time is known.",
-      "notes": "Keep enough time to return, shower, and change before dinner."
+      "transport": "Driver day.",
+      "notes": "Leave time before dinner."
     },
     {
       "date": "2026-10-13",
@@ -207,21 +207,21 @@
       "title": "Slow Morning and Turtle Snorkel",
       "status": "confirmed",
       "theme": "south-side lagoon day",
-      "summary": "Rental car begins. A deliberately light local day anchored by the 2:30 PM turtle snorkel at Avaavaroa Passage / Takitumu.",
+      "summary": "Slow morning. Turtle snorkel at 2:30.",
       "events": [
         {
           "title": "Slow morning at Sea Change Villas",
           "time": "morning",
           "status": "planned",
           "type": "downtime",
-          "notes": "Villa breakfast, private pool, Titikaveka lagoon time, or rest."
+          "notes": "Villa, pool, lagoon."
         },
         {
           "title": "Lunch near the south side",
           "time": "11:30",
           "status": "suggested",
           "type": "meal",
-          "notes": "Charlie's is a good candidate for a convenient nearby lunch."
+          "notes": "Charlie's works."
         },
         {
           "title": "Swim With The Turtles Rarotonga",
@@ -231,18 +231,18 @@
           "provider": "Snorkel Cook Islands",
           "location": "Avaavaroa Passage / Takitumu",
           "duration": "about 2 hours",
-          "notes": "Transportation is not included. Confirm exact meeting/check-in instructions from booking."
+          "notes": "Confirm check-in details."
         },
         {
           "title": "Easy dinner",
           "time": "evening",
           "status": "flexible",
           "type": "meal",
-          "notes": "No fancy reservation. Shower, relax, then choose takeaway, nearby casual food, or Muri."
+          "notes": "Takeaway or casual."
         }
       ],
-      "transport": "Rental car starts today and is ideal. Build in buffer to arrive and check in before 2:30 PM.",
-      "notes": "Do not schedule another turtle/snorkeling excursion elsewhere. Do not stack this day with another full activity. The turtle snorkel is the anchor."
+      "transport": "Rental car starts.",
+      "notes": "Turtle snorkel is the anchor."
     },
     {
       "date": "2026-10-14",
@@ -250,25 +250,25 @@
       "title": "Adventure Day or Antipodes",
       "status": "flexible",
       "theme": "big adventure",
-      "summary": "Flexible major activity day. Possible Raemaru Trek or other land-based activity if weather cooperates. Antipodes may land here if confirmed.",
+      "summary": "Flexible adventure day. Maybe Antipodes.",
       "events": [
         {
           "title": "Flexible hike or land-based activity",
           "time": "daytime",
           "status": "suggested",
           "type": "activity",
-          "notes": "Preferred hike is Raemaru Trek, about 1.5-2 hours, moderate, west side near Arorangi, with optional fixed-rope scramble near the summit. Alternative is the northern Cross-Island Track to the base of The Needle and back, about 2.5 hours and more rugged. Do not schedule the full 4-hour Cross-Island Track."
+          "notes": "Raemaru preferred. Weather decides."
         },
         {
           "title": "Antipodes dinner",
           "time": null,
           "status": "pending",
           "type": "reservation",
-          "notes": "Pending for either October 14 or October 15. Prefer early/sunset timing if confirmed."
+          "notes": "Oct 14 or 15."
         }
       ],
-      "transport": "Rental car. Choose routing based on weather, hike choice, and whether Antipodes lands here.",
-      "notes": "Prefer hiking on the day without Antipodes. Remove turtle snorkeling from this day because it is already booked for October 13."
+      "transport": "Rental car.",
+      "notes": "Hike on the non-Antipodes day."
     },
     {
       "date": "2026-10-15",
@@ -276,32 +276,32 @@
       "title": "Flexible Honeymoon Day or Antipodes",
       "status": "flexible",
       "theme": "protected downtime",
-      "summary": "A flexible honeymoon day for lagoon, beach, recovery, and unplanned time. Antipodes may land here if confirmed.",
+      "summary": "Open beach/villa day. Maybe Antipodes.",
       "events": [
         {
           "title": "Lagoon / beach / villa day",
           "time": "daytime",
           "status": "planned",
           "type": "downtime",
-          "notes": "Protect this day unless Antipodes, weather, or the optional hike reshuffling requires changes. If Antipodes is on October 14, keep this day especially open."
+          "notes": "Keep it open."
         },
         {
           "title": "Optional hike if not done October 14",
           "time": "daytime",
           "status": "flexible",
           "type": "activity",
-          "notes": "Raemaru Trek is preferred if weather and energy are right. Prefer the hike on whichever day does not have Antipodes."
+          "notes": "Only if weather and energy line up."
         },
         {
           "title": "Antipodes dinner",
           "time": null,
           "status": "pending",
           "type": "reservation",
-          "notes": "Pending for either October 14 or October 15. Prefer early/sunset timing if confirmed."
+          "notes": "Oct 14 or 15."
         }
       ],
-      "transport": "Rental car or taxi as needed.",
-      "notes": "This is the buffer day before Aitutaki and should not become overbuilt."
+      "transport": "Rental car or taxi.",
+      "notes": "Buffer day."
     },
     {
       "date": "2026-10-16",
@@ -309,25 +309,25 @@
       "title": "Aitutaki Day Trip",
       "status": "confirmed",
       "theme": "major excursion",
-      "summary": "All-day Aitutaki day trip, followed by a very casual unreserved dinner afterward.",
+      "summary": "Aitutaki day trip. Easy dinner after.",
       "events": [
         {
           "title": "Aitutaki day trip",
           "time": "daytime",
           "status": "confirmed",
           "type": "excursion",
-          "notes": "Treat as all-day. Provider, pickup time, and flight details are not provided."
+          "notes": "Details TBD."
         },
         {
           "title": "Very casual dinner",
           "time": "evening",
           "status": "planned",
           "type": "meal",
-          "notes": "Keep this low-effort and unreserved after a long excursion day."
+          "notes": "Low effort."
         }
       ],
-      "transport": "Rental car or confirmed tour/airport transfer logistics TBD.",
-      "notes": "Do not schedule another major activity this day."
+      "transport": "Transfer TBD.",
+      "notes": "No extra big plans."
     },
     {
       "date": "2026-10-17",
@@ -335,7 +335,7 @@
       "title": "Final Morning and Departure",
       "status": "planned",
       "theme": "departure",
-      "summary": "Final slow morning, then Rarotonga to Honolulu and the overnight flight back to LAX.",
+      "summary": "Slow morning, then flights home.",
       "events": [
         {
           "title": "Final morning at Sea Change Villas",
@@ -386,8 +386,8 @@
           }
         }
       ],
-      "transport": "Total travel time is 13h 55m. Departure transfer details TBD.",
-      "notes": "Avoid committing to anything that risks departure logistics."
+      "transport": "13h 55m travel. Transfer TBD.",
+      "notes": "Keep departure easy."
     }
   ],
   "reservations": [
@@ -397,7 +397,7 @@
       "name": "Nautilus Resort",
       "type": "dinner",
       "status": "confirmed",
-      "notes": "Opening honeymoon dinner on the first full day."
+      "notes": "Opening dinner."
     },
     {
       "date": "2026-10-11",
@@ -405,7 +405,7 @@
       "name": "Tamarind House main restaurant",
       "type": "dinner",
       "status": "confirmed",
-      "notes": "Confirmed for the main restaurant, not Ukulele Bar."
+      "notes": "Main restaurant."
     },
     {
       "date": "2026-10-12",
@@ -413,7 +413,7 @@
       "name": "OTB / On the Beach Bar & Restaurant",
       "type": "dinner",
       "status": "confirmed",
-      "notes": "Exact time not provided. Keep as a west-side day ending with dinner/sunset."
+      "notes": "Time TBD."
     },
     {
       "date": "2026-10-13",
@@ -423,7 +423,7 @@
       "location": "Avaavaroa Passage / Takitumu",
       "type": "excursion",
       "status": "confirmed",
-      "notes": "Transportation not included. Confirm exact check-in instructions from booking."
+      "notes": "Confirm check-in."
     },
     {
       "date": "2026-10-14",
@@ -431,7 +431,7 @@
       "name": "Antipodes",
       "type": "dinner",
       "status": "pending",
-      "notes": "Pending for October 14 or October 15. Prefer early/sunset timing if confirmed."
+      "notes": "Oct 14 or 15."
     },
     {
       "date": "2026-10-15",
@@ -439,7 +439,7 @@
       "name": "Antipodes",
       "type": "dinner",
       "status": "pending",
-      "notes": "Pending for October 14 or October 15. Prefer early/sunset timing if confirmed."
+      "notes": "Oct 14 or 15."
     },
     {
       "date": "2026-10-16",
@@ -447,7 +447,7 @@
       "name": "Aitutaki day trip",
       "type": "excursion",
       "status": "confirmed",
-      "notes": "Provider and timing details not provided."
+      "notes": "Details TBD."
     }
   ]
 }

@@ -185,7 +185,7 @@ const mapPlaces: MapPlace[] = [
     status: "confirmed",
     type: "lodging",
     area: "Titikaveka",
-    note: "Home base for slow mornings, villa time, and easy returns.",
+    note: "Home base.",
     lat: -21.26645,
     lng: -159.77176,
   },
@@ -197,7 +197,7 @@ const mapPlaces: MapPlace[] = [
     status: "suggested",
     type: "activity",
     area: "Avarua",
-    note: "Good first-morning option if the late arrival does not win.",
+    note: "Easy first morning option.",
     lat: -21.2052,
     lng: -159.78299,
   },
@@ -209,7 +209,7 @@ const mapPlaces: MapPlace[] = [
     status: "confirmed",
     type: "reservation",
     area: "Muri",
-    note: "Confirmed opening honeymoon dinner at 6:00 PM.",
+    note: "Dinner at 6:00 PM.",
     lat: -21.26129,
     lng: -159.7329,
   },
@@ -221,7 +221,7 @@ const mapPlaces: MapPlace[] = [
     status: "confirmed",
     type: "reservation",
     area: "Avarua",
-    note: "Confirmed dinner at 6:15 PM.",
+    note: "Dinner at 6:15 PM.",
     lat: -21.22734,
     lng: -159.7713,
   },
@@ -233,7 +233,7 @@ const mapPlaces: MapPlace[] = [
     status: "planned",
     type: "activity",
     area: "Northwest coast",
-    note: "Driver-day scenic stop candidate.",
+    note: "Scenic stop.",
     lat: -21.21,
     lng: -159.82,
   },
@@ -245,7 +245,7 @@ const mapPlaces: MapPlace[] = [
     status: "confirmed",
     type: "reservation",
     area: "West side",
-    note: "Confirmed dinner; exact time TBD.",
+    note: "Dinner. Time TBD.",
     lat: -21.22471,
     lng: -159.8292,
   },
@@ -257,7 +257,7 @@ const mapPlaces: MapPlace[] = [
     status: "confirmed",
     type: "excursion",
     area: "Avaavaroa Passage / Takitumu",
-    note: "Confirmed 2:30 PM snorkel. Pin uses Snorkel Cook Islands' published meeting-point map.",
+    note: "Turtle snorkel at 2:30 PM.",
     lat: -21.26626,
     lng: -159.77952,
   },
@@ -269,7 +269,7 @@ const mapPlaces: MapPlace[] = [
     status: "flexible",
     type: "activity",
     area: "Arorangi",
-    note: "Preferred hike option if weather and energy are right.",
+    note: "Weather-dependent hike.",
     lat: -21.23646,
     lng: -159.81681,
   },
@@ -281,7 +281,7 @@ const mapPlaces: MapPlace[] = [
     status: "pending",
     type: "reservation",
     area: "Northwest hills",
-    note: "Pending for Oct 14 or Oct 15.",
+    note: "Oct 14 or 15.",
     lat: -21.20939,
     lng: -159.82282,
   },
@@ -293,7 +293,7 @@ const mapPlaces: MapPlace[] = [
     status: "suggested",
     type: "meal",
     area: "Muri",
-    note: "Easy dinner option if the day stays open.",
+    note: "Casual option.",
     lat: -21.257,
     lng: -159.733,
   },
@@ -305,7 +305,7 @@ const mapPlaces: MapPlace[] = [
     status: "confirmed",
     type: "excursion",
     area: "Aitutaki",
-    note: "Confirmed day trip. Select only Oct 16 to see the Aitutaki lagoon map.",
+    note: "Day trip.",
     lat: -18.8585,
     lng: -159.7789,
     offMap: true,
@@ -680,7 +680,7 @@ function periodTone(day: Day, period: Period) {
       Evening: "Chill night after the water.",
     },
     "2026-10-14": {
-      Morning: "Flexible start based on weather and energy.",
+      Morning: "Weather decides.",
       Afternoon: "Adventure window if it feels right.",
       Evening: "Antipodes may land here.",
     },
@@ -690,9 +690,9 @@ function periodTone(day: Day, period: Period) {
       Evening: "Antipodes may land here, otherwise keep it easy.",
     },
     "2026-10-16": {
-      Morning: "Aitutaki day trip begins when the provider details are known.",
-      Afternoon: "Let the excursion own the day.",
-      Evening: "Very casual dinner after a big day.",
+      Morning: "Aitutaki day.",
+      Afternoon: "Aitutaki day.",
+      Evening: "Easy dinner.",
     },
     "2026-10-17": {
       Morning: "Final slow morning and packing.",
@@ -700,7 +700,7 @@ function periodTone(day: Day, period: Period) {
     },
   };
 
-  return tones[day.date]?.[period] ?? "Open space for whatever feels good.";
+  return tones[day.date]?.[period] ?? "Open.";
 }
 
 export default function Home() {
@@ -910,7 +910,7 @@ function GalleryView({ images }: { images: GalleryImage[] }) {
     <section className="gallery-view" aria-labelledby="gallery-title">
       <div className="gallery-header">
         <p className="section-label">Trip pictures</p>
-        <h2 id="gallery-title">Confirmed plans, one calm image each</h2>
+        <h2 id="gallery-title">Trip images</h2>
       </div>
       <div className="gallery-grid">
         {images.map((image) => (
@@ -1031,7 +1031,7 @@ function Recommendations({ day, period }: { day: Day; period: Period }) {
 
   return (
     <div className="recommendations" aria-label={`${period} recommendations`}>
-      <span>Good loose options</span>
+      <span>Options</span>
       <div>
         {items.map((item) => (
           <button key={item} type="button">
@@ -1083,7 +1083,7 @@ function MapView({
     <section className="map-view" aria-labelledby="map-title">
       <div className="map-header">
         <div>
-          <p className="section-label">Island map</p>
+          <p className="section-label">Map</p>
           <h2 id="map-title">{isAitutakiOnly ? "Aitutaki lagoon map" : "Rarotonga satellite map"}</h2>
         </div>
         <div className="date-range">
@@ -1247,7 +1247,7 @@ function ReservationsView({ reservations }: { reservations: Reservation[] }) {
   return (
     <section className="reservations-view" aria-labelledby="reservations-title">
       <div className="reservations-header">
-        <p className="section-label">Quick scan</p>
+          <p className="section-label">Saved</p>
         <h2 id="reservations-title">Reservations and anchors</h2>
       </div>
       <div className="reservation-list">
