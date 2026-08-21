@@ -743,7 +743,7 @@ button {
 .island-map.aitutaki-map {
   background:
     linear-gradient(rgba(2, 10, 14, 0.02), rgba(2, 10, 14, 0.08)),
-    url("https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/export?bbox=-159.855,-18.93,-159.715,-18.80&bboxSR=4326&imageSR=4326&size=900,690&format=jpg&f=image");
+    url("https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/export?bbox=-159.855,-18.955,-159.715,-18.825&bboxSR=4326&imageSR=4326&size=900,690&format=jpg&f=image");
   background-position: center;
   background-size: 100% 100%;
 }

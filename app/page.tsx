@@ -300,6 +300,19 @@ const mapPlaces: MapPlace[] = [
     lng: -159.7789,
     offMap: true,
   },
+  {
+    id: "one-foot-island-lunch",
+    name: "Lunch on One Foot Island",
+    date: "2026-10-16",
+    period: "Afternoon",
+    status: "confirmed",
+    type: "meal",
+    area: "Tapuaetai / One Foot Island",
+    note: "Lunch stop.",
+    lat: -18.93741,
+    lng: -159.73603,
+    offMap: true,
+  },
 ];
 
 const galleryImages: GalleryImage[] = [
@@ -379,8 +392,8 @@ const rarotongaMapBounds: MapBounds = {
 const aitutakiMapBounds: MapBounds = {
   west: -159.855,
   east: -159.715,
-  south: -18.93,
-  north: -18.80,
+  south: -18.955,
+  north: -18.825,
 };
 
 function formatDate(dateString: string) {

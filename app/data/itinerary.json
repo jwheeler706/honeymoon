@@ -319,6 +319,13 @@
           "notes": "Details TBD."
         },
         {
+          "title": "Lunch on One Foot Island",
+          "time": "afternoon",
+          "status": "confirmed",
+          "type": "meal",
+          "notes": "Tapuaetai lunch stop."
+        },
+        {
           "title": "Very casual dinner",
           "time": "evening",
           "status": "planned",
