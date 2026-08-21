@@ -825,7 +825,7 @@ export default function Home() {
       <section className="control-row" aria-label="App views">
         {(["plan", "reservations", "map", "gallery"] as const).map((view) => (
           <button
-            className={state.view === view ? "filter-pill active" : "filter-pill"}
+            className={state.view === view ? "view-tab active" : "view-tab"}
             key={view}
             onClick={() => updateState({ view })}
             type="button"

@@ -300,16 +300,51 @@ button {
 
 .control-row {
   display: flex;
-  gap: 8px;
-  margin: 8px 0 10px;
+  gap: 18px;
+  margin: 7px 0 12px;
   overflow-x: auto;
-  padding-bottom: 2px;
+  padding: 0 2px 8px;
+  border-bottom: 1px solid var(--line);
+}
+
+.filter-pill,
+.view-tab {
+  flex: 0 0 auto;
 }
 
 .filter-pill {
-  flex: 0 0 auto;
   border-radius: 999px;
   padding: 8px 12px;
+}
+
+.view-tab {
+  position: relative;
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  padding: 6px 0 7px;
+  font: inherit;
+  font-size: 0.96rem;
+  font-weight: 800;
+}
+
+.view-tab::after {
+  position: absolute;
+  right: 0;
+  bottom: -9px;
+  left: 0;
+  height: 2px;
+  border-radius: 999px;
+  background: transparent;
+  content: "";
+}
+
+.view-tab.active {
+  color: var(--ink);
+}
+
+.view-tab.active::after {
+  background: var(--lagoon);
 }
 
 .itinerary-layout {
