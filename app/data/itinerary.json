@@ -62,14 +62,48 @@
       "status": "confirmed",
       "theme": "arrival",
       "lodging": "Sea Change Villas",
-      "summary": "Late-night arrival, transfer to Sea Change Villas in Titikaveka, unpack, and keep the evening intentionally simple.",
+      "summary": "Travel day from LAX through Honolulu, landing in Rarotonga late evening. Get to Sea Change Villas and keep the night simple.",
       "events": [
         {
-          "title": "Arrive in Rarotonga",
-          "time": null,
-          "status": "assumed",
+          "title": "AS 803 to Honolulu",
+          "time": "10:00",
+          "status": "confirmed",
           "type": "travel",
-          "notes": "Late-night arrival is confirmed; exact flight and transfer details are not provided."
+          "notes": "LAX to HNL, 10:00 AM-12:58 PM. Seats 30A and 30B.",
+          "flight": {
+            "number": "AS 803",
+            "airline": "Alaska Airlines",
+            "operatedBy": "Alaska as Hawaiian Airlines",
+            "aircraft": "Airbus A330-200",
+            "route": "LAX to HNL",
+            "depart": "10:00 AM",
+            "arrive": "12:58 PM",
+            "cabin": "Economy",
+            "seats": "30A, 30B",
+            "duration": "5h 58m",
+            "baggageUrl": "http://www.alaskaair.com/content/travel-info/baggage/baggage-checked.aspx",
+            "layoverAfter": "3h 32m in Honolulu"
+          }
+        },
+        {
+          "title": "AS 895 to Rarotonga",
+          "time": "16:30",
+          "status": "confirmed",
+          "type": "travel",
+          "notes": "HNL to RAR, 4:30 PM-10:50 PM. Seats 36G and 36J.",
+          "flight": {
+            "number": "AS 895",
+            "airline": "Alaska Airlines",
+            "operatedBy": "Alaska as Hawaiian Airlines",
+            "aircraft": "Airbus A321",
+            "route": "HNL to RAR",
+            "depart": "4:30 PM",
+            "arrive": "10:50 PM",
+            "cabin": "Economy",
+            "seats": "36G, 36J",
+            "duration": "6h 20m",
+            "baggageUrl": "http://www.alaskaair.com/content/travel-info/baggage/baggage-checked.aspx"
+          }
         },
         {
           "title": "Check in at Sea Change Villas, Titikaveka",
@@ -79,7 +113,7 @@
           "notes": "Treat this as a low-effort arrival night."
         }
       ],
-      "transport": "Late-night arrival transfer details TBD.",
+      "transport": "Total travel time is 15h 50m. Arrival transfer details TBD after landing at RAR. Fare note: no change fee; $200 cancellation fee per ticket.",
       "notes": "No dinner reservation should be assumed."
     },
     {
@@ -301,7 +335,7 @@
       "title": "Final Morning and Departure",
       "status": "planned",
       "theme": "departure",
-      "summary": "Final slow morning, packing, and departure.",
+      "summary": "Final slow morning, then Rarotonga to Honolulu and the overnight flight back to LAX.",
       "events": [
         {
           "title": "Final morning at Sea Change Villas",
@@ -311,14 +345,48 @@
           "notes": "Keep plans close and easy."
         },
         {
-          "title": "Departure",
-          "time": null,
-          "status": "assumed",
+          "title": "AS 896 to Honolulu",
+          "time": "12:05",
+          "status": "confirmed",
           "type": "travel",
-          "notes": "Exact flight and transfer details are not provided."
+          "notes": "RAR to HNL, 12:05 PM-6:10 PM. Seats 27G and 27J.",
+          "flight": {
+            "number": "AS 896",
+            "airline": "Alaska Airlines",
+            "operatedBy": "Alaska as Hawaiian Airlines",
+            "aircraft": "Airbus A321",
+            "route": "RAR to HNL",
+            "depart": "12:05 PM",
+            "arrive": "6:10 PM",
+            "cabin": "Economy",
+            "seats": "27G, 27J",
+            "duration": "6h 5m",
+            "baggageUrl": "http://www.alaskaair.com/content/travel-info/baggage/baggage-checked.aspx",
+            "layoverAfter": "2h 25m in Honolulu"
+          }
+        },
+        {
+          "title": "AS 804 to Los Angeles",
+          "time": "20:35",
+          "status": "confirmed",
+          "type": "travel",
+          "notes": "HNL to LAX, 8:35 PM-5:00 AM next day. Seats 30A and 30B.",
+          "flight": {
+            "number": "AS 804",
+            "airline": "Alaska Airlines",
+            "operatedBy": "Alaska as Hawaiian Airlines",
+            "aircraft": "Airbus A330-200",
+            "route": "HNL to LAX",
+            "depart": "8:35 PM",
+            "arrive": "5:00 AM next day",
+            "cabin": "Economy",
+            "seats": "30A, 30B",
+            "duration": "5h 25m",
+            "baggageUrl": "http://www.alaskaair.com/content/travel-info/baggage/baggage-checked.aspx"
+          }
         }
       ],
-      "transport": "Departure transfer details TBD.",
+      "transport": "Total travel time is 13h 55m. Departure transfer details TBD. Fare note: no change fee; $200 cancellation fee per ticket.",
       "notes": "Avoid committing to anything that risks departure logistics."
     }
   ],

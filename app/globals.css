@@ -505,6 +505,74 @@ button {
   color: var(--muted);
 }
 
+.flight-card {
+  display: grid;
+  gap: 8px;
+  margin-top: 8px;
+  padding: 9px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(104, 214, 223, 0.06);
+}
+
+.flight-card > div:first-child {
+  display: grid;
+  gap: 2px;
+}
+
+.flight-card strong {
+  color: var(--ink);
+}
+
+.flight-card span,
+.flight-card p {
+  color: var(--muted);
+}
+
+.flight-card p {
+  margin: 0;
+  font-size: 0.84rem;
+}
+
+.flight-card a {
+  width: fit-content;
+  color: var(--lagoon);
+  font-size: 0.84rem;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.flight-card dl {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin: 0;
+}
+
+.flight-card dt {
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.flight-card dd {
+  margin: 2px 0 0;
+  color: var(--ink);
+  font-weight: 800;
+}
+
+.layover-pill {
+  width: fit-content;
+  max-width: 100%;
+  padding: 5px 8px;
+  border-radius: 999px;
+  background: rgba(233, 182, 107, 0.12);
+  color: var(--sun);
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
 .event-note {
   display: grid;
   gap: 7px;

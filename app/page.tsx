@@ -15,6 +15,20 @@ type TripEvent = {
   provider?: string;
   location?: string;
   duration?: string;
+  flight?: {
+    number: string;
+    airline: string;
+    operatedBy?: string;
+    aircraft: string;
+    route: string;
+    depart: string;
+    arrive: string;
+    cabin: string;
+    seats: string;
+    duration: string;
+    layoverAfter?: string;
+    baggageUrl?: string;
+  };
   photoAttachments?: {
     enabled: false;
     futureKey: string;
@@ -585,6 +599,10 @@ export default function Home() {
 }
 
 function EventDetails({ event }: { event: TripEvent }) {
+  if (event.flight) {
+    return <FlightDetails event={event} />;
+  }
+
   const details = [
     event.provider ? ["Provider", event.provider] : null,
     event.location ? ["Location", event.location] : null,
@@ -602,6 +620,41 @@ function EventDetails({ event }: { event: TripEvent }) {
         </div>
       ))}
     </dl>
+  );
+}
+
+function FlightDetails({ event }: { event: TripEvent }) {
+  const flight = event.flight;
+  if (!flight) return null;
+
+  return (
+    <div className="flight-card">
+      <div>
+        <strong>{flight.route}</strong>
+        <span>{flight.depart} - {flight.arrive}</span>
+      </div>
+      <dl>
+        <div>
+          <dt>Flight</dt>
+          <dd>{flight.number}</dd>
+        </div>
+        <div>
+          <dt>Seats</dt>
+          <dd>{flight.seats}</dd>
+        </div>
+        <div>
+          <dt>Duration</dt>
+          <dd>{flight.duration}</dd>
+        </div>
+      </dl>
+      <p>{flight.airline} · {flight.aircraft}</p>
+      {flight.baggageUrl ? (
+        <a href={flight.baggageUrl} rel="noreferrer" target="_blank">
+          Baggage fees
+        </a>
+      ) : null}
+      {flight.layoverAfter ? <span className="layover-pill">{flight.layoverAfter}</span> : null}
+    </div>
   );
 }
 
