@@ -456,31 +456,28 @@ export default function Home() {
     <main className={`app-shell theme-${timeTheme}`}>
       <section className="top-panel" aria-labelledby="trip-title">
         <div className="title-block">
-          <p>{themeLabel(timeTheme)} · {data.trip.destination} · Oct 9-17, 2026</p>
-          <h1 id="trip-title">Rarotonga Honeymoon Itinerary</h1>
-          <span>{data.trip.lodging.name}, {data.trip.lodging.area}</span>
-        </div>
-
-        <div className="next-card" aria-label="Selected day anchor">
-          <span>Rarotonga now · {tripClock}</span>
-          <strong>{anchor.title}</strong>
-          <p>{formatTime(anchor.time)} · {activeDay.weekday}</p>
+          <p>{themeLabel(timeTheme)} · {tripClock}</p>
+          <h1 id="trip-title">Rarotonga</h1>
+          <span>Honeymoon itinerary · Oct 9-17</span>
         </div>
       </section>
 
-      <nav className="day-strip" aria-label="Trip days">
-        {data.days.map((day) => (
-          <button
-            className={day.date === activeDay.date ? "day-chip active" : "day-chip"}
-            key={day.date}
-            onClick={() => updateState({ activeDay: day.date, view: "plan" })}
-            type="button"
+      <section className="day-picker" aria-label="Choose itinerary day">
+        <label>
+          Day
+          <select
+            onChange={(event) => updateState({ activeDay: event.target.value, view: "plan" })}
+            value={activeDay.date}
           >
-            <span>{formatDate(day.date)}</span>
-            {day.weekday.slice(0, 3)}
-          </button>
-        ))}
-      </nav>
+            {data.days.map((day) => (
+              <option key={day.date} value={day.date}>
+                {formatDate(day.date)} · {day.weekday} · {day.title}
+              </option>
+            ))}
+          </select>
+        </label>
+        <p>{anchor.title} · {formatTime(anchor.time)}</p>
+      </section>
 
       <section className="control-row" aria-label="App views">
         {(["plan", "reservations", "map"] as const).map((view) => (
@@ -574,9 +571,7 @@ export default function Home() {
                           );
                         })}
                       </div>
-                    ) : (
-                      <div className="open-time">Nothing fixed here. Keep it loose.</div>
-                    )}
+                    ) : null}
                     <Recommendations day={activeDay} period={period} />
                   </section>
                 );
