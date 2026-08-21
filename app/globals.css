@@ -141,6 +141,7 @@ button {
 }
 
 .top-panel {
+  --header-image: url("https://www.downunderendeavours.com/wp-content/uploads/2018/08/SMB-cooks-650x400-rarotonga-aerial-island-view-1324.jpg");
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   gap: 8px;
@@ -151,10 +152,51 @@ button {
   background:
     radial-gradient(circle at 84% 12%, var(--hero-tint-c), transparent 15rem),
     linear-gradient(125deg, var(--hero-tint-a), var(--hero-tint-b)),
-    url("https://www.downunderendeavours.com/wp-content/uploads/2018/08/SMB-cooks-650x400-rarotonga-aerial-island-view-1324.jpg");
+    var(--header-image);
   background-position: center;
   background-size: cover;
   color: #fffdf8;
+}
+
+.header-countdown,
+.header-beach,
+.header-flight {
+  --header-image: url("https://www.downunderendeavours.com/wp-content/uploads/2018/08/SMB-cooks-650x400-rarotonga-aerial-island-view-1324.jpg");
+}
+
+.header-villa {
+  --header-image: url("https://static1.squarespace.com/static/63d3ff8f9022444b080ead34/t/63f40fba2764b604666ec0d1/1676939195062/Beach+Front+VillasDSC_7451.jpg?format=1500w");
+  background-position: center 55%;
+}
+
+.header-nautilus,
+.header-dinner {
+  --header-image: url("https://images.squarespace-cdn.com/content/v1/68d84e7615147738b7ee4fee/66fcfb58-3e1f-4e7a-acda-558e02f3fd85/NavigateNautilusResortPolynesianRestaurantPool.webp?format=1500w");
+  background-position: center 58%;
+}
+
+.header-tamarind {
+  --header-image: url("https://images.squarespace-cdn.com/content/v1/63d3ff8f9022444b080ead34/42664d02-a318-46ff-b33b-38e7ecf18c39/tamarind%2Brestaurant%2Brarotonga.jpg");
+  background-position: center 55%;
+}
+
+.header-otb {
+  --header-image: url("https://enjoycookislands.com/uploads/general/_1200x630_crop_center-center_82_none_ns/OTB-1.jpeg?mtime=1469048986");
+  background-position: center 60%;
+}
+
+.header-turtle {
+  --header-image: url("https://static1.squarespace.com/static/5e6f0f42668a2e3fcf7b19a4/t/6a3fd4e916d56f3a046e56ee/1782568169078/29AugSCIphotos-13.jpg?format=1500w");
+  background-position: center 48%;
+}
+
+.header-aitutaki {
+  --header-image: url("https://commons.wikimedia.org/wiki/Special:Redirect/file/Aitutaki_aerialview.jpg");
+  background-position: center 52%;
+}
+
+.header-hike {
+  --header-image: url("https://images.squarespace-cdn.com/content/v1/68d84e7615147738b7ee4fee/7b01c2a4-ec9a-4f39-b2f5-f63a858fc10f/Pana-Lagoon3.webp?format=1500w");
 }
 
 .title-block {
@@ -292,7 +334,8 @@ button {
 }
 
 .day-detail,
-.reservations-view {
+.reservations-view,
+.gallery-view {
   border: 1px solid var(--line);
   border-radius: 8px;
   background: var(--panel);
@@ -867,7 +910,8 @@ button {
   padding: 16px;
 }
 
-.reservations-header {
+.reservations-header,
+.gallery-header {
   margin-bottom: 12px;
 }
 
@@ -907,6 +951,62 @@ button {
   margin: 6px 0 0;
 }
 
+.gallery-view {
+  padding: 14px;
+}
+
+.gallery-header h2 {
+  margin: 8px 0 0;
+  font-size: clamp(1.35rem, 6vw, 2rem);
+  line-height: 1.05;
+}
+
+.gallery-grid {
+  display: grid;
+  gap: 10px;
+}
+
+.gallery-card {
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel-strong);
+}
+
+.gallery-card img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  background: var(--panel-soft);
+}
+
+.gallery-card div {
+  display: grid;
+  gap: 5px;
+  padding: 10px;
+}
+
+.gallery-card span {
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.gallery-card h3 {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.gallery-card a {
+  width: fit-content;
+  color: var(--lagoon);
+  font-size: 0.82rem;
+  font-weight: 800;
+  text-decoration: none;
+}
+
 @media (min-width: 760px) {
   .app-shell {
     padding: 20px;
@@ -943,6 +1043,10 @@ button {
 
   .map-layout {
     grid-template-columns: minmax(0, 1.2fr) 360px;
+  }
+
+  .gallery-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 

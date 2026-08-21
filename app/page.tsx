@@ -66,7 +66,7 @@ type TripData = typeof itinerary & {
 
 type AppState = {
   activeDay: string;
-  view: "plan" | "reservations" | "map";
+  view: "plan" | "reservations" | "map" | "gallery";
   mapStart: string;
   mapEnd: string;
   selectedPlace: string;
@@ -114,6 +114,25 @@ const typeIcons: Record<EventType, string> = {
 const periodLabels = ["Morning", "Afternoon", "Evening"] as const;
 type Period = (typeof periodLabels)[number];
 type TimeTheme = "morning" | "day" | "evening" | "night";
+type HeaderKey =
+  | "countdown"
+  | "flight"
+  | "turtle"
+  | "aitutaki"
+  | "nautilus"
+  | "tamarind"
+  | "otb"
+  | "dinner"
+  | "villa"
+  | "beach"
+  | "hike";
+
+type HeaderContext = {
+  key: HeaderKey;
+  eyebrow: string;
+  title: string;
+  subtitle: string;
+};
 
 type MapPlace = {
   id: string;
@@ -126,6 +145,17 @@ type MapPlace = {
   note: string;
   x: number;
   y: number;
+};
+
+type GalleryImage = {
+  id: string;
+  title: string;
+  date: string;
+  label: string;
+  image: string;
+  alt: string;
+  sourceUrl: string;
+  sourceLabel: string;
 };
 
 const mapPlaces: MapPlace[] = [
@@ -263,6 +293,73 @@ const mapPlaces: MapPlace[] = [
   },
 ];
 
+const galleryImages: GalleryImage[] = [
+  {
+    id: "sea-change",
+    title: "Sea Change Villas",
+    date: "2026-10-09",
+    label: "Home base",
+    image:
+      "https://static1.squarespace.com/static/63d3ff8f9022444b080ead34/t/63f40fba2764b604666ec0d1/1676939195062/Beach+Front+VillasDSC_7451.jpg?format=1500w",
+    alt: "Beachfront villa and lagoon at Sea Change Villas in Rarotonga.",
+    sourceUrl: "https://www.seachangevillas.com/gallery",
+    sourceLabel: "Sea Change Villas",
+  },
+  {
+    id: "nautilus",
+    title: "Nautilus Resort",
+    date: "2026-10-10",
+    label: "Opening dinner",
+    image:
+      "https://images.squarespace-cdn.com/content/v1/68d84e7615147738b7ee4fee/66fcfb58-3e1f-4e7a-acda-558e02f3fd85/NavigateNautilusResortPolynesianRestaurantPool.webp?format=1500w",
+    alt: "Nautilus Resort pool and restaurant beside Muri Lagoon.",
+    sourceUrl: "https://www.nautilusresortrarotonga.com/gallery/",
+    sourceLabel: "Nautilus Resort",
+  },
+  {
+    id: "tamarind",
+    title: "Tamarind House",
+    date: "2026-10-11",
+    label: "Dinner",
+    image:
+      "https://images.squarespace-cdn.com/content/v1/63d3ff8f9022444b080ead34/42664d02-a318-46ff-b33b-38e7ecf18c39/tamarind%2Brestaurant%2Brarotonga.jpg",
+    alt: "Sunset dining setting at Tamarind House in Rarotonga.",
+    sourceUrl: "https://www.seachangevillas.com/island-time/best-restaurants-rarotonga-special-occasion",
+    sourceLabel: "Sea Change Villas guide",
+  },
+  {
+    id: "otb",
+    title: "OTB",
+    date: "2026-10-12",
+    label: "Beach dinner",
+    image: "https://enjoycookislands.com/uploads/general/_1200x630_crop_center-center_82_none_ns/OTB-1.jpeg?mtime=1469048986",
+    alt: "Beachfront dining room at OTB in Rarotonga.",
+    sourceUrl: "https://enjoycookislands.com/eat-drink/beaches-restaurant-bar",
+    sourceLabel: "Enjoy Cook Islands",
+  },
+  {
+    id: "turtles",
+    title: "Swim With The Turtles",
+    date: "2026-10-13",
+    label: "Snorkel",
+    image:
+      "https://static1.squarespace.com/static/5e6f0f42668a2e3fcf7b19a4/t/6a3fd4e916d56f3a046e56ee/1782568169078/29AugSCIphotos-13.jpg?format=1500w",
+    alt: "Sea turtle underwater during a Snorkel Cook Islands excursion.",
+    sourceUrl: "https://www.snorkelcookislands.com/photos",
+    sourceLabel: "Snorkel Cook Islands",
+  },
+  {
+    id: "aitutaki",
+    title: "Aitutaki",
+    date: "2026-10-16",
+    label: "Day trip",
+    image: "https://commons.wikimedia.org/wiki/Special:Redirect/file/Aitutaki_aerialview.jpg",
+    alt: "Aerial view of Aitutaki lagoon.",
+    sourceUrl: "https://commons.wikimedia.org/wiki/File:Aitutaki_aerialview.jpg",
+    sourceLabel: "Wikimedia Commons",
+  },
+];
+
 function formatDate(dateString: string) {
   return new Intl.DateTimeFormat("en-US", {
     month: "short",
@@ -334,6 +431,34 @@ function formatRarotongaTime(date = new Date()) {
   }).format(date);
 }
 
+function rarotongaDateParts(date = new Date()) {
+  const parts = new Intl.DateTimeFormat("en-US", {
+    day: "2-digit",
+    hour: "2-digit",
+    hour12: false,
+    minute: "2-digit",
+    month: "2-digit",
+    timeZone: tripTimeZone,
+    year: "numeric",
+  }).formatToParts(date);
+  const value = (type: string) => parts.find((part) => part.type === type)?.value ?? "00";
+
+  return {
+    date: `${value("year")}-${value("month")}-${value("day")}`,
+    minutes: Number(value("hour")) * 60 + Number(value("minute")),
+  };
+}
+
+function countdownText(now = new Date()) {
+  const tripStart = new Date(`${data.trip.startDate}T00:00:00-10:00`);
+  const difference = tripStart.getTime() - now.getTime();
+  const days = Math.max(0, Math.ceil(difference / 86_400_000));
+
+  if (days === 0) return "Honeymoon starts today";
+  if (days === 1) return "1 day to Rarotonga";
+  return `${days} days to Rarotonga`;
+}
+
 function themeLabel(theme: TimeTheme) {
   const labels: Record<TimeTheme, string> = {
     morning: "Lagoon morning",
@@ -355,6 +480,77 @@ function eventPeriod(event: TripEvent): Period {
   if (hour < 12) return "Morning";
   if (hour < 17) return "Afternoon";
   return "Evening";
+}
+
+function eventStartMinutes(event: TripEvent) {
+  if (event.time === "morning") return 8 * 60;
+  if (event.time === "daytime") return 11 * 60;
+  if (event.time === "afternoon") return 14 * 60;
+  if (event.time === "evening") return 18 * 60;
+  if (!event.time) return event.type === "lodging" ? 22 * 60 : 18 * 60;
+
+  const [hours, minutes] = event.time.split(":").map(Number);
+  return hours * 60 + minutes;
+}
+
+function headerKeyForEvent(event: TripEvent): HeaderKey {
+  const title = event.title.toLowerCase();
+  if (title.includes("turtle")) return "turtle";
+  if (title.includes("aitutaki")) return "aitutaki";
+  if (title.includes("nautilus")) return "nautilus";
+  if (title.includes("tamarind")) return "tamarind";
+  if (title.includes("otb") || title.includes("on the beach")) return "otb";
+  if (event.flight || event.type === "travel") return "flight";
+  if (title.includes("sea change") || event.type === "lodging" || event.type === "downtime") return "villa";
+  if (title.includes("hike") || title.includes("trek")) return "hike";
+  if (event.type === "reservation" || event.type === "meal") return "dinner";
+  return "beach";
+}
+
+function currentTripEvent(now = new Date()) {
+  const { date, minutes } = rarotongaDateParts(now);
+  const day = data.days.find((tripDay) => tripDay.date === date);
+  if (!day) return null;
+
+  const events = [...day.events].sort((a, b) => eventStartMinutes(a) - eventStartMinutes(b));
+  const current = [...events].reverse().find((event) => eventStartMinutes(event) <= minutes);
+
+  return {
+    day,
+    event: current ?? events[0],
+  };
+}
+
+function headerContext(now = new Date()): HeaderContext {
+  const tripStart = new Date(`${data.trip.startDate}T00:00:00-10:00`);
+  const tripEnd = new Date("2026-10-18T00:00:00-10:00");
+
+  if (now < tripStart) {
+    return {
+      key: "countdown",
+      eyebrow: `Rarotonga now · ${formatRarotongaTime(now)}`,
+      title: countdownText(now),
+      subtitle: "Honeymoon itinerary · Oct 9-17",
+    };
+  }
+
+  const current = currentTripEvent(now);
+
+  if (now >= tripEnd || !current) {
+    return {
+      key: "beach",
+      eyebrow: `Rarotonga now · ${formatRarotongaTime(now)}`,
+      title: "Rarotonga",
+      subtitle: "Honeymoon itinerary · Oct 9-17",
+    };
+  }
+
+  return {
+    key: headerKeyForEvent(current.event),
+    eyebrow: `${current.day.weekday} · ${formatRarotongaTime(now)}`,
+    title: current.event.title,
+    subtitle: `${formatTime(current.event.time)} · ${current.day.title}`,
+  };
 }
 
 function periodTone(day: Day, period: Period) {
@@ -419,7 +615,7 @@ export default function Home() {
     }
   });
   const [timeTheme, setTimeTheme] = useState<TimeTheme>(() => currentTimeTheme());
-  const [tripClock, setTripClock] = useState(() => formatRarotongaTime());
+  const [header, setHeader] = useState<HeaderContext>(() => headerContext());
 
   useEffect(() => {
     window.localStorage.setItem(storageKey, JSON.stringify(state));
@@ -433,8 +629,9 @@ export default function Home() {
 
   useEffect(() => {
     const timer = window.setInterval(() => {
-      setTimeTheme(currentTimeTheme());
-      setTripClock(formatRarotongaTime());
+      const now = new Date();
+      setTimeTheme(currentTimeTheme(now));
+      setHeader(headerContext(now));
     }, 60_000);
     return () => window.clearInterval(timer);
   }, []);
@@ -468,11 +665,11 @@ export default function Home() {
 
   return (
     <main className={`app-shell theme-${timeTheme}`}>
-      <section className="top-panel" aria-labelledby="trip-title">
+      <section className={`top-panel header-${header.key}`} aria-labelledby="trip-title">
         <div className="title-block">
-          <p>{themeLabel(timeTheme)} · {tripClock}</p>
-          <h1 id="trip-title">Rarotonga</h1>
-          <span>Honeymoon itinerary · Oct 9-17</span>
+          <p>{themeLabel(timeTheme)} · {header.eyebrow}</p>
+          <h1 id="trip-title">{header.title}</h1>
+          <span>{header.subtitle}</span>
         </div>
       </section>
 
@@ -494,14 +691,20 @@ export default function Home() {
       </section>
 
       <section className="control-row" aria-label="App views">
-        {(["plan", "reservations", "map"] as const).map((view) => (
+        {(["plan", "reservations", "map", "gallery"] as const).map((view) => (
           <button
             className={state.view === view ? "filter-pill active" : "filter-pill"}
             key={view}
             onClick={() => updateState({ view })}
             type="button"
           >
-            {view === "plan" ? "Today" : view === "reservations" ? "Reservations" : "Map"}
+            {view === "plan"
+              ? "Today"
+              : view === "reservations"
+                ? "Reservations"
+                : view === "map"
+                  ? "Map"
+                  : "Gallery"}
           </button>
         ))}
       </section>
@@ -517,6 +720,8 @@ export default function Home() {
           selectedPlaceId={state.selectedPlace}
           startDate={state.mapStart}
         />
+      ) : state.view === "gallery" ? (
+        <GalleryView images={galleryImages} />
       ) : (
         <section className="itinerary-layout compact">
           <section className="day-detail" aria-labelledby="active-day-title">
@@ -595,6 +800,31 @@ export default function Home() {
         </section>
       )}
     </main>
+  );
+}
+
+function GalleryView({ images }: { images: GalleryImage[] }) {
+  return (
+    <section className="gallery-view" aria-labelledby="gallery-title">
+      <div className="gallery-header">
+        <p className="section-label">Trip pictures</p>
+        <h2 id="gallery-title">Confirmed plans, one calm image each</h2>
+      </div>
+      <div className="gallery-grid">
+        {images.map((image) => (
+          <article className="gallery-card" key={image.id}>
+            <img alt={image.alt} loading="lazy" src={image.image} />
+            <div>
+              <span>{formatDate(image.date)} · {image.label}</span>
+              <h3>{image.title}</h3>
+              <a href={image.sourceUrl} rel="noreferrer" target="_blank">
+                Image source: {image.sourceLabel}
+              </a>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
   );
 }
 
