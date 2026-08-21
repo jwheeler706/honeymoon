@@ -1031,7 +1031,7 @@ function MapView({
   const homeBase = places.find((place) => place.id === "sea-change-villas");
   const mappablePlaces = inRangePlaces.filter((place) =>
     isAitutakiOnly
-      ? place.id === "aitutaki" && mapPoint(place, activeMapBounds)
+      ? place.offMap && mapPoint(place, activeMapBounds)
       : !place.offMap && mapPoint(place, activeMapBounds)
   );
   const visibleMappablePlaces =
