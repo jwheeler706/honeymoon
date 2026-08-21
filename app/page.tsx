@@ -1122,7 +1122,6 @@ function MapView({
           role="img"
           aria-label={isAitutakiOnly ? "Satellite map of Aitutaki lagoon" : "Satellite map of Rarotonga itinerary locations"}
         >
-          <div className="map-vignette" />
           {isAitutakiOnly ? (
             <>
               <span className="map-label ait-main">Aitutaki</span>
