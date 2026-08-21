@@ -295,7 +295,7 @@ const mapPlaces: MapPlace[] = [
     status: "confirmed",
     type: "excursion",
     area: "Aitutaki",
-    note: "Day trip.",
+    note: "Flights 8:00 AM-8:00 PM.",
     lat: -18.8585,
     lng: -159.7789,
     offMap: true,

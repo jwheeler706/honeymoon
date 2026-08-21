@@ -319,14 +319,32 @@
       "title": "Aitutaki Day Trip",
       "status": "confirmed",
       "theme": "major excursion",
-      "summary": "Aitutaki day trip. Easy dinner after.",
+      "summary": "Aitutaki 8:00-8:00. One Foot Island lunch.",
       "events": [
+        {
+          "title": "GZ-612 to Aitutaki",
+          "time": "08:00",
+          "status": "confirmed",
+          "type": "travel",
+          "notes": "RAR to AIT, 8:00-8:50 AM. Ref NIPXNP.",
+          "flight": {
+            "number": "GZ-612",
+            "airline": "Air Rarotonga",
+            "aircraft": "Aircraft TBD",
+            "route": "RAR to AIT",
+            "depart": "8:00 AM",
+            "arrive": "8:50 AM",
+            "cabin": "Coach",
+            "seats": "Unassigned",
+            "duration": "50m"
+          }
+        },
         {
           "title": "Aitutaki day trip",
           "time": "daytime",
           "status": "confirmed",
           "type": "excursion",
-          "notes": "Details TBD."
+          "notes": "Booking NIPXNP."
         },
         {
           "title": "Lunch on One Foot Island",
@@ -336,6 +354,24 @@
           "notes": "Tapuaetai lunch stop."
         },
         {
+          "title": "GZ-621 to Rarotonga",
+          "time": "19:10",
+          "status": "confirmed",
+          "type": "travel",
+          "notes": "AIT to RAR, 7:10-8:00 PM. Ref NIPXNP.",
+          "flight": {
+            "number": "GZ-621",
+            "airline": "Air Rarotonga",
+            "aircraft": "Aircraft TBD",
+            "route": "AIT to RAR",
+            "depart": "7:10 PM",
+            "arrive": "8:00 PM",
+            "cabin": "Coach",
+            "seats": "Unassigned",
+            "duration": "50m"
+          }
+        },
+        {
           "title": "Very casual dinner",
           "time": "evening",
           "status": "planned",
@@ -343,7 +379,7 @@
           "notes": "Low effort."
         }
       ],
-      "transport": "Transfer TBD.",
+      "transport": "Air Rarotonga. Ref NIPXNP.",
       "notes": "No extra big plans."
     },
     {
@@ -467,11 +503,11 @@
     },
     {
       "date": "2026-10-16",
-      "time": null,
+      "time": "08:00",
       "name": "Aitutaki day trip",
       "type": "excursion",
       "status": "confirmed",
-      "notes": "Details TBD."
+      "notes": "GZ-612 out, GZ-621 back. Ref NIPXNP."
     },
     {
       "date": "2026-10-17",
