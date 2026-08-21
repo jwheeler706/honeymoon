@@ -121,14 +121,6 @@ const typeLabels: Record<EventType, string> = {
   excursion: "Water / excursion",
 };
 
-const mapTypeLegend = [
-  { className: "home", icon: "⌂", label: "Home" },
-  { className: "food", icon: "", label: "Food" },
-  { className: "travel", icon: "✈", label: "Flight" },
-  { className: "water", icon: "≈", label: "Water" },
-  { className: "explore", icon: "⌖", label: "Explore" },
-];
-
 const periodLabels = ["Morning", "Afternoon", "Evening"] as const;
 type Period = (typeof periodLabels)[number];
 type TimeTheme = "morning" | "day" | "evening" | "night";
@@ -1096,7 +1088,7 @@ function MapView({
           <p>
             {isAitutakiOnly
               ? "Oct 16 gets its own lagoon view for the Aitutaki day trip."
-              : "Pins are color-coded by day and marked by type. Aitutaki stays off-map unless Oct 16 is selected by itself."}
+              : "Filter by date to keep the island view focused. Aitutaki gets its own map when Oct 16 is selected by itself."}
           </p>
         </div>
         <div className="date-range">
@@ -1186,15 +1178,6 @@ function MapView({
           >
             Satellite imagery
           </a>
-        </div>
-
-        <div className="type-legend" aria-label="Map icon key">
-          {mapTypeLegend.map((item) => (
-            <span key={item.label}>
-              <MapGlyph className={item.className} icon={item.icon} />
-              {item.label}
-            </span>
-          ))}
         </div>
 
         {offMapPlaces.length ? (
