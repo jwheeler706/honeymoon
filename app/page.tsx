@@ -543,7 +543,7 @@ export default function Home() {
                   <section className="period-section" key={period} aria-label={period}>
                     <div className="period-heading">
                       <h3>{period}</h3>
-                      <p>{periodTone(activeDay, period)}</p>
+                      {events.length ? null : <p>{periodTone(activeDay, period)}</p>}
                     </div>
 
                     {events.length ? (
