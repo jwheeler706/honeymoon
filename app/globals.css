@@ -60,9 +60,9 @@ button {
 }
 
 .app-shell {
-  width: min(1180px, 100%);
+  width: min(760px, 100%);
   margin: 0 auto;
-  padding: 18px;
+  padding: 14px;
   min-height: 100vh;
   background:
     radial-gradient(circle at 14% 0%, var(--glow-a), transparent 28rem),
@@ -143,18 +143,15 @@ button {
 .top-panel {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  gap: 14px;
-  min-height: 260px;
-  padding: 22px;
-  border: 1px solid rgba(23, 33, 31, 0.1);
+  gap: 12px;
+  min-height: 0;
+  padding: 16px;
+  border: 1px solid var(--line);
   border-radius: 8px;
   background:
-    linear-gradient(125deg, var(--hero-tint-a), var(--hero-tint-b) 54%, var(--hero-tint-c)),
-    url("https://images.unsplash.com/photo-1589199760491-3fc3c40c53a2?auto=format&fit=crop&w=1400&q=80");
-  background-position: center;
-  background-size: cover;
+    radial-gradient(circle at 84% 12%, var(--hero-tint-c), transparent 15rem),
+    linear-gradient(125deg, var(--hero-tint-a), var(--hero-tint-b));
   color: #fffdf8;
-  align-items: end;
 }
 
 .title-block {
@@ -175,17 +172,17 @@ button {
 .title-block h1 {
   max-width: 760px;
   margin: 8px 0;
-  font-size: clamp(2.2rem, 8vw, 4.8rem);
-  line-height: 0.96;
+  font-size: clamp(1.85rem, 9vw, 3rem);
+  line-height: 1;
   letter-spacing: 0;
 }
 
 .next-card {
-  width: min(100%, 360px);
-  padding: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.38);
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--line-strong);
   border-radius: 8px;
-  background: rgba(5, 16, 18, 0.52);
+  background: rgba(5, 16, 18, 0.34);
   backdrop-filter: blur(16px);
 }
 
@@ -203,9 +200,9 @@ button {
 
 .day-strip {
   display: flex;
-  gap: 8px;
-  margin: 14px -18px 0;
-  padding: 0 18px 8px;
+  gap: 6px;
+  margin: 12px -14px 0;
+  padding: 0 14px 8px;
   overflow-x: auto;
   scrollbar-width: none;
 }
@@ -227,8 +224,8 @@ button {
 
 .day-chip {
   flex: 0 0 auto;
-  min-width: 74px;
-  padding: 10px 12px;
+  min-width: 64px;
+  padding: 8px 10px;
   text-align: left;
 }
 
@@ -252,20 +249,20 @@ button {
 .control-row {
   display: flex;
   gap: 8px;
-  margin: 12px 0 18px;
+  margin: 8px 0 12px;
   overflow-x: auto;
   padding-bottom: 2px;
 }
 
 .filter-pill {
   flex: 0 0 auto;
-  padding: 9px 13px;
+  padding: 8px 12px;
 }
 
 .itinerary-layout {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  gap: 14px;
+  gap: 10px;
 }
 
 .day-list {
@@ -358,12 +355,12 @@ button {
 }
 
 .day-detail {
-  padding: 16px;
+  padding: 14px;
 }
 
 .day-heading {
   display: grid;
-  gap: 14px;
+  gap: 10px;
 }
 
 .day-heading h2,
@@ -372,7 +369,7 @@ button {
 .hike-panel h2,
 .sync-panel h2 {
   margin: 8px 0;
-  font-size: clamp(1.55rem, 5vw, 2.35rem);
+  font-size: clamp(1.35rem, 6vw, 2rem);
   line-height: 1.05;
   letter-spacing: 0;
 }
@@ -385,7 +382,14 @@ button {
 .hike-panel p,
 .sync-panel p {
   color: var(--muted);
-  line-height: 1.55;
+  line-height: 1.42;
+}
+
+.date-kicker {
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
 }
 
 .day-meta {
@@ -414,8 +418,8 @@ button {
 .transport-note {
   display: grid;
   gap: 4px;
-  margin: 14px 0;
-  padding: 13px;
+  margin: 10px 0;
+  padding: 10px;
   border-radius: 8px;
 }
 
@@ -434,13 +438,13 @@ button {
 
 .period-stack {
   display: grid;
-  gap: 14px;
+  gap: 10px;
 }
 
 .period-section {
   display: grid;
-  gap: 10px;
-  padding: 12px;
+  gap: 8px;
+  padding: 10px;
   border: 1px solid var(--line);
   border-radius: 8px;
   background: var(--panel-soft);
@@ -454,7 +458,7 @@ button {
 .period-heading h3 {
   margin: 0;
   color: var(--reef);
-  font-size: 0.9rem;
+  font-size: 0.82rem;
   letter-spacing: 0;
   text-transform: uppercase;
 }
@@ -467,13 +471,13 @@ button {
 
 .timeline {
   display: grid;
-  gap: 12px;
+  gap: 8px;
 }
 
 .event-card {
   display: grid;
-  gap: 12px;
-  padding: 14px;
+  gap: 8px;
+  padding: 10px;
   border: 1px solid var(--line);
   border-radius: 8px;
   background: var(--panel-strong);
@@ -481,8 +485,23 @@ button {
 
 .event-main {
   display: grid;
-  grid-template-columns: 34px minmax(0, 1fr);
-  gap: 12px;
+  grid-template-columns: 20px minmax(0, 1fr);
+  gap: 9px;
+}
+
+.done-dot {
+  width: 18px;
+  height: 18px;
+  margin-top: 2px;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  background: transparent;
+}
+
+.done-dot[aria-pressed="true"] {
+  border-color: transparent;
+  background: var(--leaf);
+  box-shadow: inset 0 0 0 5px var(--panel-strong);
 }
 
 .event-icon {
@@ -509,8 +528,8 @@ button {
 }
 
 .event-card h4 {
-  margin: 8px 0 5px;
-  font-size: 1.14rem;
+  margin: 6px 0 4px;
+  font-size: 1rem;
   letter-spacing: 0;
 }
 
@@ -519,15 +538,16 @@ button {
 }
 
 .event-details {
-  display: grid;
-  gap: 8px;
-  margin: 12px 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 8px 0 0;
 }
 
 .event-details div {
-  display: grid;
-  grid-template-columns: 82px minmax(0, 1fr);
-  gap: 8px;
+  display: inline-flex;
+  gap: 5px;
+  max-width: 100%;
 }
 
 .event-details dt {
@@ -537,23 +557,7 @@ button {
 
 .event-details dd {
   margin: 0;
-}
-
-.event-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.event-actions button,
-.sync-panel button {
-  padding: 8px 12px;
-}
-
-.event-actions button[aria-pressed="true"] {
-  border-color: transparent;
-  background: var(--leaf);
-  color: #06100b;
+  color: var(--muted);
 }
 
 .event-note {
@@ -564,8 +568,14 @@ button {
   font-weight: 700;
 }
 
+.event-note summary {
+  width: fit-content;
+  color: var(--lagoon);
+  cursor: pointer;
+}
+
 .event-note textarea {
-  min-height: 74px;
+  min-height: 62px;
   width: 100%;
   resize: vertical;
   border: 1px solid var(--line);
@@ -577,7 +587,7 @@ button {
 
 .recommendations {
   display: grid;
-  gap: 8px;
+  gap: 6px;
 }
 
 .recommendations > span {
@@ -598,12 +608,12 @@ button {
   border-radius: 999px;
   background: rgba(104, 214, 223, 0.08);
   color: var(--lagoon);
-  padding: 7px 10px;
-  font-size: 0.88rem;
+  padding: 6px 9px;
+  font-size: 0.82rem;
 }
 
 .open-time {
-  padding: 14px;
+  padding: 10px;
   border: 1px dashed var(--line-strong);
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.035);
@@ -615,7 +625,7 @@ button {
   border-radius: 8px;
   background: var(--panel);
   box-shadow: 0 18px 40px rgba(0, 0, 0, 0.28);
-  padding: 16px;
+  padding: 14px;
 }
 
 .map-header {
@@ -972,13 +982,13 @@ button {
 
 @media (min-width: 760px) {
   .app-shell {
-    padding: 28px;
+    padding: 20px;
   }
 
   .top-panel {
-    grid-template-columns: minmax(0, 1fr) 360px;
-    min-height: 360px;
-    padding: 34px;
+    grid-template-columns: minmax(0, 1fr) 260px;
+    min-height: 0;
+    padding: 18px;
   }
 
   .day-strip {
@@ -987,7 +997,12 @@ button {
   }
 
   .itinerary-layout {
-    grid-template-columns: 280px minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .itinerary-layout.compact {
+    max-width: 720px;
+    margin-inline: auto;
   }
 
   .day-list {

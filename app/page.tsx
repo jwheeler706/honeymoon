@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import itinerary from "./data/itinerary.json";
 
 type EventStatus = "confirmed" | "pending" | "flexible" | "suggested" | "planned" | "assumed";
@@ -52,7 +52,7 @@ type TripData = typeof itinerary & {
 
 type AppState = {
   activeDay: string;
-  filter: "all" | EventStatus | "reservations" | "map";
+  view: "plan" | "reservations" | "map";
   mapStart: string;
   mapEnd: string;
   selectedPlace: string;
@@ -68,7 +68,7 @@ const tripTimeZone = data.trip.timezone || "Pacific/Rarotonga";
 
 const initialState: AppState = {
   activeDay: data.days[0].date,
-  filter: "all",
+  view: "plan",
   mapStart: data.days[0].date,
   mapEnd: data.days[data.days.length - 1].date,
   selectedPlace: "sea-change-villas",
@@ -404,7 +404,6 @@ export default function Home() {
       return initialState;
     }
   });
-  const [snapshotCopied, setSnapshotCopied] = useState(false);
   const [timeTheme, setTimeTheme] = useState<TimeTheme>(() => currentTimeTheme());
   const [tripClock, setTripClock] = useState(() => formatRarotongaTime());
 
@@ -429,37 +428,16 @@ export default function Home() {
   const activeDay = data.days.find((day) => day.date === state.activeDay) ?? data.days[0];
   const anchor = mainAnchor(activeDay);
 
-  const filteredDays = useMemo(() => {
-    if (state.filter === "all" || state.filter === "reservations" || state.filter === "map") return data.days;
-    return data.days
-      .map((day) => ({
-        ...day,
-        events: day.events.filter((event) => event.status === state.filter || day.status === state.filter),
-      }))
-      .filter((day) => day.events.length);
-  }, [state.filter]);
-
-  const counts = useMemo(() => {
-    const events = data.days.flatMap((day) => day.events.map((event) => ({ day, event })));
-    return {
-      confirmed: events.filter(({ event }) => event.status === "confirmed").length,
-      pending: events.filter(({ event }) => event.status === "pending").length,
-      flexible: events.filter(({ event }) => event.status === "flexible").length,
-      done: events.filter(({ day, event }) => state.done[eventKey(day, event)]).length,
-      notes: Object.values(state.notes).filter(Boolean).length,
-    };
-  }, [state.done, state.notes]);
-
   function updateState(update: Partial<AppState>) {
     setState((current) => ({ ...current, ...update }));
   }
 
-  function toggleBucket(bucket: "done" | "saved", key: string) {
+  function toggleDone(key: string) {
     setState((current) => ({
       ...current,
-      [bucket]: {
-        ...current[bucket],
-        [key]: !current[bucket][key],
+      done: {
+        ...current.done,
+        [key]: !current.done[key],
       },
     }));
   }
@@ -472,21 +450,6 @@ export default function Home() {
         [key]: value,
       },
     }));
-  }
-
-  async function copySnapshot() {
-    const snapshot = {
-      trip: data.trip.title,
-      editedBy: state.editor,
-      copiedAt: new Date().toISOString(),
-      done: state.done,
-      saved: state.saved,
-      notes: state.notes,
-    };
-
-    await navigator.clipboard.writeText(JSON.stringify(snapshot, null, 2));
-    setSnapshotCopied(true);
-    window.setTimeout(() => setSnapshotCopied(false), 1600);
   }
 
   return (
@@ -510,7 +473,7 @@ export default function Home() {
           <button
             className={day.date === activeDay.date ? "day-chip active" : "day-chip"}
             key={day.date}
-            onClick={() => updateState({ activeDay: day.date, filter: state.filter === "reservations" ? "all" : state.filter })}
+            onClick={() => updateState({ activeDay: day.date, view: "plan" })}
             type="button"
           >
             <span>{formatDate(day.date)}</span>
@@ -519,28 +482,22 @@ export default function Home() {
         ))}
       </nav>
 
-      <section className="control-row" aria-label="Itinerary filters">
-        {(["all", "confirmed", "pending", "flexible", "reservations", "map"] as const).map((filter) => (
+      <section className="control-row" aria-label="App views">
+        {(["plan", "reservations", "map"] as const).map((view) => (
           <button
-            className={state.filter === filter ? "filter-pill active" : "filter-pill"}
-            key={filter}
-            onClick={() => updateState({ filter })}
+            className={state.view === view ? "filter-pill active" : "filter-pill"}
+            key={view}
+            onClick={() => updateState({ view })}
             type="button"
           >
-            {filter === "all"
-              ? "All"
-              : filter === "reservations"
-                ? "Reservations"
-                : filter === "map"
-                  ? "Map"
-                  : statusLabels[filter]}
+            {view === "plan" ? "Today" : view === "reservations" ? "Reservations" : "Map"}
           </button>
         ))}
       </section>
 
-      {state.filter === "reservations" ? (
+      {state.view === "reservations" ? (
         <ReservationsView reservations={data.reservations} />
-      ) : state.filter === "map" ? (
+      ) : state.view === "map" ? (
         <MapView
           endDate={state.mapEnd}
           onDateRangeChange={(mapStart, mapEnd) => updateState({ mapStart, mapEnd })}
@@ -550,34 +507,16 @@ export default function Home() {
           startDate={state.mapStart}
         />
       ) : (
-        <section className="itinerary-layout">
-          <aside className="day-list" aria-label="Day overview">
-            {filteredDays.map((day) => (
-              <button
-                className={day.date === activeDay.date ? "day-row selected" : "day-row"}
-                key={day.date}
-                onClick={() => updateState({ activeDay: day.date })}
-                type="button"
-              >
-                <span className={`status-dot ${day.status}`} />
-                <span>
-                  <strong>{formatLongDate(day.date)}</strong>
-                  <small>{day.title}</small>
-                </span>
-              </button>
-            ))}
-          </aside>
-
+        <section className="itinerary-layout compact">
           <section className="day-detail" aria-labelledby="active-day-title">
             <div className="day-heading">
               <div>
-                <span className={`status-badge ${activeDay.status}`}>{statusLabels[activeDay.status]}</span>
+                <span className="date-kicker">{formatLongDate(activeDay.date)}</span>
                 <h2 id="active-day-title">{activeDay.title}</h2>
                 <p>{activeDay.summary}</p>
               </div>
               <div className="day-meta">
-                <strong>{activeDay.theme}</strong>
-                <span>{activeDay.weekday}</span>
+                <span className={`status-badge ${activeDay.status}`}>{statusLabels[activeDay.status]}</span>
               </div>
             </div>
 
@@ -603,9 +542,13 @@ export default function Home() {
                           return (
                             <article className="event-card" key={key}>
                               <div className="event-main">
-                                <div className={`event-icon ${event.type}`} aria-hidden="true">
-                                  {typeIcons[event.type]}
-                                </div>
+                                <button
+                                  aria-label={state.done[key] ? `Mark ${event.title} not done` : `Mark ${event.title} done`}
+                                  aria-pressed={Boolean(state.done[key])}
+                                  className="done-dot"
+                                  onClick={() => toggleDone(key)}
+                                  type="button"
+                                />
                                 <div>
                                   <div className="event-topline">
                                     <time>{formatTime(event.time)}</time>
@@ -619,31 +562,14 @@ export default function Home() {
                                 </div>
                               </div>
 
-                              <div className="event-actions">
-                                <button
-                                  aria-pressed={Boolean(state.saved[key])}
-                                  onClick={() => toggleBucket("saved", key)}
-                                  type="button"
-                                >
-                                  {state.saved[key] ? "Saved" : "Save"}
-                                </button>
-                                <button
-                                  aria-pressed={Boolean(state.done[key])}
-                                  onClick={() => toggleBucket("done", key)}
-                                  type="button"
-                                >
-                                  {state.done[key] ? "Done" : "Mark done"}
-                                </button>
-                              </div>
-
-                              <label className="event-note">
-                                Notes
+                              <details className="event-note">
+                                <summary>Trip note</summary>
                                 <textarea
                                   onChange={(eventTarget) => updateNote(key, eventTarget.target.value)}
-                                  placeholder="Add check-in details, a memory, parking notes, or a link."
+                                  placeholder="Add a quick note."
                                   value={state.notes[key] ?? ""}
                                 />
-                              </label>
+                              </details>
                             </article>
                           );
                         })}
@@ -659,58 +585,6 @@ export default function Home() {
           </section>
         </section>
       )}
-
-      <section className="lower-grid">
-        <div className="philosophy-panel">
-          <p className="section-label">Trip rhythm</p>
-          <h2>Relaxed, anchored, not overbuilt.</h2>
-          <ul>
-            {data.trip.planningPhilosophy.slice(0, 5).map((item) => (
-              <li key={item}>{item}</li>
-            ))}
-          </ul>
-        </div>
-
-        <div className="hike-panel">
-          <p className="section-label">Flexible hike options</p>
-          <h2>{data.trip.hikeOptions.preferred.name}</h2>
-          <p>
-            {data.trip.hikeOptions.preferred.duration}, {data.trip.hikeOptions.preferred.difficulty}.
-            Place it on Oct 14 or Oct 15 only if weather and energy cooperate.
-          </p>
-          <span>{data.trip.hikeOptions.avoid}</span>
-        </div>
-
-        <div className="sync-panel">
-          <p className="section-label">Shared notes</p>
-          <h2>Lightweight shared state</h2>
-          <p>
-            Notes, saves, and completed items are stored on this device for offline-friendly
-            use. Photo attachments are reserved in the app structure for a later storage step.
-          </p>
-          <label>
-            Last editor
-            <select
-              onChange={(event) => updateState({ editor: event.target.value as AppState["editor"] })}
-              value={state.editor}
-            >
-              <option>Jeff</option>
-              <option>Spouse</option>
-            </select>
-          </label>
-          <button onClick={copySnapshot} type="button">
-            {snapshotCopied ? "Snapshot copied" : "Copy snapshot"}
-          </button>
-        </div>
-      </section>
-
-      <section className="stats-row" aria-label="Trip summary counts">
-        <span><strong>{counts.confirmed}</strong> confirmed</span>
-        <span><strong>{counts.pending}</strong> pending</span>
-        <span><strong>{counts.flexible}</strong> flexible</span>
-        <span><strong>{counts.done}</strong> done</span>
-        <span><strong>{counts.notes}</strong> notes</span>
-      </section>
     </main>
   );
 }
@@ -772,7 +646,7 @@ function Recommendations({ day, period }: { day: Day; period: Period }) {
     },
   };
 
-  const items = options[day.date]?.[period] ?? [];
+  const items = (options[day.date]?.[period] ?? []).slice(0, 2);
   if (!items.length) return null;
 
   return (
