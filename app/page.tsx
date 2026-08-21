@@ -456,7 +456,7 @@ function MapGlyph({ className, icon }: { className: string; icon: string }) {
     return (
       <span className="map-glyph home" aria-hidden="true">
         <svg viewBox="0 0 24 24">
-          <path d="M3 11.2 12 4l9 7.2v9.3a.5.5 0 0 1-.5.5H15v-6h-6v6H3.5a.5.5 0 0 1-.5-.5z" />
+          <path d="M3 12 12 4l9 8v8H3z" />
         </svg>
       </span>
     );
@@ -564,11 +564,6 @@ function themeLabel(theme: TimeTheme) {
   return labels[theme];
 }
 
-function headerLabel(header: HeaderContext, theme: TimeTheme) {
-  if (header.key === "countdown") return "Trip countdown";
-  return themeLabel(theme);
-}
-
 function eventPeriod(event: TripEvent): Period {
   if (event.time === "morning") return "Morning";
   if (event.time === "afternoon" || event.time === "daytime") return "Afternoon";
@@ -629,7 +624,7 @@ function headerContext(now = new Date()): HeaderContext {
       key: "countdown",
       eyebrow: `Rarotonga time · ${formatRarotongaTime(now)}`,
       title: countdownText(now),
-      subtitle: "Honeymoon itinerary · Oct 9-17",
+      subtitle: "",
     };
   }
 
@@ -640,7 +635,7 @@ function headerContext(now = new Date()): HeaderContext {
       key: "beach",
       eyebrow: `Rarotonga time · ${formatRarotongaTime(now)}`,
       title: "Rarotonga",
-      subtitle: "Honeymoon itinerary · Oct 9-17",
+      subtitle: "",
     };
   }
 
@@ -766,9 +761,9 @@ export default function Home() {
     <main className={`app-shell theme-${timeTheme}`}>
       <section className={`top-panel header-${header.key}`} aria-labelledby="trip-title">
         <div className="title-block">
-          <p>{headerLabel(header, timeTheme)} · {header.eyebrow}</p>
+          <p>{header.eyebrow}</p>
           <h1 id="trip-title">{header.title}</h1>
-          <span>{header.subtitle}</span>
+          {header.subtitle ? <span>{header.subtitle}</span> : null}
         </div>
       </section>
 

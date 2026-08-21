@@ -851,6 +851,7 @@ button {
   border-color: transparent;
   background: transparent;
   color: #fffdf8;
+  outline: none;
   box-shadow: none;
   font-size: 1.9rem;
   text-shadow: none;
