@@ -113,7 +113,7 @@
           "notes": "Treat this as a low-effort arrival night."
         }
       ],
-      "transport": "Total travel time is 15h 50m. Arrival transfer details TBD after landing at RAR. Fare note: no change fee; $200 cancellation fee per ticket.",
+      "transport": "Total travel time is 15h 50m. Arrival transfer details TBD after landing at RAR.",
       "notes": "No dinner reservation should be assumed."
     },
     {
@@ -386,7 +386,7 @@
           }
         }
       ],
-      "transport": "Total travel time is 13h 55m. Departure transfer details TBD. Fare note: no change fee; $200 cancellation fee per ticket.",
+      "transport": "Total travel time is 13h 55m. Departure transfer details TBD.",
       "notes": "Avoid committing to anything that risks departure logistics."
     }
   ],
