@@ -863,9 +863,11 @@ export default function Home() {
                 <h2 id="active-day-title">{activeDay.title}</h2>
                 <p>{activeDay.summary}</p>
               </div>
-              <div className="day-meta">
-                <span className={`status-badge ${activeDay.status}`}>{statusLabels[activeDay.status]}</span>
-              </div>
+              {activeDay.status === "confirmed" ? null : (
+                <div className="day-meta">
+                  <span className={`status-badge ${activeDay.status}`}>{statusLabels[activeDay.status]}</span>
+                </div>
+              )}
             </div>
 
             <div className="transport-note">
@@ -900,9 +902,11 @@ export default function Home() {
                                 <div>
                                   <div className="event-topline">
                                     <time>{formatTime(event.time)}</time>
-                                    <span className={`status-badge ${event.status}`}>
-                                      {statusLabels[event.status]}
-                                    </span>
+                                    {event.status === "confirmed" ? null : (
+                                      <span className={`status-badge ${event.status}`}>
+                                        {statusLabels[event.status]}
+                                      </span>
+                                    )}
                                   </div>
                                   <h4>{event.title}</h4>
                                   <p>{event.notes}</p>
