@@ -377,8 +377,8 @@ const rarotongaMapBounds: MapBounds = {
 };
 
 const aitutakiMapBounds: MapBounds = {
-  west: -159.84,
-  east: -159.70,
+  west: -159.855,
+  east: -159.715,
   south: -18.93,
   north: -18.80,
 };
