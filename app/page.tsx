@@ -868,11 +868,6 @@ export default function Home() {
               )}
             </div>
 
-            <div className="transport-note">
-              <span>Transport</span>
-              <p>{activeDay.transport}</p>
-            </div>
-
             <div className="period-stack">
               {periodLabels.map((period) => {
                 const events = activeDay.events.filter((event) => eventPeriod(event) === period);
