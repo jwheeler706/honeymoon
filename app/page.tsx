@@ -806,7 +806,7 @@ export default function Home() {
 
       <section className="day-picker" aria-label="Choose itinerary day">
         <label>
-          Day
+          <span className="sr-only">Day</span>
           <select
             onChange={(event) => updateState({ activeDay: event.target.value, view: "plan" })}
             value={activeDay.date}
