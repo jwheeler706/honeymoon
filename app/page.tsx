@@ -1085,11 +1085,6 @@ function MapView({
         <div>
           <p className="section-label">Island map</p>
           <h2 id="map-title">{isAitutakiOnly ? "Aitutaki lagoon map" : "Rarotonga satellite map"}</h2>
-          <p>
-            {isAitutakiOnly
-              ? "Oct 16 gets its own lagoon view for the Aitutaki day trip."
-              : "Filter by date to keep the island view focused. Aitutaki gets its own map when Oct 16 is selected by itself."}
-          </p>
         </div>
         <div className="date-range">
           <label>
