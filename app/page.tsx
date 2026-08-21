@@ -134,6 +134,11 @@ type HeaderContext = {
   subtitle: string;
 };
 
+type WeatherInfo = {
+  temperature: number;
+  label: string;
+};
+
 type MapPlace = {
   id: string;
   name: string;
@@ -539,6 +544,18 @@ function themeLabel(theme: TimeTheme) {
   return labels[theme];
 }
 
+function weatherLabel(code: number) {
+  if (code === 0) return "Clear";
+  if ([1, 2].includes(code)) return "Partly sunny";
+  if (code === 3) return "Cloudy";
+  if ([45, 48].includes(code)) return "Misty";
+  if ([51, 53, 55, 56, 57].includes(code)) return "Drizzle";
+  if ([61, 63, 65, 66, 67, 80, 81, 82].includes(code)) return "Showers";
+  if ([71, 73, 75, 77, 85, 86].includes(code)) return "Snow";
+  if ([95, 96, 99].includes(code)) return "Storms";
+  return "Island weather";
+}
+
 function eventPeriod(event: TripEvent): Period {
   if (event.time === "morning") return "Morning";
   if (event.time === "afternoon" || event.time === "daytime") return "Afternoon";
@@ -685,6 +702,7 @@ export default function Home() {
   });
   const [timeTheme, setTimeTheme] = useState<TimeTheme>(() => currentTimeTheme());
   const [header, setHeader] = useState<HeaderContext>(() => headerContext());
+  const [weather, setWeather] = useState<WeatherInfo | null>(null);
 
   useEffect(() => {
     window.localStorage.setItem(storageKey, JSON.stringify(state));
@@ -703,6 +721,42 @@ export default function Home() {
       setHeader(headerContext(now));
     }, 60_000);
     return () => window.clearInterval(timer);
+  }, []);
+
+  useEffect(() => {
+    let ignore = false;
+
+    async function loadWeather() {
+      try {
+        const response = await fetch(
+          "https://api.open-meteo.com/v1/forecast?latitude=-21.23&longitude=-159.78&current=temperature_2m,weather_code&temperature_unit=fahrenheit&timezone=Pacific%2FRarotonga",
+        );
+        if (!response.ok) return;
+        const weatherData = (await response.json()) as {
+          current?: {
+            temperature_2m?: number;
+            weather_code?: number;
+          };
+        };
+        const temperature = weatherData.current?.temperature_2m;
+        const code = weatherData.current?.weather_code;
+        if (!ignore && typeof temperature === "number" && typeof code === "number") {
+          setWeather({
+            temperature: Math.round(temperature),
+            label: weatherLabel(code),
+          });
+        }
+      } catch {
+        // Weather is nice-to-have; keep the header calm if it is unavailable.
+      }
+    }
+
+    loadWeather();
+    const timer = window.setInterval(loadWeather, 30 * 60_000);
+    return () => {
+      ignore = true;
+      window.clearInterval(timer);
+    };
   }, []);
 
   const activeDay = data.days.find((day) => day.date === state.activeDay) ?? data.days[0];
@@ -736,7 +790,10 @@ export default function Home() {
     <main className={`app-shell theme-${timeTheme}`}>
       <section className={`top-panel header-${header.key}`} aria-labelledby="trip-title">
         <div className="title-block">
-          <p>{header.eyebrow}</p>
+          <p className="header-meta">
+            <span>{header.eyebrow}</span>
+            {weather ? <span>{weather.temperature}° · {weather.label}</span> : null}
+          </p>
           <h1 id="trip-title">{header.title}</h1>
           {header.subtitle ? <span>{header.subtitle}</span> : null}
         </div>

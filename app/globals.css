@@ -93,20 +93,20 @@ button {
 }
 
 .theme-day {
-  --background: #121511;
-  --panel: rgba(34, 35, 25, 0.88);
-  --panel-strong: rgba(46, 44, 29, 0.94);
-  --panel-soft: rgba(76, 68, 39, 0.48);
-  --reef: #67c9bc;
-  --lagoon: #7ed7d3;
-  --sun: #f1c36f;
-  --coral: #f29a79;
-  --leaf: #a7c77d;
-  --glow-a: rgba(103, 201, 188, 0.16);
-  --glow-b: rgba(241, 195, 111, 0.2);
-  --hero-tint-a: rgba(15, 17, 14, 0.8);
-  --hero-tint-b: rgba(73, 62, 30, 0.34);
-  --hero-tint-c: rgba(241, 195, 111, 0.18);
+  --background: #061615;
+  --panel: rgba(9, 34, 34, 0.9);
+  --panel-strong: rgba(13, 47, 45, 0.95);
+  --panel-soft: rgba(30, 82, 74, 0.5);
+  --reef: #78ddd3;
+  --lagoon: #8beaf0;
+  --sun: #ffd27a;
+  --coral: #ffa184;
+  --leaf: #b9d88a;
+  --glow-a: rgba(103, 218, 210, 0.23);
+  --glow-b: rgba(255, 210, 122, 0.26);
+  --hero-tint-a: rgba(4, 17, 18, 0.7);
+  --hero-tint-b: rgba(21, 76, 73, 0.3);
+  --hero-tint-c: rgba(255, 210, 122, 0.24);
 }
 
 .theme-evening {
@@ -215,6 +215,31 @@ button {
   font-weight: 700;
   letter-spacing: 0;
   text-transform: uppercase;
+}
+
+.header-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 10px;
+  align-items: center;
+}
+
+.header-meta span + span {
+  position: relative;
+  padding-left: 10px;
+}
+
+.header-meta span + span::before {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 3px;
+  height: 3px;
+  border-radius: 999px;
+  background: currentColor;
+  content: "";
+  opacity: 0.68;
+  transform: translateY(-50%);
 }
 
 .title-block h1 {
