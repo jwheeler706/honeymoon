@@ -101,16 +101,6 @@ const statusLabels: Record<EventStatus, string> = {
   assumed: "Assumed",
 };
 
-const typeIcons: Record<EventType, string> = {
-  travel: "✈",
-  lodging: "⌂",
-  activity: "⌖",
-  downtime: "☼",
-  reservation: "",
-  meal: "",
-  excursion: "≈",
-};
-
 const typeLabels: Record<EventType, string> = {
   travel: "Flight / travel",
   lodging: "Home base",
@@ -443,50 +433,14 @@ function dayColorClass(date: string) {
   return `day-${Math.max(index, 0)}`;
 }
 
-function mapIcon(place: MapPlace) {
-  if (place.id === "sea-change-villas") return "⌂";
-  if (place.id === "turtles") return "≈";
-  if (place.id === "aitutaki") return "✈";
-  return typeIcons[place.type];
-}
-
-function mapIconClass(place: MapPlace) {
-  if (place.id === "sea-change-villas") return "home";
-  if (place.type === "reservation" || place.type === "meal") return "food";
-  if (place.type === "travel") return "travel";
-  if (place.type === "excursion") return "water";
-  if (place.type === "activity") return "explore";
-  return "chill";
-}
-
-function MapGlyph({ className, icon }: { className: string; icon: string }) {
-  if (className === "home") {
-    return (
-      <span className="map-glyph home" aria-hidden="true">
-        <svg viewBox="0 0 24 24">
-          <path d="M3 12 12 4l9 8v8H3z" />
-        </svg>
-      </span>
-    );
-  }
-
-  if (className === "food") {
-    return (
-      <span className="map-glyph food" aria-hidden="true">
-        <svg viewBox="0 0 24 24">
-          <path d="M6.5 3v7.5" />
-          <path d="M4.5 3v7.5" />
-          <path d="M8.5 3v7.5" />
-          <path d="M4.5 10.5h4" />
-          <path d="M6.5 10.5V21" />
-          <path d="M16.5 3v18" />
-          <path d="M16.5 3c2 1.8 3 4 3 6.7v1.8h-3" />
-        </svg>
-      </span>
-    );
-  }
-
-  return <span className={`map-glyph ${className}`}>{icon}</span>;
+function HomeGlyph() {
+  return (
+    <span className="home-glyph" aria-hidden="true">
+      <svg viewBox="0 0 24 24">
+        <path d="M3 12 12 4l9 8v8H3z" />
+      </svg>
+    </span>
+  );
 }
 
 function mapPinClass(place: MapPlace, selectedPlace: MapPlace) {
@@ -1149,7 +1103,7 @@ function MapView({
                 title={`${formatDate(place.date)} · ${place.name}`}
                 type="button"
               >
-                <MapGlyph className={mapIconClass(place)} icon={mapIcon(place)} />
+                {place.id === "sea-change-villas" ? <HomeGlyph /> : null}
               </button>
             );
           })}
@@ -1182,7 +1136,6 @@ function MapView({
                 onClick={() => onSelectPlace(place.id)}
                 type="button"
               >
-                <span>{mapIcon(place)}</span>
                 {formatDate(place.date)} · {place.name}
               </button>
             ))}
