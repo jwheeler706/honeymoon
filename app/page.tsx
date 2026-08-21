@@ -1083,8 +1083,7 @@ function MapView({
     <section className="map-view" aria-labelledby="map-title">
       <div className="map-header">
         <div>
-          <p className="section-label">Map</p>
-          <h2 id="map-title">{isAitutakiOnly ? "Aitutaki lagoon map" : "Rarotonga satellite map"}</h2>
+          <p className="section-label" id="map-title">{isAitutakiOnly ? "Aitutaki map" : "Island map"}</p>
         </div>
         <div className="date-range">
           <label>
