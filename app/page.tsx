@@ -235,7 +235,7 @@ const mapPlaces: MapPlace[] = [
     status: "confirmed",
     type: "reservation",
     area: "West side",
-    note: "Dinner. Time TBD.",
+    note: "Dinner at 6:00 PM.",
     lat: -21.22471,
     lng: -159.8292,
   },
@@ -266,12 +266,12 @@ const mapPlaces: MapPlace[] = [
   {
     id: "antipodes",
     name: "Antipodes",
-    date: "2026-10-14",
+    date: "2026-10-15",
     period: "Evening",
-    status: "pending",
+    status: "confirmed",
     type: "reservation",
     area: "Northwest hills",
-    note: "Oct 14 or 15.",
+    note: "Dinner at 6:30 PM.",
     lat: -21.20939,
     lng: -159.82282,
   },
@@ -639,7 +639,7 @@ function periodTone(day: Day, period: Period) {
     },
     "2026-10-12": {
       Afternoon: "West-side beach day with a sunset dinner shape.",
-      Evening: "OTB is confirmed; exact time can slide in later.",
+      Evening: "OTB at 6:00.",
     },
     "2026-10-13": {
       Morning: "Easy morning at the villa.",
@@ -649,12 +649,12 @@ function periodTone(day: Day, period: Period) {
     "2026-10-14": {
       Morning: "Weather decides.",
       Afternoon: "Adventure window if it feels right.",
-      Evening: "Antipodes may land here.",
+      Evening: "Open night.",
     },
     "2026-10-15": {
       Morning: "Slow honeymoon morning.",
       Afternoon: "Beach, lagoon, villa, or a flexible hike.",
-      Evening: "Antipodes may land here, otherwise keep it easy.",
+      Evening: "Antipodes at 6:30.",
     },
     "2026-10-16": {
       Morning: "Aitutaki day.",
@@ -977,13 +977,13 @@ function Recommendations({ day, period }: { day: Day; period: Period }) {
     },
     "2026-10-14": {
       Morning: ["Raemaru Trek", "Beach instead if cloudy", "Coffee and no agenda"],
-      Afternoon: ["Villa recovery", "Short island drive", "Antipodes prep if confirmed"],
-      Evening: ["Antipodes if confirmed", "Sunset drink", "Simple dinner"],
+      Afternoon: ["Villa recovery", "Short island drive", "Easy reset"],
+      Evening: ["Sunset drink", "Simple dinner", "Quiet villa night"],
     },
     "2026-10-15": {
       Morning: ["Slow villa morning", "Lagoon float", "Raemaru if not done"],
       Afternoon: ["Protected downtime", "Muri wander", "Beach nap"],
-      Evening: ["Antipodes if confirmed", "Night market if it lines up", "Chill dinner"],
+      Evening: ["Antipodes", "Sunset timing", "Easy ride back"],
     },
     "2026-10-16": {
       Evening: ["Low-effort dinner", "Early night", "Save the stories"],

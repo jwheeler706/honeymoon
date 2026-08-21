@@ -18,6 +18,16 @@
         "2026-10-12"
       ],
       "rentalCarStarts": "2026-10-13",
+      "rentalCar": {
+        "vehicleCategory": "Mid Sport",
+        "pickupLocation": "Rarotonga Airport",
+        "pickupDate": "2026-10-13",
+        "pickupTime": "09:00",
+        "dropoffLocation": "Rarotonga Airport",
+        "dropoffDate": "2026-10-17",
+        "dropoffTime": "11:00",
+        "notes": "Confirm AM/PM on return time."
+      },
       "notes": [
         "Use driver days preferentially for farther north and west-side destinations.",
         "Keep nearby south/east/Titikaveka/Muri activities for rental-car days.",
@@ -40,7 +50,7 @@
         "notes": "Use as an alternative to the full Cross-Island Track."
       },
       "avoid": "Do not schedule the full 4-hour Cross-Island Track.",
-      "placement": "Likely October 14 or October 15, preferably the day without Antipodes and only if weather/flexibility supports it."
+      "placement": "Prefer October 14 if weather and energy line up."
     },
     "planningPhilosophy": [
       "Anchor each day around confirmed bookings.",
@@ -192,10 +202,10 @@
         },
         {
           "title": "Dinner at OTB / On the Beach Bar & Restaurant",
-          "time": null,
+          "time": "18:00",
           "status": "confirmed",
           "type": "reservation",
-          "notes": "Time TBD."
+          "notes": "6:00 PM."
         }
       ],
       "transport": "Driver day.",
@@ -209,6 +219,13 @@
       "theme": "south-side lagoon day",
       "summary": "Slow morning. Turtle snorkel at 2:30.",
       "events": [
+        {
+          "title": "Pick up rental car",
+          "time": "09:00",
+          "status": "confirmed",
+          "type": "travel",
+          "notes": "Mid Sport. Rarotonga Airport."
+        },
         {
           "title": "Slow morning at Sea Change Villas",
           "time": "morning",
@@ -241,16 +258,16 @@
           "notes": "Takeaway or casual."
         }
       ],
-      "transport": "Rental car starts.",
+      "transport": "Rental car starts at 9:00 AM.",
       "notes": "Turtle snorkel is the anchor."
     },
     {
       "date": "2026-10-14",
       "weekday": "Wednesday",
-      "title": "Adventure Day or Antipodes",
+      "title": "Adventure Day",
       "status": "flexible",
       "theme": "big adventure",
-      "summary": "Flexible adventure day. Maybe Antipodes.",
+      "summary": "Flexible adventure day.",
       "events": [
         {
           "title": "Flexible hike or land-based activity",
@@ -258,13 +275,6 @@
           "status": "suggested",
           "type": "activity",
           "notes": "Raemaru preferred. Weather decides."
-        },
-        {
-          "title": "Antipodes dinner",
-          "time": null,
-          "status": "pending",
-          "type": "reservation",
-          "notes": "Oct 14 or 15."
         }
       ],
       "transport": "Rental car.",
@@ -273,10 +283,10 @@
     {
       "date": "2026-10-15",
       "weekday": "Thursday",
-      "title": "Flexible Honeymoon Day or Antipodes",
-      "status": "flexible",
+      "title": "Flexible Day and Antipodes",
+      "status": "confirmed",
       "theme": "protected downtime",
-      "summary": "Open beach/villa day. Maybe Antipodes.",
+      "summary": "Open day. Antipodes at 6:30.",
       "events": [
         {
           "title": "Lagoon / beach / villa day",
@@ -294,13 +304,13 @@
         },
         {
           "title": "Antipodes dinner",
-          "time": null,
-          "status": "pending",
+          "time": "18:30",
+          "status": "confirmed",
           "type": "reservation",
-          "notes": "Oct 14 or 15."
+          "notes": "6:30 PM."
         }
       ],
-      "transport": "Rental car or taxi.",
+      "transport": "Rental car.",
       "notes": "Buffer day."
     },
     {
@@ -350,6 +360,13 @@
           "status": "planned",
           "type": "downtime",
           "notes": "Keep plans close and easy."
+        },
+        {
+          "title": "Return rental car",
+          "time": "11:00",
+          "status": "confirmed",
+          "type": "travel",
+          "notes": "Rarotonga Airport. Confirm AM/PM."
         },
         {
           "title": "AS 896 to Honolulu",
@@ -416,11 +433,19 @@
     },
     {
       "date": "2026-10-12",
-      "time": null,
+      "time": "18:00",
       "name": "OTB / On the Beach Bar & Restaurant",
       "type": "dinner",
       "status": "confirmed",
-      "notes": "Time TBD."
+      "notes": "6:00 PM."
+    },
+    {
+      "date": "2026-10-13",
+      "time": "09:00",
+      "name": "Pick up rental car",
+      "type": "transport",
+      "status": "confirmed",
+      "notes": "Mid Sport. Rarotonga Airport."
     },
     {
       "date": "2026-10-13",
@@ -433,20 +458,12 @@
       "notes": "Confirm check-in."
     },
     {
-      "date": "2026-10-14",
-      "time": null,
-      "name": "Antipodes",
-      "type": "dinner",
-      "status": "pending",
-      "notes": "Oct 14 or 15."
-    },
-    {
       "date": "2026-10-15",
-      "time": null,
+      "time": "18:30",
       "name": "Antipodes",
       "type": "dinner",
-      "status": "pending",
-      "notes": "Oct 14 or 15."
+      "status": "confirmed",
+      "notes": "6:30 PM."
     },
     {
       "date": "2026-10-16",
@@ -455,6 +472,14 @@
       "type": "excursion",
       "status": "confirmed",
       "notes": "Details TBD."
+    },
+    {
+      "date": "2026-10-17",
+      "time": "11:00",
+      "name": "Return rental car",
+      "type": "transport",
+      "status": "confirmed",
+      "notes": "Rarotonga Airport. Confirm AM/PM."
     }
   ]
 }
