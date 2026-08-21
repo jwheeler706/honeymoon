@@ -766,7 +766,6 @@ export default function Home() {
   }, []);
 
   const activeDay = data.days.find((day) => day.date === state.activeDay) ?? data.days[0];
-  const anchor = mainAnchor(activeDay);
 
   function updateState(update: Partial<AppState>) {
     setState((current) => ({ ...current, ...update }));
@@ -819,7 +818,6 @@ export default function Home() {
             ))}
           </select>
         </label>
-        <p>{anchor.title} · {formatTime(anchor.time)}</p>
       </section>
 
       <section className="control-row" aria-label="App views">

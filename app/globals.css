@@ -267,7 +267,7 @@ button {
 .day-picker {
   display: grid;
   gap: 6px;
-  margin: 10px 0 8px;
+  margin: 10px 0 6px;
   padding: 10px;
   border: 1px solid var(--line);
   border-radius: 8px;
@@ -290,12 +290,6 @@ button {
   padding: 10px;
   font-size: 1rem;
   text-transform: none;
-}
-
-.day-picker p {
-  margin: 0;
-  color: var(--muted);
-  font-size: 0.9rem;
 }
 
 .control-row {
