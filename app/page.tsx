@@ -813,7 +813,7 @@ export default function Home() {
           >
             {data.days.map((day) => (
               <option key={day.date} value={day.date}>
-                {formatDate(day.date)} · {day.weekday} · {day.title}
+                {formatDate(day.date)} · {day.weekday}
               </option>
             ))}
           </select>
