@@ -166,6 +166,13 @@ type MapPlace = {
   offMap?: boolean;
 };
 
+type MapBounds = {
+  west: number;
+  east: number;
+  south: number;
+  north: number;
+};
+
 type GalleryImage = {
   id: string;
   title: string;
@@ -306,7 +313,9 @@ const mapPlaces: MapPlace[] = [
     status: "confirmed",
     type: "excursion",
     area: "Aitutaki",
-    note: "Confirmed day trip; Aitutaki is off this Rarotonga satellite map.",
+    note: "Confirmed day trip. Select only Oct 16 to see the Aitutaki lagoon map.",
+    lat: -18.8585,
+    lng: -159.7789,
     offMap: true,
   },
 ];
@@ -378,11 +387,18 @@ const galleryImages: GalleryImage[] = [
   },
 ];
 
-const mapBounds = {
+const rarotongaMapBounds: MapBounds = {
   west: -159.86,
   east: -159.69,
   south: -21.295,
   north: -21.165,
+};
+
+const aitutakiMapBounds: MapBounds = {
+  west: -159.84,
+  east: -159.70,
+  south: -18.93,
+  north: -18.80,
 };
 
 function formatDate(dateString: string) {
@@ -421,12 +437,12 @@ function eventKey(day: Day, event: TripEvent) {
   return `${day.date}-${event.title}`;
 }
 
-function mapPoint(place: MapPlace) {
+function mapPoint(place: MapPlace, bounds = rarotongaMapBounds) {
   if (place.lat === undefined || place.lng === undefined) return null;
 
   return {
-    x: ((place.lng - mapBounds.west) / (mapBounds.east - mapBounds.west)) * 100,
-    y: ((mapBounds.north - place.lat) / (mapBounds.north - mapBounds.south)) * 100,
+    x: ((place.lng - bounds.west) / (bounds.east - bounds.west)) * 100,
+    y: ((bounds.north - place.lat) / (bounds.north - bounds.south)) * 100,
   };
 }
 
@@ -1050,18 +1066,24 @@ function MapView({
   selectedPlaceId: string;
   startDate: string;
 }) {
+  const isAitutakiOnly = startDate === "2026-10-16" && endDate === "2026-10-16";
+  const activeMapBounds = isAitutakiOnly ? aitutakiMapBounds : rarotongaMapBounds;
   const inRangePlaces = places.filter((place) => place.date >= startDate && place.date <= endDate);
   const homeBase = places.find((place) => place.id === "sea-change-villas");
-  const mappablePlaces = inRangePlaces.filter((place) => mapPoint(place));
+  const mappablePlaces = inRangePlaces.filter((place) =>
+    isAitutakiOnly
+      ? place.id === "aitutaki" && mapPoint(place, activeMapBounds)
+      : !place.offMap && mapPoint(place, activeMapBounds)
+  );
   const visibleMappablePlaces =
-    homeBase && !mappablePlaces.some((place) => place.id === homeBase.id)
+    !isAitutakiOnly && homeBase && !mappablePlaces.some((place) => place.id === homeBase.id)
       ? [homeBase, ...mappablePlaces]
       : mappablePlaces;
   const visiblePlaces =
-    homeBase && !inRangePlaces.some((place) => place.id === homeBase.id)
+    !isAitutakiOnly && homeBase && !inRangePlaces.some((place) => place.id === homeBase.id)
       ? [homeBase, ...inRangePlaces]
       : inRangePlaces;
-  const offMapPlaces = inRangePlaces.filter((place) => place.offMap);
+  const offMapPlaces = isAitutakiOnly ? [] : inRangePlaces.filter((place) => place.offMap);
   const selectedPlace =
     visiblePlaces.find((place) => place.id === selectedPlaceId) ?? visiblePlaces[0] ?? places[0];
 
@@ -1070,10 +1092,11 @@ function MapView({
       <div className="map-header">
         <div>
           <p className="section-label">Island map</p>
-          <h2 id="map-title">Rarotonga satellite map</h2>
+          <h2 id="map-title">{isAitutakiOnly ? "Aitutaki lagoon map" : "Rarotonga satellite map"}</h2>
           <p>
-            Pins are color-coded by day and marked by type. Aitutaki stays off-map
-            because it is a separate island.
+            {isAitutakiOnly
+              ? "Oct 16 gets its own lagoon view for the Aitutaki day trip."
+              : "Pins are color-coded by day and marked by type. Aitutaki stays off-map unless Oct 16 is selected by itself."}
           </p>
         </div>
         <div className="date-range">
@@ -1107,14 +1130,28 @@ function MapView({
       </div>
 
       <div className="map-layout">
-        <div className="island-map" role="img" aria-label="Satellite map of Rarotonga itinerary locations">
+        <div
+          className={isAitutakiOnly ? "island-map aitutaki-map" : "island-map"}
+          role="img"
+          aria-label={isAitutakiOnly ? "Satellite map of Aitutaki lagoon" : "Satellite map of Rarotonga itinerary locations"}
+        >
           <div className="map-vignette" />
-          <span className="map-label north">Avarua</span>
-          <span className="map-label east">Muri</span>
-          <span className="map-label south">Titikaveka</span>
-          <span className="map-label west">Arorangi</span>
+          {isAitutakiOnly ? (
+            <>
+              <span className="map-label ait-main">Aitutaki</span>
+              <span className="map-label ait-lagoon">Lagoon</span>
+              <span className="map-label ait-arutanga">Arutanga</span>
+            </>
+          ) : (
+            <>
+              <span className="map-label north">Avarua</span>
+              <span className="map-label east">Muri</span>
+              <span className="map-label south">Titikaveka</span>
+              <span className="map-label west">Arorangi</span>
+            </>
+          )}
           {visibleMappablePlaces.map((place) => {
-            const point = mapPoint(place);
+            const point = mapPoint(place, activeMapBounds);
             if (!point) return null;
 
             return (

@@ -736,6 +736,14 @@ button {
   background-size: 100% 100%;
 }
 
+.island-map.aitutaki-map {
+  background:
+    linear-gradient(rgba(2, 10, 14, 0.04), rgba(2, 10, 14, 0.18)),
+    url("https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/export?bbox=-159.84,-18.93,-159.70,-18.80&bboxSR=4326&imageSR=4326&size=900,690&format=jpg&f=image");
+  background-position: center;
+  background-size: 100% 100%;
+}
+
 .island-map::before {
   content: "";
   position: absolute;
@@ -783,6 +791,21 @@ button {
 .map-label.west {
   left: 13%;
   top: 47%;
+}
+
+.map-label.ait-main {
+  left: 37%;
+  top: 45%;
+}
+
+.map-label.ait-lagoon {
+  right: 23%;
+  top: 45%;
+}
+
+.map-label.ait-arutanga {
+  left: 27%;
+  bottom: 27%;
 }
 
 .map-pin {
