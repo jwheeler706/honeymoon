@@ -104,12 +104,30 @@ const statusLabels: Record<EventStatus, string> = {
 const typeIcons: Record<EventType, string> = {
   travel: "✈",
   lodging: "⌂",
-  activity: "◇",
+  activity: "⌖",
   downtime: "☼",
-  reservation: "◆",
-  meal: "◐",
-  excursion: "↗",
+  reservation: "",
+  meal: "",
+  excursion: "≈",
 };
+
+const typeLabels: Record<EventType, string> = {
+  travel: "Flight / travel",
+  lodging: "Home base",
+  activity: "Explore",
+  downtime: "Chill time",
+  reservation: "Food reservation",
+  meal: "Food",
+  excursion: "Water / excursion",
+};
+
+const mapTypeLegend = [
+  { className: "home", icon: "⌂", label: "Home" },
+  { className: "food", icon: "", label: "Food" },
+  { className: "travel", icon: "✈", label: "Flight" },
+  { className: "water", icon: "≈", label: "Water" },
+  { className: "explore", icon: "⌖", label: "Explore" },
+];
 
 const periodLabels = ["Morning", "Afternoon", "Evening"] as const;
 type Period = (typeof periodLabels)[number];
@@ -143,8 +161,9 @@ type MapPlace = {
   type: EventType;
   area: string;
   note: string;
-  x: number;
-  y: number;
+  lat?: number;
+  lng?: number;
+  offMap?: boolean;
 };
 
 type GalleryImage = {
@@ -168,8 +187,8 @@ const mapPlaces: MapPlace[] = [
     type: "lodging",
     area: "Titikaveka",
     note: "Home base for slow mornings, villa time, and easy returns.",
-    x: 64,
-    y: 78,
+    lat: -21.26645,
+    lng: -159.77176,
   },
   {
     id: "punanga-nui-market",
@@ -180,8 +199,8 @@ const mapPlaces: MapPlace[] = [
     type: "activity",
     area: "Avarua",
     note: "Good first-morning option if the late arrival does not win.",
-    x: 46,
-    y: 32,
+    lat: -21.2052,
+    lng: -159.78299,
   },
   {
     id: "nautilus",
@@ -192,8 +211,8 @@ const mapPlaces: MapPlace[] = [
     type: "reservation",
     area: "Muri",
     note: "Confirmed opening honeymoon dinner at 6:00 PM.",
-    x: 76,
-    y: 68,
+    lat: -21.26129,
+    lng: -159.7329,
   },
   {
     id: "tamarind",
@@ -204,8 +223,8 @@ const mapPlaces: MapPlace[] = [
     type: "reservation",
     area: "Avarua",
     note: "Confirmed dinner at 6:15 PM.",
-    x: 47,
-    y: 30,
+    lat: -21.22734,
+    lng: -159.7713,
   },
   {
     id: "black-rock",
@@ -216,8 +235,8 @@ const mapPlaces: MapPlace[] = [
     type: "activity",
     area: "Northwest coast",
     note: "Driver-day scenic stop candidate.",
-    x: 19,
-    y: 31,
+    lat: -21.21,
+    lng: -159.82,
   },
   {
     id: "otb",
@@ -228,8 +247,8 @@ const mapPlaces: MapPlace[] = [
     type: "reservation",
     area: "West side",
     note: "Confirmed dinner; exact time TBD.",
-    x: 14,
-    y: 50,
+    lat: -21.22471,
+    lng: -159.8292,
   },
   {
     id: "turtles",
@@ -239,9 +258,9 @@ const mapPlaces: MapPlace[] = [
     status: "confirmed",
     type: "excursion",
     area: "Avaavaroa Passage / Takitumu",
-    note: "Confirmed 2:30 PM snorkel with Snorkel Cook Islands.",
-    x: 50,
-    y: 84,
+    note: "Confirmed 2:30 PM snorkel. Pin uses Snorkel Cook Islands' published meeting-point map.",
+    lat: -21.26626,
+    lng: -159.77952,
   },
   {
     id: "raemaru",
@@ -252,8 +271,8 @@ const mapPlaces: MapPlace[] = [
     type: "activity",
     area: "Arorangi",
     note: "Preferred hike option if weather and energy are right.",
-    x: 27,
-    y: 50,
+    lat: -21.23646,
+    lng: -159.81681,
   },
   {
     id: "antipodes",
@@ -264,8 +283,8 @@ const mapPlaces: MapPlace[] = [
     type: "reservation",
     area: "Northwest hills",
     note: "Pending for Oct 14 or Oct 15.",
-    x: 20,
-    y: 34,
+    lat: -21.20939,
+    lng: -159.82282,
   },
   {
     id: "muri-easy",
@@ -276,8 +295,8 @@ const mapPlaces: MapPlace[] = [
     type: "meal",
     area: "Muri",
     note: "Easy dinner option if the day stays open.",
-    x: 76,
-    y: 68,
+    lat: -21.257,
+    lng: -159.733,
   },
   {
     id: "aitutaki",
@@ -287,9 +306,8 @@ const mapPlaces: MapPlace[] = [
     status: "confirmed",
     type: "excursion",
     area: "Aitutaki",
-    note: "Confirmed day trip; provider and timing details TBD.",
-    x: 87,
-    y: 18,
+    note: "Confirmed day trip; Aitutaki is off this Rarotonga satellite map.",
+    offMap: true,
   },
 ];
 
@@ -360,6 +378,13 @@ const galleryImages: GalleryImage[] = [
   },
 ];
 
+const mapBounds = {
+  west: -159.86,
+  east: -159.69,
+  south: -21.295,
+  north: -21.165,
+};
+
 function formatDate(dateString: string) {
   return new Intl.DateTimeFormat("en-US", {
     month: "short",
@@ -394,6 +419,75 @@ function formatTime(time: string | null) {
 
 function eventKey(day: Day, event: TripEvent) {
   return `${day.date}-${event.title}`;
+}
+
+function mapPoint(place: MapPlace) {
+  if (place.lat === undefined || place.lng === undefined) return null;
+
+  return {
+    x: ((place.lng - mapBounds.west) / (mapBounds.east - mapBounds.west)) * 100,
+    y: ((mapBounds.north - place.lat) / (mapBounds.north - mapBounds.south)) * 100,
+  };
+}
+
+function dayColorClass(date: string) {
+  const index = data.days.findIndex((day) => day.date === date);
+  return `day-${Math.max(index, 0)}`;
+}
+
+function mapIcon(place: MapPlace) {
+  if (place.id === "sea-change-villas") return "⌂";
+  if (place.id === "turtles") return "≈";
+  if (place.id === "aitutaki") return "✈";
+  return typeIcons[place.type];
+}
+
+function mapIconClass(place: MapPlace) {
+  if (place.id === "sea-change-villas") return "home";
+  if (place.type === "reservation" || place.type === "meal") return "food";
+  if (place.type === "travel") return "travel";
+  if (place.type === "excursion") return "water";
+  if (place.type === "activity") return "explore";
+  return "chill";
+}
+
+function MapGlyph({ className, icon }: { className: string; icon: string }) {
+  if (className === "home") {
+    return (
+      <span className="map-glyph home" aria-hidden="true">
+        <svg viewBox="0 0 24 24">
+          <path d="M3 11.2 12 4l9 7.2v9.3a.5.5 0 0 1-.5.5H15v-6h-6v6H3.5a.5.5 0 0 1-.5-.5z" />
+        </svg>
+      </span>
+    );
+  }
+
+  if (className === "food") {
+    return (
+      <span className="map-glyph food" aria-hidden="true">
+        <svg viewBox="0 0 24 24">
+          <path d="M7 3v8" />
+          <path d="M4.5 3v5.5C4.5 10 5.6 11 7 11s2.5-1 2.5-2.5V3" />
+          <path d="M7 11v10" />
+          <path d="M16 3c1.8 1.7 2.7 3.7 2.7 6.1V21" />
+          <path d="M14.1 13.5h4.6" />
+        </svg>
+      </span>
+    );
+  }
+
+  return <span className={`map-glyph ${className}`}>{icon}</span>;
+}
+
+function mapPinClass(place: MapPlace, selectedPlace: MapPlace) {
+  return [
+    "map-pin",
+    dayColorClass(place.date),
+    place.id === selectedPlace.id ? "active" : "",
+    place.id === "sea-change-villas" ? "home-base" : "",
+  ]
+    .filter(Boolean)
+    .join(" ");
 }
 
 function mainAnchor(day: Day) {
@@ -960,8 +1054,19 @@ function MapView({
   startDate: string;
 }) {
   const inRangePlaces = places.filter((place) => place.date >= startDate && place.date <= endDate);
+  const homeBase = places.find((place) => place.id === "sea-change-villas");
+  const mappablePlaces = inRangePlaces.filter((place) => mapPoint(place));
+  const visibleMappablePlaces =
+    homeBase && !mappablePlaces.some((place) => place.id === homeBase.id)
+      ? [homeBase, ...mappablePlaces]
+      : mappablePlaces;
+  const visiblePlaces =
+    homeBase && !inRangePlaces.some((place) => place.id === homeBase.id)
+      ? [homeBase, ...inRangePlaces]
+      : inRangePlaces;
+  const offMapPlaces = inRangePlaces.filter((place) => place.offMap);
   const selectedPlace =
-    inRangePlaces.find((place) => place.id === selectedPlaceId) ?? inRangePlaces[0] ?? places[0];
+    visiblePlaces.find((place) => place.id === selectedPlaceId) ?? visiblePlaces[0] ?? places[0];
 
   return (
     <section className="map-view" aria-labelledby="map-title">
@@ -970,8 +1075,8 @@ function MapView({
           <p className="section-label">Island map</p>
           <h2 id="map-title">Rarotonga satellite map</h2>
           <p>
-            Filter by date range to see the confirmed plans and flexible ideas
-            pinned around the island.
+            Pins are color-coded by day and marked by type. Aitutaki stays off-map
+            because it is a separate island.
           </p>
         </div>
         <div className="date-range">
@@ -1011,18 +1116,34 @@ function MapView({
           <span className="map-label east">Muri</span>
           <span className="map-label south">Titikaveka</span>
           <span className="map-label west">Arorangi</span>
-          {inRangePlaces.map((place) => (
-            <button
-              aria-label={place.name}
-              className={place.id === selectedPlace.id ? `map-pin active ${place.status}` : `map-pin ${place.status}`}
-              key={place.id}
-              onClick={() => onSelectPlace(place.id)}
-              style={{ left: `${place.x}%`, top: `${place.y}%` }}
-              type="button"
-            >
-              <span>{typeIcons[place.type]}</span>
-            </button>
-          ))}
+          {visibleMappablePlaces.map((place) => {
+            const point = mapPoint(place);
+            if (!point) return null;
+
+            return (
+              <button
+                aria-label={place.name}
+                className={mapPinClass(place, selectedPlace)}
+                key={place.id}
+                onClick={() => onSelectPlace(place.id)}
+                style={{ left: `${point.x}%`, top: `${point.y}%` }}
+                title={`${formatDate(place.date)} · ${place.name}`}
+                type="button"
+              >
+                <MapGlyph className={mapIconClass(place)} icon={mapIcon(place)} />
+              </button>
+            );
+          })}
+          <div className="map-legend" aria-label="Map pin key">
+            {data.days
+              .filter((day) => day.date >= startDate && day.date <= endDate)
+              .map((day) => (
+                <span className={dayColorClass(day.date)} key={day.date}>
+                  <i />
+                  {formatDate(day.date)}
+                </span>
+              ))}
+          </div>
           <a
             className="map-credit"
             href="https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer"
@@ -1033,8 +1154,35 @@ function MapView({
           </a>
         </div>
 
+        <div className="type-legend" aria-label="Map icon key">
+          {mapTypeLegend.map((item) => (
+            <span key={item.label}>
+              <MapGlyph className={item.className} icon={item.icon} />
+              {item.label}
+            </span>
+          ))}
+        </div>
+
+        {offMapPlaces.length ? (
+          <div className="off-map-list" aria-label="Off-map trip items">
+            {offMapPlaces.map((place) => (
+              <button
+                className={place.id === selectedPlace.id ? `off-map-pill active ${dayColorClass(place.date)}` : `off-map-pill ${dayColorClass(place.date)}`}
+                key={place.id}
+                onClick={() => onSelectPlace(place.id)}
+                type="button"
+              >
+                <span>{mapIcon(place)}</span>
+                {formatDate(place.date)} · {place.name}
+              </button>
+            ))}
+          </div>
+        ) : null}
+
         <div className="map-details">
-          <article className="selected-place">
+          <article
+            className={selectedPlace.id === "sea-change-villas" ? "selected-place home-base-detail" : "selected-place"}
+          >
             <span className={`status-badge ${selectedPlace.status}`}>{statusLabels[selectedPlace.status]}</span>
             <h3>{selectedPlace.name}</h3>
             <p>{selectedPlace.note}</p>
@@ -1051,13 +1199,21 @@ function MapView({
                 <dt>Part of day</dt>
                 <dd>{selectedPlace.period}</dd>
               </div>
+              <div>
+                <dt>Type</dt>
+                <dd>{typeLabels[selectedPlace.type]}</dd>
+              </div>
             </dl>
           </article>
 
           <div className="place-list" aria-label="Visible map places">
-            {inRangePlaces.map((place) => (
+            {visiblePlaces.map((place) => (
               <button
-                className={place.id === selectedPlace.id ? "place-row active" : "place-row"}
+                className={
+                  place.id === selectedPlace.id
+                    ? `place-row active ${dayColorClass(place.date)}`
+                    : `place-row ${dayColorClass(place.date)}`
+                }
                 key={place.id}
                 onClick={() => onSelectPlace(place.id)}
                 type="button"
@@ -1065,7 +1221,7 @@ function MapView({
                 <span className={`status-dot ${place.status}`} />
                 <span>
                   <strong>{place.name}</strong>
-                  <small>{formatDate(place.date)} · {place.area}</small>
+                  <small>{formatDate(place.date)} · {place.area} · {typeLabels[place.type]}</small>
                 </span>
               </button>
             ))}

@@ -724,6 +724,7 @@ button {
 
 .island-map {
   position: relative;
+  aspect-ratio: 900 / 690;
   min-height: min(68vh, 680px);
   overflow: hidden;
   border: 1px solid rgba(104, 214, 223, 0.2);
@@ -732,7 +733,7 @@ button {
     linear-gradient(rgba(2, 10, 14, 0.08), rgba(2, 10, 14, 0.22)),
     url("https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/export?bbox=-159.86,-21.295,-159.69,-21.165&bboxSR=4326&imageSR=4326&size=900,690&format=jpg&f=image");
   background-position: center;
-  background-size: cover;
+  background-size: 100% 100%;
 }
 
 .island-map::before {
@@ -794,28 +795,140 @@ button {
   place-items: center;
   border: 2px solid rgba(243, 238, 226, 0.86);
   border-radius: 999px;
-  background: var(--reef);
+  background: var(--pin-color, var(--reef));
   color: #061314;
   box-shadow: 0 8px 18px rgba(0, 0, 0, 0.45);
+  font-size: 1rem;
+  font-weight: 900;
 }
 
-.map-pin.pending {
-  background: var(--coral);
+.day-0 {
+  --pin-color: #f0c978;
 }
 
-.map-pin.flexible,
-.map-pin.suggested {
-  background: var(--sun);
+.day-1 {
+  --pin-color: #5ed4df;
 }
 
-.map-pin.planned {
-  background: var(--leaf);
+.day-2 {
+  --pin-color: #9dcc82;
+}
+
+.day-3 {
+  --pin-color: #f28f79;
+}
+
+.day-4 {
+  --pin-color: #78b7ff;
+}
+
+.day-5 {
+  --pin-color: #d6a4ff;
+}
+
+.day-6 {
+  --pin-color: #f3df71;
+}
+
+.day-7 {
+  --pin-color: #78d6a8;
+}
+
+.day-8 {
+  --pin-color: #e7a1c7;
 }
 
 .map-pin.active {
   width: 42px;
   height: 42px;
   outline: 4px solid rgba(243, 238, 226, 0.3);
+}
+
+.map-pin.home-base {
+  z-index: 5;
+  width: 40px;
+  height: 40px;
+  border-color: transparent;
+  background: transparent;
+  color: #fffdf8;
+  box-shadow: none;
+  font-size: 1.9rem;
+  text-shadow: none;
+}
+
+.map-glyph {
+  position: relative;
+  display: inline-grid;
+  width: 18px;
+  height: 18px;
+  place-items: center;
+  line-height: 1;
+}
+
+.map-glyph.food {
+  color: #061314;
+}
+
+.map-glyph svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2.4;
+}
+
+.map-glyph.home svg {
+  width: 30px;
+  height: 30px;
+  fill: currentColor;
+  stroke: rgba(3, 10, 17, 0.52);
+  stroke-width: 1.2;
+}
+
+.type-legend .map-glyph.food {
+  color: var(--ink);
+}
+
+.type-legend .map-glyph.home svg {
+  width: 17px;
+  height: 17px;
+  stroke: transparent;
+}
+
+.map-legend {
+  position: absolute;
+  left: 8px;
+  right: 8px;
+  bottom: 8px;
+  z-index: 2;
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  padding-right: 130px;
+}
+
+.map-legend span,
+.off-map-pill {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 5px;
+  border: 1px solid rgba(243, 238, 226, 0.14);
+  border-radius: 999px;
+  background: rgba(3, 10, 17, 0.68);
+  color: rgba(255, 253, 248, 0.88);
+  font-size: 0.68rem;
+  font-weight: 900;
+  padding: 5px 7px;
+}
+
+.map-legend i {
+  width: 9px;
+  height: 9px;
+  border-radius: 999px;
+  background: var(--pin-color);
 }
 
 .map-credit {
@@ -832,6 +945,46 @@ button {
   text-decoration: none;
 }
 
+.off-map-list {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+}
+
+.type-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.type-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid rgba(243, 238, 226, 0.12);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 6px 8px;
+}
+
+.type-legend b {
+  color: var(--ink);
+  font-size: 0.86rem;
+  line-height: 1;
+}
+
+.off-map-pill {
+  border-color: color-mix(in srgb, var(--pin-color) 44%, transparent);
+  color: #fffdf8;
+}
+
+.off-map-pill.active {
+  background: color-mix(in srgb, var(--pin-color) 28%, rgba(3, 10, 17, 0.78));
+}
+
 .map-details {
   display: grid;
   gap: 10px;
@@ -842,6 +995,13 @@ button {
   border: 1px solid var(--line);
   border-radius: 8px;
   background: var(--panel-strong);
+}
+
+.selected-place.home-base-detail {
+  border-color: rgba(240, 201, 120, 0.42);
+  background:
+    linear-gradient(135deg, rgba(240, 201, 120, 0.12), transparent 48%),
+    var(--panel-strong);
 }
 
 .selected-place h3 {
@@ -898,8 +1058,12 @@ button {
 }
 
 .place-row.active {
-  border-color: rgba(22, 107, 104, 0.44);
+  border-color: color-mix(in srgb, var(--pin-color) 58%, transparent);
   background: var(--panel-strong);
+}
+
+.place-row .status-dot {
+  background: var(--pin-color);
 }
 
 .place-row strong,
