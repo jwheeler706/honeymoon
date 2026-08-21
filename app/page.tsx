@@ -469,6 +469,11 @@ function themeLabel(theme: TimeTheme) {
   return labels[theme];
 }
 
+function headerLabel(header: HeaderContext, theme: TimeTheme) {
+  if (header.key === "countdown") return "Trip countdown";
+  return themeLabel(theme);
+}
+
 function eventPeriod(event: TripEvent): Period {
   if (event.time === "morning") return "Morning";
   if (event.time === "afternoon" || event.time === "daytime") return "Afternoon";
@@ -666,7 +671,7 @@ export default function Home() {
     <main className={`app-shell theme-${timeTheme}`}>
       <section className={`top-panel header-${header.key}`} aria-labelledby="trip-title">
         <div className="title-block">
-          <p>{themeLabel(timeTheme)} · {header.eyebrow}</p>
+          <p>{headerLabel(header, timeTheme)} · {header.eyebrow}</p>
           <h1 id="trip-title">{header.title}</h1>
           <span>{header.subtitle}</span>
         </div>
