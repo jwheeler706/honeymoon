@@ -107,10 +107,10 @@
         },
         {
           "title": "Check in at Sea Change Villas, Titikaveka",
-          "time": null,
+          "time": "23:30",
           "status": "confirmed",
           "type": "lodging",
-          "notes": "Treat this as a low-effort arrival night."
+          "notes": "Treat this as a low-effort arrival night. Note to confirm: exact late check-in timing and arrival instructions with Sea Change Villas."
         }
       ],
       "transport": "Total travel time is 15h 50m. Arrival transfer details TBD after landing at RAR.",
