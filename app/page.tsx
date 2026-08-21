@@ -847,8 +847,11 @@ export default function Home() {
                                 </div>
                               </div>
 
-                              <details className="event-note">
-                                <summary>Trip note</summary>
+                              <details className={`event-note ${state.notes[key] ? "has-note" : ""}`}>
+                                <summary aria-label={`Trip note for ${event.title}`}>
+                                  <span aria-hidden="true" className="note-glyph" />
+                                  <span className="sr-only">Trip note</span>
+                                </summary>
                                 <textarea
                                   onChange={(eventTarget) => updateNote(key, eventTarget.target.value)}
                                   placeholder="Add a quick note."
