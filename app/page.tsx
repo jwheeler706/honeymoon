@@ -1032,6 +1032,18 @@ function MapView({
   const offMapPlaces = isAitutakiOnly ? [] : inRangePlaces.filter((place) => place.offMap);
   const selectedPlace =
     visiblePlaces.find((place) => place.id === selectedPlaceId) ?? visiblePlaces[0] ?? places[0];
+  const selectedMapPoint = visibleMappablePlaces.some((place) => place.id === selectedPlace.id)
+    ? mapPoint(selectedPlace, activeMapBounds)
+    : null;
+  const popupClass = selectedMapPoint
+    ? [
+        "map-popup",
+        selectedMapPoint.x > 68 ? "left" : "",
+        selectedMapPoint.y > 62 ? "above" : "",
+      ]
+        .filter(Boolean)
+        .join(" ")
+    : "";
 
   return (
     <section className="map-view" aria-labelledby="map-title">
@@ -1107,6 +1119,16 @@ function MapView({
               </button>
             );
           })}
+          {selectedMapPoint ? (
+            <article
+              className={popupClass}
+              style={{ left: `${selectedMapPoint.x}%`, top: `${selectedMapPoint.y}%` }}
+            >
+              <strong>{selectedPlace.name}</strong>
+              <span>{formatDate(selectedPlace.date)} · {selectedPlace.area}</span>
+              <p>{selectedPlace.note}</p>
+            </article>
+          ) : null}
           <div className="map-legend" aria-label="Map pin key">
             {data.days
               .filter((day) => day.date >= startDate && day.date <= endDate)
