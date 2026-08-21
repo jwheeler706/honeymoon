@@ -1,4 +1,4 @@
-const CACHE_NAME = "rarotonga-honeymoon-v4";
+const CACHE_NAME = "rarotonga-honeymoon-v5";
 const APP_SHELL = ["/", "/favicon.svg"];
 
 self.addEventListener("install", (event) => {
