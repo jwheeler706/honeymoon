@@ -467,10 +467,10 @@ button {
 
 .period-section {
   display: grid;
-  gap: 7px;
-  padding: 9px 0;
+  gap: 8px;
+  padding: 13px 0;
   border: 0;
-  border-top: 1px solid var(--line);
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 8px;
   background: transparent;
 }
@@ -563,6 +563,11 @@ button {
   margin: 6px 0 4px;
   font-size: 1rem;
   letter-spacing: 0;
+}
+
+.event-card h4 span {
+  color: var(--muted);
+  font-weight: 650;
 }
 
 .event-card p {
@@ -711,33 +716,15 @@ button {
 }
 
 .recommendations {
-  display: grid;
-  gap: 4px;
+  max-width: 36rem;
 }
 
-.recommendations > span {
+.recommendations p {
+  margin: 0;
   color: var(--muted);
-  font-size: 0.72rem;
-  font-weight: 800;
-  text-transform: uppercase;
-}
-
-.recommendations div {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.recommendations button {
-  border: 0;
-  border-radius: 0;
-  background: transparent;
-  color: var(--muted);
-  padding: 0;
-  font-size: 0.8rem;
-  text-decoration: underline;
-  text-decoration-color: rgba(104, 214, 223, 0.35);
-  text-underline-offset: 4px;
+  font-size: 0.84rem;
+  font-style: italic;
+  line-height: 1.45;
 }
 
 .map-view {

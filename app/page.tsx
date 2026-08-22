@@ -627,6 +627,18 @@ function imageForReservation(reservation: Reservation) {
   return null;
 }
 
+function eventInlineNote(event: TripEvent) {
+  if (!event.notes || event.flight) return "";
+
+  const note = event.notes.trim();
+  const normalized = note.toLowerCase();
+  const isDuplicateTime = /^\d{1,2}:\d{2}\s*(am|pm)\.?$/i.test(note);
+  const isGenericConfirmation = normalized === "confirmed reservation.";
+
+  if (isDuplicateTime || isGenericConfirmation) return "";
+  return note.replace(/\.$/, "");
+}
+
 function currentTripEvent(now = new Date()) {
   const { date, minutes } = rarotongaDateParts(now);
   const day = data.days.find((tripDay) => tripDay.date === date);
@@ -921,6 +933,7 @@ export default function Home() {
                         {events.map((event) => {
                           const key = eventKey(activeDay, event);
                           const eventImage = imageForEvent(event);
+                          const inlineNote = eventInlineNote(event);
                           return (
                             <article className="event-card" key={key}>
                               <div className="event-main">
@@ -940,8 +953,11 @@ export default function Home() {
                                       </span>
                                     )}
                                   </div>
-                                  <h4>{event.title}</h4>
-                                  <p>{event.notes}</p>
+                                  <h4>
+                                    {event.title}
+                                    {inlineNote ? <span> · {inlineNote}</span> : null}
+                                  </h4>
+                                  {event.flight ? <p>{event.notes}</p> : null}
                                   {eventImage ? (
                                     <img
                                       alt={eventImage.alt}
@@ -1073,14 +1089,7 @@ function Recommendations({ day, period }: { day: Day; period: Period }) {
 
   return (
     <div className="recommendations" aria-label={`${period} recommendations`}>
-      <span>Options</span>
-      <div>
-        {items.map((item) => (
-          <button key={item} type="button">
-            {item}
-          </button>
-        ))}
-      </div>
+      <p>Maybe {items.join(" or ").toLowerCase()}.</p>
     </div>
   );
 }
