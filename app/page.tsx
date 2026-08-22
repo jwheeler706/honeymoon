@@ -1320,7 +1320,6 @@ function ReservationsView({ reservations }: { reservations: Reservation[] }) {
                     <span className={`status-dot ${reservation.status}`} aria-label={statusLabels[reservation.status]} />
                   </div>
                   <strong>{reservation.name}</strong>
-                  <p>{reservation.notes}</p>
                 </article>
               );
             })}

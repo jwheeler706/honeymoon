@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,520;9..144,650&family=Manrope:wght@500;650;750;800&display=swap");
 
 :root {
   --background: #071314;
@@ -23,6 +24,8 @@
   --hero-tint-c: rgba(233, 182, 107, 0.16);
   --chip-bg: rgba(243, 238, 226, 0.08);
   --field-bg: rgba(3, 16, 17, 0.42);
+  --font-body: "Manrope", Arial, Helvetica, sans-serif;
+  --font-display: "Fraunces", Georgia, serif;
 }
 
 @theme inline {
@@ -47,7 +50,7 @@ body {
   margin: 0;
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-body);
   overflow-x: hidden;
 }
 
@@ -245,7 +248,9 @@ button {
 .title-block h1 {
   max-width: 760px;
   margin: 4px 0;
+  font-family: var(--font-display);
   font-size: clamp(1.8rem, 9vw, 2.7rem);
+  font-weight: 650;
   line-height: 1;
   letter-spacing: 0;
 }
@@ -411,20 +416,21 @@ button {
 .day-heading h2,
 .reservations-header h2 {
   margin: 8px 0;
+  font-family: var(--font-display);
   font-size: clamp(1.35rem, 6vw, 2rem);
+  font-weight: 650;
   line-height: 1.05;
   letter-spacing: 0;
 }
 
 .day-heading p,
-.event-card p,
-.reservation-row p {
+.event-card p {
   color: var(--muted);
   line-height: 1.42;
 }
 
 .date-kicker {
-  color: var(--muted);
+  color: color-mix(in srgb, var(--sun) 54%, var(--muted));
   font-size: 0.78rem;
   font-weight: 800;
   text-transform: uppercase;
@@ -481,7 +487,9 @@ button {
 .period-heading h3 {
   margin: 0;
   color: var(--reef);
+  font-family: var(--font-display);
   font-size: 0.82rem;
+  font-weight: 650;
   letter-spacing: 0;
   text-transform: uppercase;
 }
@@ -782,7 +790,9 @@ button {
 
 .map-header h2 {
   margin: 6px 0;
+  font-family: var(--font-display);
   font-size: clamp(1.45rem, 5vw, 2.2rem);
+  font-weight: 650;
   line-height: 1.05;
 }
 
@@ -1123,7 +1133,9 @@ button {
 
 .selected-place h3 {
   margin: 8px 0 5px;
+  font-family: var(--font-display);
   font-size: 1.18rem;
+  font-weight: 650;
 }
 
 .selected-place p {
@@ -1231,7 +1243,7 @@ button {
 }
 
 .reservation-row {
-  padding: 9px 10px;
+  padding: 8px 10px;
   border: 1px solid var(--line);
   border-radius: 8px;
   background: var(--panel-strong);
@@ -1253,13 +1265,6 @@ button {
   display: block;
   margin-top: 3px;
   font-size: 0.98rem;
-}
-
-.reservation-row p {
-  margin: 3px 0 0;
-  color: var(--muted);
-  font-size: 0.88rem;
-  line-height: 1.35;
 }
 
 .status-dot {
@@ -1291,7 +1296,9 @@ button {
 
 .gallery-header h2 {
   margin: 8px 0 0;
+  font-family: var(--font-display);
   font-size: clamp(1.35rem, 6vw, 2rem);
+  font-weight: 650;
   line-height: 1.05;
 }
 
