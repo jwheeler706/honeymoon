@@ -1301,6 +1301,10 @@ button {
   background: var(--leaf);
 }
 
+.reservation-row .status-dot {
+  background: var(--pin-color);
+}
+
 .gallery-view {
   padding: 14px;
 }

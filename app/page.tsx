@@ -1341,7 +1341,7 @@ function ReservationsView({ reservations }: { reservations: Reservation[] }) {
             {group.items.map((reservation) => {
               const when = reservation.time ? formatTime(reservation.time) : "Time TBD";
               return (
-                <article className="reservation-row" key={`${reservation.date}-${reservation.name}`}>
+                <article className={`reservation-row ${dayColorClass(reservation.date)}`} key={`${reservation.date}-${reservation.name}`}>
                   <div className="reservation-main">
                     <time>{when}</time>
                     <span className={`status-dot ${reservation.status}`} aria-label={statusLabels[reservation.status]} />
