@@ -102,7 +102,7 @@ const statusLabels: Record<EventStatus, string> = {
   pending: "Pending",
   flexible: "Flexible",
   suggested: "Suggested",
-  planned: "Planned",
+  planned: "Flexible",
   assumed: "Assumed",
 };
 
@@ -1139,6 +1139,10 @@ export default function Home() {
                                   type="button"
                                 />
                                 <div>
+                                  <h4 className={titleClass}>
+                                    {event.title}
+                                    {inlineNote ? <span> - {inlineNote}</span> : null}
+                                  </h4>
                                   <div className="event-topline">
                                     <time>{formatTime(event.time)}</time>
                                     {event.status === "confirmed" ? null : (
@@ -1147,10 +1151,6 @@ export default function Home() {
                                       </span>
                                     )}
                                   </div>
-                                  <h4 className={titleClass}>
-                                    {event.title}
-                                    {inlineNote ? <span> - {inlineNote}</span> : null}
-                                  </h4>
                                   {event.flight ? <p>{event.notes}</p> : null}
                                   {eventImage ? (
                                     <img
