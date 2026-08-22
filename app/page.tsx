@@ -702,14 +702,35 @@ function rarotongaDateParts(date = new Date()) {
   };
 }
 
-function countdownText(now = new Date()) {
+function daysUntilTrip(now = new Date()) {
   const tripStart = new Date(`${data.trip.startDate}T00:00:00-10:00`);
   const difference = tripStart.getTime() - now.getTime();
-  const days = Math.max(0, Math.ceil(difference / 86_400_000));
+  return Math.max(0, Math.ceil(difference / 86_400_000));
+}
+
+function countdownText(now = new Date()) {
+  const days = daysUntilTrip(now);
 
   if (days === 0) return "Honeymoon starts today";
   if (days === 1) return "1 day to Rarotonga";
   return `${days} days to Rarotonga`;
+}
+
+function dailyHeadlineVariant(now = new Date()) {
+  const { date } = rarotongaDateParts(now);
+  const dayIndex = Math.floor(Date.parse(`${date}T00:00:00Z`) / 86_400_000);
+  const days = daysUntilTrip(now);
+  const variants =
+    days > 35
+      ? [0, 1, 2, 3]
+      : days > 24
+        ? [4, 5, 6]
+        : days > 14
+          ? [7, 8, 9]
+          : days > 6
+            ? [10, 11, 12]
+            : [13, 14, 15];
+  return variants[dayIndex % variants.length];
 }
 
 function weatherLabel(code: number) {
@@ -1089,6 +1110,8 @@ export default function Home() {
   const activeHeaderEvent = currentTripEvent()?.event;
   const activityHeaderImage = activeHeaderEvent ? imageForEvent(activeHeaderEvent) : null;
   const headerImage = scenicHeader ? scenicImage : activityHeaderImage;
+  const headlineVariant = dailyHeadlineVariant();
+  const destinationHeadline = header.title.match(/^(.*?)(Rarotonga)$/);
   const headerStyle: CSSProperties | undefined = headerImage
     ? {
         "--header-image": `url("${headerImage.image}")`,
@@ -1133,7 +1156,14 @@ export default function Home() {
               </>
             ) : null}
           </p>
-          <h1 id="trip-title">{header.title}</h1>
+          <h1 className={`headline-variant-${headlineVariant}`} id="trip-title">
+            {destinationHeadline ? (
+              <>
+                {destinationHeadline[1] ? <span className="trip-title-lead">{destinationHeadline[1].trim()}</span> : null}
+                <span className="trip-title-destination">{destinationHeadline[2]}</span>
+              </>
+            ) : header.title}
+          </h1>
           {header.subtitle ? <span>{header.subtitle}</span> : null}
         </div>
       </section>
