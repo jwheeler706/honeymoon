@@ -712,7 +712,7 @@ button {
 
 .recommendations {
   display: grid;
-  gap: 6px;
+  gap: 4px;
 }
 
 .recommendations > span {
@@ -725,16 +725,19 @@ button {
 .recommendations div {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
+  gap: 10px;
 }
 
 .recommendations button {
-  border: 1px solid rgba(104, 214, 223, 0.2);
-  border-radius: 999px;
-  background: rgba(104, 214, 223, 0.08);
-  color: var(--lagoon);
-  padding: 6px 9px;
-  font-size: 0.82rem;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--muted);
+  padding: 0;
+  font-size: 0.8rem;
+  text-decoration: underline;
+  text-decoration-color: rgba(104, 214, 223, 0.35);
+  text-underline-offset: 4px;
 }
 
 .map-view {
@@ -1192,10 +1195,31 @@ button {
 }
 
 .reservation-row {
+  display: grid;
+  gap: 8px;
   padding: 8px 10px;
   border: 1px solid var(--line);
   border-radius: 8px;
   background: var(--panel-strong);
+}
+
+.reservation-row.has-photo {
+  grid-template-columns: 58px minmax(0, 1fr);
+  align-items: center;
+}
+
+.reservation-photo {
+  display: block;
+  width: 58px;
+  height: 46px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  object-fit: cover;
+  object-position: center;
+}
+
+.reservation-copy {
+  min-width: 0;
 }
 
 .reservation-main {

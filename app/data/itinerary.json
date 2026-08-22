@@ -188,10 +188,10 @@
     {
       "date": "2026-10-12",
       "weekday": "Monday",
-      "title": "West-Side Beach Day and OTB",
+      "title": "West-Side Beach Day and On the Beach",
       "status": "confirmed",
       "theme": "beach and dinner",
-      "summary": "West-side beach day. OTB at sunset.",
+      "summary": "West-side beach day. On the Beach at sunset.",
       "events": [
         {
           "title": "West-side beach and lagoon time",
@@ -201,7 +201,7 @@
           "notes": "Beach, snorkel, wander."
         },
         {
-          "title": "Dinner at OTB / On the Beach Bar & Restaurant",
+          "title": "Dinner at On the Beach Bar & Restaurant",
           "time": "18:00",
           "status": "confirmed",
           "type": "reservation",
@@ -470,7 +470,7 @@
     {
       "date": "2026-10-12",
       "time": "18:00",
-      "name": "OTB / On the Beach Bar & Restaurant",
+      "name": "On the Beach Bar & Restaurant",
       "type": "dinner",
       "status": "confirmed",
       "notes": "6:00 PM."

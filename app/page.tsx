@@ -233,7 +233,7 @@ const mapPlaces: MapPlace[] = [
   },
   {
     id: "otb",
-    name: "OTB / On the Beach",
+    name: "On the Beach",
     date: "2026-10-12",
     period: "Evening",
     status: "confirmed",
@@ -349,11 +349,20 @@ const galleryImages: GalleryImage[] = [
   },
   {
     id: "otb",
-    title: "OTB",
+    title: "On the Beach Bar & Restaurant",
     date: "2026-10-12",
     label: "Beach dinner",
     image: "https://enjoycookislands.com/uploads/general/_1200x630_crop_center-center_82_none_ns/OTB-1.jpeg?mtime=1469048986",
-    alt: "Beachfront dining room at OTB in Rarotonga.",
+    alt: "Beachfront dining room at On the Beach in Rarotonga.",
+  },
+  {
+    id: "lagoon",
+    title: "West-side lagoon",
+    date: "2026-10-12",
+    label: "Beach day",
+    image:
+      "https://www.downunderendeavours.com/wp-content/uploads/2018/08/SMB-cooks-650x400-rarotonga-aerial-island-view-1324.jpg",
+    alt: "Rarotonga lagoon and reef from above.",
   },
   {
     id: "turtles",
@@ -587,11 +596,31 @@ function imageForEvent(event: TripEvent) {
   if (title.includes("sea change")) return galleryImages.find((image) => image.id === "sea-change") ?? null;
   if (title.includes("nautilus")) return galleryImages.find((image) => image.id === "nautilus") ?? null;
   if (title.includes("tamarind")) return galleryImages.find((image) => image.id === "tamarind") ?? null;
-  if (title.includes("otb") || title.includes("on the beach") || title.includes("west-side")) {
+  if (title.includes("otb") || title.includes("on the beach")) {
     return galleryImages.find((image) => image.id === "otb") ?? null;
+  }
+  if (title.includes("west-side") || title.includes("lagoon") || title.includes("snorkel")) {
+    return galleryImages.find((image) => image.id === "lagoon") ?? null;
   }
   if (title.includes("turtle")) return galleryImages.find((image) => image.id === "turtles") ?? null;
   if (title.includes("aitutaki") || title.includes("one foot")) {
+    return galleryImages.find((image) => image.id === "aitutaki") ?? null;
+  }
+
+  return null;
+}
+
+function imageForReservation(reservation: Reservation) {
+  const name = reservation.name.toLowerCase();
+
+  if (name.includes("sea change")) return galleryImages.find((image) => image.id === "sea-change") ?? null;
+  if (name.includes("nautilus")) return galleryImages.find((image) => image.id === "nautilus") ?? null;
+  if (name.includes("tamarind")) return galleryImages.find((image) => image.id === "tamarind") ?? null;
+  if (name.includes("otb") || name.includes("on the beach")) {
+    return galleryImages.find((image) => image.id === "otb") ?? null;
+  }
+  if (name.includes("turtle")) return galleryImages.find((image) => image.id === "turtles") ?? null;
+  if (name.includes("aitutaki") || name.includes("one foot")) {
     return galleryImages.find((image) => image.id === "aitutaki") ?? null;
   }
 
@@ -619,7 +648,7 @@ function headerContext(now = new Date()): HeaderContext {
   if (now < tripStart) {
     return {
       key: "countdown",
-      label: "Rarotonga time",
+      label: "CKT",
       time: formatRarotongaTime(now),
       title: countdownText(now),
       subtitle: "",
@@ -631,7 +660,7 @@ function headerContext(now = new Date()): HeaderContext {
   if (now >= tripEnd || !current) {
     return {
       key: "beach",
-      label: "Rarotonga time",
+      label: "CKT",
       time: formatRarotongaTime(now),
       title: "Rarotonga",
       subtitle: "",
@@ -640,7 +669,7 @@ function headerContext(now = new Date()): HeaderContext {
 
   return {
     key: headerKeyForEvent(current.event),
-    label: "Rarotonga time",
+    label: "CKT",
     time: formatRarotongaTime(now),
     title: current.event.title,
     subtitle: `${formatTime(current.event.time)} · ${current.day.title}`,
@@ -664,7 +693,7 @@ function periodTone(day: Day, period: Period) {
     },
     "2026-10-12": {
       Afternoon: "West-side beach day with a sunset dinner shape.",
-      Evening: "OTB at 6:00.",
+      Evening: "On the Beach at 6:00.",
     },
     "2026-10-13": {
       Morning: "Easy morning at the villa.",
@@ -1288,13 +1317,27 @@ function ReservationsView({ reservations }: { reservations: Reservation[] }) {
             <h3>{formatLongDate(group.date)}</h3>
             {group.items.map((reservation) => {
               const when = reservation.time ? formatTime(reservation.time) : "Time TBD";
+              const reservationImage = imageForReservation(reservation);
               return (
-                <article className={`reservation-row ${dayColorClass(reservation.date)}`} key={`${reservation.date}-${reservation.name}`}>
-                  <div className="reservation-main">
-                    <time>{when}</time>
-                    <span className={`status-dot ${reservation.status}`} aria-label={statusLabels[reservation.status]} />
+                <article
+                  className={`reservation-row ${reservationImage ? "has-photo" : ""} ${dayColorClass(reservation.date)}`}
+                  key={`${reservation.date}-${reservation.name}`}
+                >
+                  {reservationImage ? (
+                    <img
+                      alt={reservationImage.alt}
+                      className="reservation-photo"
+                      loading="lazy"
+                      src={reservationImage.image}
+                    />
+                  ) : null}
+                  <div className="reservation-copy">
+                    <div className="reservation-main">
+                      <time>{when}</time>
+                      <span className={`status-dot ${reservation.status}`} aria-label={statusLabels[reservation.status]} />
+                    </div>
+                    <strong>{reservation.name}</strong>
                   </div>
-                  <strong>{reservation.name}</strong>
                 </article>
               );
             })}
