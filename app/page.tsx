@@ -717,7 +717,8 @@ function currentTripEvent(now = new Date()) {
 
 function headerContext(now = new Date()): HeaderContext {
   const tripStart = new Date(`${data.trip.startDate}T00:00:00-10:00`);
-  const tripEnd = new Date("2026-10-18T00:00:00-10:00");
+  const tripEndDate = new Date(`${data.trip.endDate}T00:00:00-10:00`);
+  const tripEnd = new Date(tripEndDate.getTime() + 86_400_000);
 
   if (now < tripStart) {
     return {
@@ -752,6 +753,11 @@ function headerContext(now = new Date()): HeaderContext {
 
 function periodTone(day: Day, period: Period) {
   const tones: Record<string, Partial<Record<Period, string>>> = {
+    "2026-10-08": {
+      Morning: "Keep the day simple.",
+      Afternoon: "Pack, reset, and head to the airport.",
+      Evening: "Flights to Los Angeles.",
+    },
     "2026-10-09": {
       Evening: "Arrive, exhale, and keep the night simple.",
     },
@@ -792,6 +798,11 @@ function periodTone(day: Day, period: Period) {
     "2026-10-17": {
       Morning: "Final slow morning and packing.",
       Afternoon: "Keep departure logistics easy.",
+    },
+    "2026-10-18": {
+      Morning: "Flights home.",
+      Afternoon: "One last connection.",
+      Evening: "Back home.",
     },
   };
 
@@ -1376,7 +1387,6 @@ function ReservationsView({ reservations }: { reservations: Reservation[] }) {
           >
             <summary>
               <span>{formatLongDate(group.date)}</span>
-              <small>{group.items.length} {group.items.length === 1 ? "plan" : "plans"}</small>
             </summary>
             <div className="reservation-day-items">
               {group.items.map((reservation) => {

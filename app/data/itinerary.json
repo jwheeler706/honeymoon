@@ -3,7 +3,7 @@
     "title": "Rarotonga Honeymoon",
     "destination": "Rarotonga, Cook Islands",
     "startDate": "2026-10-09",
-    "endDate": "2026-10-17",
+    "endDate": "2026-10-18",
     "timezone": "Pacific/Rarotonga",
     "lodging": {
       "name": "Sea Change Villas",
@@ -65,6 +65,55 @@
     ]
   },
   "days": [
+    {
+      "date": "2026-10-08",
+      "weekday": "Thursday",
+      "title": "Milwaukee to Los Angeles",
+      "status": "confirmed",
+      "theme": "travel",
+      "summary": "Evening flights to LAX before the Rarotonga leg.",
+      "events": [
+        {
+          "title": "DL 2885 to Minneapolis",
+          "time": "17:50",
+          "status": "confirmed",
+          "type": "travel",
+          "notes": "MKE to MSP, 5:50-7:15 PM. Seat 19A.",
+          "flight": {
+            "number": "DL 2885",
+            "airline": "Delta Air Lines",
+            "aircraft": "Aircraft TBD",
+            "route": "MKE to MSP",
+            "depart": "5:50 PM",
+            "arrive": "7:15 PM",
+            "cabin": "Delta Main Classic",
+            "seats": "19A",
+            "duration": "1h 25m",
+            "layoverAfter": "2h in Minneapolis"
+          }
+        },
+        {
+          "title": "DL 2103 to Los Angeles",
+          "time": "21:15",
+          "status": "confirmed",
+          "type": "travel",
+          "notes": "MSP to LAX, 9:15-11:25 PM. Seat 22A.",
+          "flight": {
+            "number": "DL 2103",
+            "airline": "Delta Air Lines",
+            "aircraft": "Aircraft TBD",
+            "route": "MSP to LAX",
+            "depart": "9:15 PM",
+            "arrive": "11:25 PM",
+            "cabin": "Delta Main Classic",
+            "seats": "22A",
+            "duration": "4h 10m"
+          }
+        }
+      ],
+      "transport": "Delta flights to LAX.",
+      "notes": "Positioning night before the island flights."
+    },
     {
       "date": "2026-10-09",
       "weekday": "Friday",
@@ -354,6 +403,13 @@
           "notes": "Lunch stop."
         },
         {
+          "title": "Blue Lagoon Restaurant dinner after the tour drop-off, around 5:00 PM",
+          "time": "17:00",
+          "status": "confirmed",
+          "type": "meal",
+          "notes": "Confirmed plan."
+        },
+        {
           "title": "GZ-621 to Rarotonga",
           "time": "19:10",
           "status": "confirmed",
@@ -370,13 +426,6 @@
             "seats": "Unassigned",
             "duration": "50m"
           }
-        },
-        {
-          "title": "Blue Lagoon Restaurant dinner after the tour drop-off, around 5:00 PM",
-          "time": "17:00",
-          "status": "confirmed",
-          "type": "meal",
-          "notes": "Confirmed plan."
         }
       ],
       "transport": "Air Rarotonga. Ref NIPXNP.",
@@ -448,6 +497,55 @@
       ],
       "transport": "13h 55m travel. Transfer TBD.",
       "notes": "Keep departure easy."
+    },
+    {
+      "date": "2026-10-18",
+      "weekday": "Sunday",
+      "title": "Los Angeles to Milwaukee",
+      "status": "confirmed",
+      "theme": "travel home",
+      "summary": "Morning Delta flights from LAX through Atlanta.",
+      "events": [
+        {
+          "title": "DL 782 to Atlanta",
+          "time": "08:00",
+          "status": "confirmed",
+          "type": "travel",
+          "notes": "LAX to ATL, 8:00 AM-3:22 PM. Seat 30A.",
+          "flight": {
+            "number": "DL 782",
+            "airline": "Delta Air Lines",
+            "aircraft": "Aircraft TBD",
+            "route": "LAX to ATL",
+            "depart": "8:00 AM",
+            "arrive": "3:22 PM",
+            "cabin": "Delta Main Classic",
+            "seats": "30A",
+            "duration": "4h 22m",
+            "layoverAfter": "1h 23m in Atlanta"
+          }
+        },
+        {
+          "title": "DL 1206 to Milwaukee",
+          "time": "16:45",
+          "status": "confirmed",
+          "type": "travel",
+          "notes": "ATL to MKE, 4:45-5:45 PM. Seat 22A.",
+          "flight": {
+            "number": "DL 1206",
+            "airline": "Delta Air Lines",
+            "aircraft": "Aircraft TBD",
+            "route": "ATL to MKE",
+            "depart": "4:45 PM",
+            "arrive": "5:45 PM",
+            "cabin": "Delta Main Classic",
+            "seats": "22A",
+            "duration": "2h"
+          }
+        }
+      ],
+      "transport": "Delta flights home.",
+      "notes": "Home stretch."
     }
   ],
   "reservations": [

@@ -1180,22 +1180,17 @@ button {
 }
 
 .reservation-day summary::after {
-  color: var(--muted);
-  content: "+";
-  font-size: 1rem;
-  line-height: 1;
+  width: 8px;
+  height: 8px;
+  border-right: 2px solid var(--muted);
+  border-bottom: 2px solid var(--muted);
+  content: "";
+  transform: rotate(45deg);
+  transition: transform 160ms ease;
 }
 
 .reservation-day[open] summary::after {
-  content: "-";
-}
-
-.reservation-day summary small {
-  margin-left: auto;
-  color: var(--muted);
-  font-size: 0.72rem;
-  font-weight: 700;
-  text-transform: none;
+  transform: rotate(225deg);
 }
 
 .reservation-day-items {
