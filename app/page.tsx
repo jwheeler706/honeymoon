@@ -326,8 +326,8 @@ const galleryImages: GalleryImage[] = [
     date: "2026-10-09",
     label: "Home base",
     image:
-      "https://static1.squarespace.com/static/63d3ff8f9022444b080ead34/t/63f40fba2764b604666ec0d1/1676939195062/Beach+Front+VillasDSC_7451.jpg?format=1500w",
-    alt: "Beachfront villa and lagoon at Sea Change Villas in Rarotonga.",
+      "https://static1.squarespace.com/static/63d3ff8f9022444b080ead34/63d3ff9e9022444b080eafde/6400444bee76315d2009ec27/1691017310932/Lagoon+View+Villa+DSC_5745.jpg?format=1500w",
+    alt: "Lagoon View Villa at Sea Change Villas in Rarotonga.",
   },
   {
     id: "nautilus",
@@ -633,9 +633,18 @@ function eventInlineNote(event: TripEvent) {
   const note = event.notes.trim();
   const normalized = note.toLowerCase();
   const isDuplicateTime = /^\d{1,2}:\d{2}\s*(am|pm)\.?$/i.test(note);
-  const isGenericConfirmation = normalized === "confirmed reservation.";
+  const hiddenNotes = [
+    "confirmed reservation.",
+    "main restaurant.",
+    "only if we feel like it.",
+    "protect energy before dinner.",
+    "keep it open.",
+    "only if weather and energy line up.",
+    "confirm check-in details.",
+    "low effort.",
+  ];
 
-  if (isDuplicateTime || isGenericConfirmation) return "";
+  if (isDuplicateTime || hiddenNotes.includes(normalized)) return "";
   return note.replace(/\.$/, "");
 }
 
@@ -921,11 +930,14 @@ export default function Home() {
             <div className="period-stack">
               {periodLabels.map((period) => {
                 const events = activeDay.events.filter((event) => eventPeriod(event) === period);
+                const openPeriodCopy = [periodTone(activeDay, period), recommendationText(activeDay, period)]
+                  .filter(Boolean)
+                  .join(" ");
                 return (
                   <section className="period-section" key={period} aria-label={period}>
                     <div className="period-heading">
                       <h3>{period}</h3>
-                      {events.length ? null : <p>{periodTone(activeDay, period)}</p>}
+                      {events.length ? null : <p>{openPeriodCopy}</p>}
                     </div>
 
                     {events.length ? (
@@ -955,7 +967,7 @@ export default function Home() {
                                   </div>
                                   <h4>
                                     {event.title}
-                                    {inlineNote ? <span> · {inlineNote}</span> : null}
+                                    {inlineNote ? <span> - {inlineNote}</span> : null}
                                   </h4>
                                   {event.flight ? <p>{event.notes}</p> : null}
                                   {eventImage ? (
@@ -986,7 +998,6 @@ export default function Home() {
                         })}
                       </div>
                     ) : null}
-                    <Recommendations day={activeDay} period={period} />
                   </section>
                 );
               })}
@@ -1048,7 +1059,7 @@ function FlightDetails({ event }: { event: TripEvent }) {
   );
 }
 
-function Recommendations({ day, period }: { day: Day; period: Period }) {
+function recommendationText(day: Day, period: Period) {
   const options: Record<string, Partial<Record<Period, string[]>>> = {
     "2026-10-10": {
       Morning: ["Punanga Nui Market", "Coffee in Avarua", "Sleep in if needed"],
@@ -1085,13 +1096,9 @@ function Recommendations({ day, period }: { day: Day; period: Period }) {
   };
 
   const items = (options[day.date]?.[period] ?? []).slice(0, 2);
-  if (!items.length) return null;
+  if (!items.length) return "";
 
-  return (
-    <div className="recommendations" aria-label={`${period} recommendations`}>
-      <p>Maybe {items.join(" or ").toLowerCase()}.</p>
-    </div>
-  );
+  return `Maybe ${items.join(" or ").toLowerCase()}.`;
 }
 
 function MapView({
