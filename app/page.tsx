@@ -923,9 +923,13 @@ export default function Home() {
       <section className={`top-panel header-${header.key}`} aria-labelledby="trip-title">
         <div className="title-block">
           <p className="header-meta">
-            <span>{header.label}</span>
-            <span>{header.time}</span>
-            {weather ? <span>{weather.temperature}° {weather.label}</span> : null}
+            <span>{header.time} {header.label}</span>
+            {weather ? (
+              <>
+                <span>{weather.temperature}°</span>
+                <span>{weather.label}</span>
+              </>
+            ) : null}
           </p>
           <h1 id="trip-title">{header.title}</h1>
           {header.subtitle ? <span>{header.subtitle}</span> : null}
