@@ -326,11 +326,11 @@ const mapPlaces: MapPlace[] = [
     id: "aitutaki",
     name: "Aitutaki day trip",
     date: "2026-10-16",
-    period: "Afternoon",
+    period: "Morning",
     status: "confirmed",
     type: "excursion",
     area: "Aitutaki",
-    note: "Flights 8:00 AM-8:00 PM.",
+    note: "Lagoon day trip begins at 9:00 AM.",
     lat: -18.8585,
     lng: -159.7789,
     offMap: true,
@@ -344,8 +344,8 @@ const mapPlaces: MapPlace[] = [
     type: "travel",
     area: "Aitutaki",
     note: "Air Rarotonga flights arrive at 8:50 AM and depart at 7:10 PM.",
-    lat: -18.82953,
-    lng: -159.766715,
+    lat: -18.831103,
+    lng: -159.764025,
     offMap: true,
   },
   {
@@ -534,10 +534,10 @@ const scenicHeaderImages = [
 ];
 
 const rarotongaMapBounds: MapBounds = {
-  west: -159.86,
-  east: -159.69,
-  south: -21.295,
-  north: -21.165,
+  west: -159.845,
+  east: -159.705,
+  south: -21.296,
+  north: -21.191,
 };
 
 const aitutakiMapBounds: MapBounds = {
@@ -1086,16 +1086,6 @@ export default function Home() {
     setState((current) => ({ ...current, ...update }));
   }
 
-  function toggleDone(key: string) {
-    setState((current) => ({
-      ...current,
-      done: {
-        ...current.done,
-        [key]: !current.done[key],
-      },
-    }));
-  }
-
   function updateNote(key: string, value: string) {
     setState((current) => ({
       ...current,
@@ -1235,15 +1225,9 @@ export default function Home() {
                           return (
                             <article className="event-card" key={key}>
                               <div className="event-main">
-                                <button
-                                  aria-label={state.done[key] ? `Mark ${event.title} not done` : `Mark ${event.title} done`}
-                                  aria-pressed={Boolean(state.done[key])}
-                                  className="done-dot"
-                                  onClick={() => toggleDone(key)}
-                                  type="button"
-                                />
                                 <div>
                                   <h4 className={titleClass}>
+                                    {event.flight ? <span aria-hidden="true" className="flight-glyph">✈</span> : null}
                                     {event.title}
                                     {inlineNote ? <span> - {inlineNote}</span> : null}
                                   </h4>
@@ -1459,9 +1443,10 @@ function MapView({
     !isAitutakiOnly && homeBase && !mappablePlaces.some((place) => place.id === homeBase.id)
       ? [homeBase, ...mappablePlaces]
       : mappablePlaces;
-  const visiblePlaces = isAitutakiOnly
+  const visiblePlaces = (isAitutakiOnly
     ? visibleRangePlaces
-    : visibleRangePlaces.filter((place) => !place.offMap);
+    : visibleRangePlaces.filter((place) => !place.offMap)
+  ).sort((a, b) => periodLabels.indexOf(a.period) - periodLabels.indexOf(b.period));
   const selectedMapPlace = selectedPlaceId
     ? visibleMappablePlaces.find((place) => place.id === selectedPlaceId)
     : null;
@@ -1595,14 +1580,13 @@ function MapView({
                   <p style={textOnlyPopupTextStyle}>{selectedMapPlace.note}</p>
                 </article>
               ) : null}
-            </div>
-
-            <div className="map-legend-footer">
-              <div className="map-color-legend" aria-label="Pin color key">
-                <span><i className="type-water" />Water</span>
-                <span><i className="type-land" />Land</span>
-                <span><i className="type-food" />Food</span>
-                <span><i className="type-travel" />Travel</span>
+              <div className="map-legend-overlay">
+                <div className="map-color-legend" aria-label="Pin color key">
+                  <span><i className="type-water" />Water</span>
+                  <span><i className="type-land" />Land</span>
+                  <span><i className="type-food" />Food</span>
+                  <span><i className="type-travel" />Travel</span>
+                </div>
               </div>
             </div>
           </div>

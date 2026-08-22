@@ -567,23 +567,7 @@ button {
 
 .event-main {
   display: grid;
-  grid-template-columns: 20px minmax(0, 1fr);
-  gap: 9px;
-}
-
-.done-dot {
-  width: 18px;
-  height: 18px;
-  margin-top: 2px;
-  border: 1px solid var(--line-strong);
-  border-radius: 999px;
-  background: transparent;
-}
-
-.done-dot[aria-pressed="true"] {
-  border-color: transparent;
-  background: var(--leaf);
-  box-shadow: inset 0 0 0 5px var(--panel-strong);
+  grid-template-columns: minmax(0, 1fr);
 }
 
 .event-icon {
@@ -613,9 +597,21 @@ button {
 }
 
 .event-card h4 {
+  display: flex;
+  gap: 6px;
+  align-items: baseline;
+  flex-wrap: wrap;
   margin: 2px 0 0;
   font-size: 1rem;
   letter-spacing: 0;
+}
+
+.flight-glyph {
+  color: color-mix(in srgb, var(--muted) 82%, transparent);
+  font-family: sans-serif;
+  font-size: 0.82em;
+  font-weight: 400;
+  line-height: 1;
 }
 
 .event-title-accent {
@@ -706,7 +702,7 @@ button {
 .event-map-link {
   position: absolute;
   top: 9px;
-  right: 36px;
+  right: 34px;
   display: grid;
   width: 24px;
   height: 24px;
@@ -1149,26 +1145,19 @@ button {
   box-shadow: inset 0 -2px 0 var(--lagoon);
 }
 
-.map-legend-footer {
-  position: static;
-  width: 100%;
-  min-width: 0;
-  max-width: 100%;
-  overflow: hidden;
-  padding: 6px 8px;
-  border-top: 1px solid rgba(243, 238, 226, 0.08);
-  background: rgba(4, 13, 17, 0.22);
-}
-
-.island-map:has(+ .map-legend-footer) {
-  border-radius: 8px 8px 0 0;
-}
-
-.island-map + .map-legend-footer {
-  margin-top: -1px;
-  border: 1px solid rgba(104, 214, 223, 0.14);
-  border-top-color: rgba(243, 238, 226, 0.08);
-  border-radius: 0 0 8px 8px;
+.map-legend-overlay {
+  position: absolute;
+  z-index: 6;
+  bottom: 8px;
+  left: 8px;
+  width: auto;
+  max-width: calc(100% - 16px);
+  padding: 5px 7px;
+  border: 1px solid rgba(243, 238, 226, 0.1);
+  border-radius: 6px;
+  background: rgba(4, 13, 17, 0.58);
+  backdrop-filter: blur(5px);
+  pointer-events: none;
 }
 
 .map-color-legend {
@@ -1773,8 +1762,11 @@ button {
 }
 
 @media (max-width: 560px) {
-  .map-legend-footer {
-    padding: 6px 7px;
+  .map-legend-overlay {
+    bottom: 6px;
+    left: 6px;
+    max-width: calc(100% - 12px);
+    padding: 4px 6px;
   }
 
   .map-color-legend {
@@ -1784,17 +1776,14 @@ button {
 
   .island-map {
     aspect-ratio: 3 / 2;
-    background-size: cover;
-  }
-
-  .island-map:not(.aitutaki-map) {
-    background-position: center 55%;
+    background-position: center;
+    background-size: 100% 100%;
   }
 
   .island-map.aitutaki-map {
     background-color: #020a0e;
     background-position: center, center;
-    background-size: 100% 100%, contain;
+    background-size: 100% 100%, 100% 100%;
     background-repeat: no-repeat;
   }
 
