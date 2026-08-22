@@ -384,6 +384,30 @@ const galleryImages: GalleryImage[] = [
     alt: "Rarotonga lagoon and reef from above.",
   },
   {
+    id: "rarotonga-peaks",
+    title: "Rarotonga peaks",
+    date: "2026-10-14",
+    label: "Nature",
+    image: "https://www.pacific-travel-house.com/reisefuehrer/application/files/3616/7119/2407/rarotonga-berge.jpg",
+    alt: "Green volcanic peaks and rainforest in Rarotonga.",
+  },
+  {
+    id: "lagoon-swim",
+    title: "Lagoon swim",
+    date: "2026-10-15",
+    label: "Lagoon",
+    image: "https://imgix.theurbanlist.com/content/general/cook-islands-swimming-spots.jpg?auto=format%2Ccompress&ixlib=php-4.1.0&w=728",
+    alt: "Clear Rarotonga lagoon water with palms and mountains beyond.",
+  },
+  {
+    id: "palm-beach",
+    title: "Palm beach",
+    date: "2026-10-15",
+    label: "Beach",
+    image: "https://jonistravelling.com/wp-content/uploads/2023/03/palm-grove-resort-nearby-beach-rarotonga.jpg",
+    alt: "Palm-lined white sand beach and turquoise water in Rarotonga.",
+  },
+  {
     id: "turtles",
     title: "Swim With The Turtles",
     date: "2026-10-13",
@@ -397,8 +421,9 @@ const galleryImages: GalleryImage[] = [
     title: "Aitutaki",
     date: "2026-10-16",
     label: "Day trip",
-    image: "https://commons.wikimedia.org/wiki/Special:Redirect/file/Aitutaki_aerialview.jpg",
-    alt: "Aerial view of Aitutaki lagoon.",
+    image:
+      "https://img.rezdy.com/PRODUCT_IMAGE/80884/c27c7a1c594f48eea198c9764927d79dDJI_0764_Ait_2560_lg.jpg",
+    alt: "Aerial view of Aitutaki lagoon and white sand channels.",
   },
   {
     id: "one-foot",
@@ -423,16 +448,15 @@ const galleryImages: GalleryImage[] = [
 
 const scenicHeaderImages = [
   {
-    title: "Rarotonga reef",
+    title: "Rarotonga lagoon",
     image:
       "https://www.downunderendeavours.com/wp-content/uploads/2018/08/SMB-cooks-650x400-rarotonga-aerial-island-view-1324.jpg",
     position: "center 54%",
   },
   {
-    title: "Lagoon cliffs",
-    image:
-      "https://images.squarespace-cdn.com/content/v1/68d84e7615147738b7ee4fee/7b01c2a4-ec9a-4f39-b2f5-f63a858fc10f/Pana-Lagoon3.webp?format=1500w",
-    position: "center 46%",
+    title: "Muri lagoon",
+    image: "https://www.ncl.com/sites/default/files/RAR_05_1920X1080%20LG_0.jpg",
+    position: "center 52%",
   },
 ];
 
