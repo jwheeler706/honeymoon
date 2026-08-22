@@ -544,6 +544,23 @@ function dayColorClass(date: string) {
   return `day-${Math.max(index, 0)}`;
 }
 
+function mapColorClass(place: MapPlace) {
+  const combined = `${place.name} ${place.note} ${place.area}`.toLowerCase();
+  if (place.id === "sea-change-villas" || place.type === "lodging") return "type-home";
+  if (place.type === "meal" || place.type === "reservation") return "type-food";
+  if (place.type === "travel") return "type-travel";
+  if (
+    place.type === "excursion" ||
+    combined.includes("turtle") ||
+    combined.includes("snorkel") ||
+    combined.includes("lagoon") ||
+    combined.includes("beach")
+  ) {
+    return "type-water";
+  }
+  return "type-land";
+}
+
 function HomeGlyph() {
   return (
     <span className="home-glyph" aria-hidden="true">
@@ -557,7 +574,7 @@ function HomeGlyph() {
 function mapPinClass(place: MapPlace, selectedPlaceId: string) {
   return [
     "map-pin",
-    dayColorClass(place.date),
+    mapColorClass(place),
     place.id === selectedPlaceId ? "active" : "",
     place.id === "sea-change-villas" ? "home-base" : "",
   ]
@@ -774,6 +791,12 @@ function mapPlaceForEvent(event: TripEvent) {
 
 function eventInlineNote(event: TripEvent) {
   if (event.flight) return "";
+  return "";
+}
+
+function eventDetailNote(event: TripEvent) {
+  if (event.flight) return "";
+  if (event.title.includes("Punanga Nui")) return event.notes;
   return "";
 }
 
@@ -1125,6 +1148,7 @@ export default function Home() {
                           const key = eventKey(activeDay, event);
                           const eventImage = imageForEvent(event);
                           const inlineNote = eventInlineNote(event);
+                          const detailNote = eventDetailNote(event);
                           const eventMapPlace = mapPlaceForEvent(event);
                           const titleClass =
                             event.flight || event.type === "travel" ? "event-title" : "event-title event-title-accent";
@@ -1151,6 +1175,7 @@ export default function Home() {
                                       </span>
                                     )}
                                   </div>
+                                  {detailNote ? <p className="event-detail-note">{detailNote}</p> : null}
                                   {event.flight ? <p>{event.notes}</p> : null}
                                   {eventImage ? (
                                     <img
@@ -1346,19 +1371,16 @@ function MapView({
       ? place.offMap && mapPoint(place, activeMapBounds)
       : !place.offMap && mapPoint(place, activeMapBounds)
   );
+  const homeIsInRange = inRangePlaces.some((place) => place.id === "sea-change-villas");
   const visibleMappablePlaces =
     !isAitutakiOnly && homeBase && !mappablePlaces.some((place) => place.id === homeBase.id)
       ? [homeBase, ...mappablePlaces]
       : mappablePlaces;
-  const visiblePlaces =
-    !isAitutakiOnly && homeBase && !inRangePlaces.some((place) => place.id === homeBase.id)
-      ? [homeBase, ...inRangePlaces]
-      : inRangePlaces;
+  const visiblePlaces = inRangePlaces;
   const offMapPlaces = isAitutakiOnly ? [] : inRangePlaces.filter((place) => place.offMap);
-  const selectedPlace =
-    visiblePlaces.find((place) => place.id === selectedPlaceId) ?? visiblePlaces[0] ?? places[0];
+  const selectedHomeBase = selectedPlaceId === "sea-change-villas" && Boolean(homeBase);
   const selectedMapPlace = selectedPlaceId
-    ? visibleMappablePlaces.find((place) => place.id === selectedPlaceId)
+    ? visibleMappablePlaces.find((place) => place.id === selectedPlaceId && (place.id !== "sea-change-villas" || homeIsInRange || selectedHomeBase))
     : null;
   const selectedMapPoint = selectedMapPlace ? mapPoint(selectedMapPlace, activeMapBounds) : null;
   const selectedMapImage = selectedMapPlace ? imageForPlace(selectedMapPlace) : null;
@@ -1371,13 +1393,18 @@ function MapView({
         .filter(Boolean)
         .join(" ")
     : "";
-  const showAllDates = () => onDateRangeChange(firstTripDate, lastTripDate);
+  const showAllDates = () => {
+    onDateRangeChange(firstTripDate, lastTripDate);
+    if (homeBase) onSelectPlace(homeBase.id);
+  };
   const showSingleDate = (date: string) => {
     if (startDate === date && endDate === date) {
       showAllDates();
       return;
     }
     onDateRangeChange(date, date);
+    const nextPlace = places.find((place) => place.date === date && !place.offMap) ?? places.find((place) => place.date === date);
+    onSelectPlace(nextPlace?.id ?? "");
   };
 
   return (
@@ -1435,7 +1462,7 @@ function MapView({
                 <img alt={selectedMapImage.alt} loading="lazy" src={selectedMapImage.image} />
               ) : null}
               <strong>{selectedMapPlace.name}</strong>
-              <span>{formatDate(selectedMapPlace.date)} · {selectedMapPlace.area}</span>
+              <span>{formatDate(selectedMapPlace.date)} · {selectedMapPlace.period} · {selectedMapPlace.area}</span>
               <p>{selectedMapPlace.note}</p>
             </article>
           ) : null}
@@ -1455,16 +1482,23 @@ function MapView({
             return (
               <button
                 aria-pressed={selected}
-                className={`${selected ? "active" : ""} ${dayColorClass(day.date)}`}
+                className={selected ? "active" : ""}
                 key={day.date}
                 onClick={() => showSingleDate(day.date)}
                 type="button"
               >
-                <i />
                 {formatDate(day.date)}
               </button>
             );
           })}
+        </div>
+
+        <div className="map-color-legend" aria-label="Pin color key">
+          <span><i className="type-water" />Water</span>
+          <span><i className="type-land" />Land</span>
+          <span><i className="type-food" />Food</span>
+          <span><i className="type-travel" />Travel</span>
+          <span><i className="type-home" />Stay</span>
         </div>
 
         {offMapPlaces.length ? (
@@ -1484,21 +1518,13 @@ function MapView({
         ) : null}
 
         <div className="map-details">
-          <article
-            className={selectedPlace.id === "sea-change-villas" ? "selected-place home-base-detail" : "selected-place"}
-          >
-            <h3>{selectedPlace.name}</h3>
-            <span>{formatDate(selectedPlace.date)} · {selectedPlace.area}</span>
-            <p>{selectedPlace.note}</p>
-          </article>
-
           <div className="place-list" aria-label="Visible map places">
             {visiblePlaces.map((place) => (
               <button
                 className={
                   place.id === selectedPlaceId
-                    ? `place-row active ${dayColorClass(place.date)}`
-                    : `place-row ${dayColorClass(place.date)}`
+                    ? `place-row active ${mapColorClass(place)}`
+                    : `place-row ${mapColorClass(place)}`
                 }
                 key={place.id}
                 onClick={() => onSelectPlace(place.id)}
@@ -1507,7 +1533,7 @@ function MapView({
                 <span className={`status-dot ${place.status}`} />
                 <span>
                   <strong>{place.name}</strong>
-                  <small>{formatDate(place.date)} · {place.area}</small>
+                  <small>{formatDate(place.date)} · {place.period} · {place.area}</small>
                 </span>
               </button>
             ))}

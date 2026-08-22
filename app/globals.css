@@ -608,6 +608,15 @@ button {
   margin: 0;
 }
 
+.event-detail-note {
+  max-width: 62ch;
+  margin-top: 5px;
+  color: color-mix(in srgb, var(--muted) 84%, transparent);
+  font-family: var(--font-body);
+  font-size: 0.86rem;
+  line-height: 1.35;
+}
+
 .event-photo {
   display: block;
   width: min(100%, 360px);
@@ -918,40 +927,24 @@ button {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.48);
 }
 
-.day-0 {
-  --pin-color: #f0c978;
+.type-home {
+  --pin-color: #fffdf8;
 }
 
-.day-1 {
+.type-water {
   --pin-color: #5ed4df;
 }
 
-.day-2 {
-  --pin-color: #9dcc82;
+.type-land {
+  --pin-color: #83c989;
 }
 
-.day-3 {
-  --pin-color: #f28f79;
+.type-food {
+  --pin-color: #f1cf6b;
 }
 
-.day-4 {
-  --pin-color: #78b7ff;
-}
-
-.day-5 {
-  --pin-color: #d6a4ff;
-}
-
-.day-6 {
-  --pin-color: #f3df71;
-}
-
-.day-7 {
-  --pin-color: #78d6a8;
-}
-
-.day-8 {
-  --pin-color: #e7a1c7;
+.type-travel {
+  --pin-color: #8bbcff;
 }
 
 .map-pin.active {
@@ -1074,14 +1067,31 @@ button {
 }
 
 .map-date-toggles button.active {
-  border-color: color-mix(in srgb, var(--pin-color, var(--reef)) 54%, transparent);
+  border-color: rgba(126, 237, 236, 0.42);
   background: rgba(255, 255, 255, 0.06);
   color: var(--ink);
 }
 
-.map-date-toggles i {
-  width: 9px;
-  height: 9px;
+.map-color-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  align-items: center;
+  color: color-mix(in srgb, var(--muted) 78%, transparent);
+  font-size: 0.68rem;
+  font-weight: 750;
+}
+
+.map-color-legend span {
+  display: inline-flex;
+  gap: 5px;
+  align-items: center;
+}
+
+.map-color-legend i {
+  width: 7px;
+  height: 7px;
+  border: 1px solid rgba(243, 238, 226, 0.72);
   border-radius: 999px;
   background: var(--pin-color);
 }
