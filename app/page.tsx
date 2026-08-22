@@ -168,8 +168,6 @@ type GalleryImage = {
   label: string;
   image: string;
   alt: string;
-  sourceUrl: string;
-  sourceLabel: string;
 };
 
 const mapPlaces: MapPlace[] = [
@@ -330,8 +328,6 @@ const galleryImages: GalleryImage[] = [
     image:
       "https://static1.squarespace.com/static/63d3ff8f9022444b080ead34/t/63f40fba2764b604666ec0d1/1676939195062/Beach+Front+VillasDSC_7451.jpg?format=1500w",
     alt: "Beachfront villa and lagoon at Sea Change Villas in Rarotonga.",
-    sourceUrl: "https://www.seachangevillas.com/gallery",
-    sourceLabel: "Sea Change Villas",
   },
   {
     id: "nautilus",
@@ -341,8 +337,6 @@ const galleryImages: GalleryImage[] = [
     image:
       "https://images.squarespace-cdn.com/content/v1/68d84e7615147738b7ee4fee/66fcfb58-3e1f-4e7a-acda-558e02f3fd85/NavigateNautilusResortPolynesianRestaurantPool.webp?format=1500w",
     alt: "Nautilus Resort pool and restaurant beside Muri Lagoon.",
-    sourceUrl: "https://www.nautilusresortrarotonga.com/gallery/",
-    sourceLabel: "Nautilus Resort",
   },
   {
     id: "tamarind",
@@ -352,8 +346,6 @@ const galleryImages: GalleryImage[] = [
     image:
       "https://images.squarespace-cdn.com/content/v1/63d3ff8f9022444b080ead34/42664d02-a318-46ff-b33b-38e7ecf18c39/tamarind%2Brestaurant%2Brarotonga.jpg",
     alt: "Sunset dining setting at Tamarind House in Rarotonga.",
-    sourceUrl: "https://www.seachangevillas.com/island-time/best-restaurants-rarotonga-special-occasion",
-    sourceLabel: "Sea Change Villas guide",
   },
   {
     id: "otb",
@@ -362,8 +354,6 @@ const galleryImages: GalleryImage[] = [
     label: "Beach dinner",
     image: "https://enjoycookislands.com/uploads/general/_1200x630_crop_center-center_82_none_ns/OTB-1.jpeg?mtime=1469048986",
     alt: "Beachfront dining room at OTB in Rarotonga.",
-    sourceUrl: "https://enjoycookislands.com/eat-drink/beaches-restaurant-bar",
-    sourceLabel: "Enjoy Cook Islands",
   },
   {
     id: "turtles",
@@ -373,8 +363,6 @@ const galleryImages: GalleryImage[] = [
     image:
       "https://static1.squarespace.com/static/5e6f0f42668a2e3fcf7b19a4/t/6a3fd4e916d56f3a046e56ee/1782568169078/29AugSCIphotos-13.jpg?format=1500w",
     alt: "Sea turtle underwater during a Snorkel Cook Islands excursion.",
-    sourceUrl: "https://www.snorkelcookislands.com/photos",
-    sourceLabel: "Snorkel Cook Islands",
   },
   {
     id: "aitutaki",
@@ -383,8 +371,6 @@ const galleryImages: GalleryImage[] = [
     label: "Day trip",
     image: "https://commons.wikimedia.org/wiki/Special:Redirect/file/Aitutaki_aerialview.jpg",
     alt: "Aerial view of Aitutaki lagoon.",
-    sourceUrl: "https://commons.wikimedia.org/wiki/File:Aitutaki_aerialview.jpg",
-    sourceLabel: "Wikimedia Commons",
   },
 ];
 
@@ -935,7 +921,7 @@ export default function Home() {
                                       src={eventImage.image}
                                     />
                                   ) : null}
-                                  <EventDetails event={event} />
+                                  {event.flight ? <FlightDetails event={event} /> : null}
                                 </div>
                               </div>
 
@@ -981,39 +967,11 @@ function GalleryView({ images }: { images: GalleryImage[] }) {
             <div>
               <span>{formatDate(image.date)} · {image.label}</span>
               <h3>{image.title}</h3>
-              <a href={image.sourceUrl} rel="noreferrer" target="_blank">
-                Image source: {image.sourceLabel}
-              </a>
             </div>
           </article>
         ))}
       </div>
     </section>
-  );
-}
-
-function EventDetails({ event }: { event: TripEvent }) {
-  if (event.flight) {
-    return <FlightDetails event={event} />;
-  }
-
-  const details = [
-    event.provider ? ["Provider", event.provider] : null,
-    event.location ? ["Location", event.location] : null,
-    event.duration ? ["Duration", event.duration] : null,
-  ].filter(Boolean) as [string, string][];
-
-  if (!details.length) return null;
-
-  return (
-    <dl className="event-details">
-      {details.map(([label, value]) => (
-        <div key={label}>
-          <dt>{label}</dt>
-          <dd>{value}</dd>
-        </div>
-      ))}
-    </dl>
   );
 }
 
@@ -1041,13 +999,6 @@ function FlightDetails({ event }: { event: TripEvent }) {
           <dd>{flight.duration}</dd>
         </div>
       </dl>
-      <p>{flight.airline} · {flight.aircraft}</p>
-      {flight.baggageUrl ? (
-        <a href={flight.baggageUrl} rel="noreferrer" target="_blank">
-          Baggage fees
-        </a>
-      ) : null}
-      {flight.layoverAfter ? <span className="layover-pill">{flight.layoverAfter}</span> : null}
     </div>
   );
 }
@@ -1247,14 +1198,6 @@ function MapView({
                 </span>
               ))}
           </div>
-          <a
-            className="map-credit"
-            href="https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer"
-            rel="noreferrer"
-            target="_blank"
-          >
-            Satellite imagery
-          </a>
         </div>
 
         {offMapPlaces.length ? (
@@ -1314,7 +1257,7 @@ function MapView({
                 <span className={`status-dot ${place.status}`} />
                 <span>
                   <strong>{place.name}</strong>
-                  <small>{formatDate(place.date)} · {place.area} · {typeLabels[place.type]}</small>
+                  <small>{formatDate(place.date)} · {place.area}</small>
                 </span>
               </button>
             ))}

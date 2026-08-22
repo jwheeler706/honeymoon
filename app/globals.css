@@ -580,29 +580,6 @@ button {
   object-position: center;
 }
 
-.event-details {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin: 8px 0 0;
-}
-
-.event-details div {
-  display: inline-flex;
-  gap: 5px;
-  max-width: 100%;
-}
-
-.event-details dt {
-  color: var(--muted);
-  font-size: 0.8rem;
-}
-
-.event-details dd {
-  margin: 0;
-  color: var(--muted);
-}
-
 .flight-card {
   display: grid;
   gap: 8px;
@@ -622,22 +599,8 @@ button {
   color: var(--ink);
 }
 
-.flight-card span,
-.flight-card p {
+.flight-card span {
   color: var(--muted);
-}
-
-.flight-card p {
-  margin: 0;
-  font-size: 0.84rem;
-}
-
-.flight-card a {
-  width: fit-content;
-  color: var(--lagoon);
-  font-size: 0.84rem;
-  font-weight: 800;
-  text-decoration: none;
 }
 
 .flight-card dl {
@@ -657,17 +620,6 @@ button {
 .flight-card dd {
   margin: 2px 0 0;
   color: var(--ink);
-  font-weight: 800;
-}
-
-.layover-pill {
-  width: fit-content;
-  max-width: 100%;
-  padding: 5px 8px;
-  border-radius: 999px;
-  background: rgba(233, 182, 107, 0.12);
-  color: var(--sun);
-  font-size: 0.8rem;
   font-weight: 800;
 }
 
@@ -1093,20 +1045,6 @@ button {
   background: var(--pin-color);
 }
 
-.map-credit {
-  position: absolute;
-  right: 8px;
-  bottom: 8px;
-  z-index: 2;
-  border-radius: 999px;
-  background: rgba(3, 10, 17, 0.68);
-  color: rgba(255, 253, 248, 0.82);
-  font-size: 0.68rem;
-  font-weight: 800;
-  padding: 5px 7px;
-  text-decoration: none;
-}
-
 .off-map-list {
   display: flex;
   gap: 8px;
@@ -1355,14 +1293,6 @@ button {
   font-size: 1.05rem;
 }
 
-.gallery-card a {
-  width: fit-content;
-  color: var(--lagoon);
-  font-size: 0.82rem;
-  font-weight: 800;
-  text-decoration: none;
-}
-
 @media (min-width: 760px) {
   .app-shell {
     padding: 20px;
@@ -1431,7 +1361,4 @@ button {
     grid-template-columns: 1fr;
   }
 
-  .event-details div {
-    grid-template-columns: 1fr;
-  }
 }
