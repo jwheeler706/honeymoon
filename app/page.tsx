@@ -192,7 +192,7 @@ const mapPlaces: MapPlace[] = [
   },
   {
     id: "rarotonga-airport-arrival",
-    name: "Rarotonga Airport",
+    name: "HNL → RAR",
     date: "2026-10-09",
     period: "Evening",
     status: "confirmed",
@@ -264,7 +264,7 @@ const mapPlaces: MapPlace[] = [
   },
   {
     id: "rarotonga-airport-car-pickup",
-    name: "Rarotonga Airport",
+    name: "Rental car pickup",
     date: "2026-10-13",
     period: "Morning",
     status: "confirmed",
@@ -337,7 +337,7 @@ const mapPlaces: MapPlace[] = [
   },
   {
     id: "aitutaki-airport",
-    name: "Aitutaki Airport",
+    name: "RAR ↔ AIT",
     date: "2026-10-16",
     period: "Morning",
     status: "confirmed",
@@ -376,7 +376,7 @@ const mapPlaces: MapPlace[] = [
   },
   {
     id: "rarotonga-airport-departure",
-    name: "Rarotonga Airport",
+    name: "RAR → HNL",
     date: "2026-10-17",
     period: "Afternoon",
     status: "confirmed",
@@ -1668,7 +1668,7 @@ function MapView({
               >
                 All
               </button>
-              {data.days.map((day) => {
+              {data.days.filter((day) => day.date !== "2026-10-08" && day.date !== "2026-10-18").map((day) => {
                 const selected = !allDatesSelected && startDate === day.date && endDate === day.date;
                 return (
                   <button
