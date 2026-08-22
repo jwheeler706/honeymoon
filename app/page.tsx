@@ -1,6 +1,6 @@
 "use client";
 
-import { type CSSProperties, useEffect, useState } from "react";
+import { type CSSProperties, useEffect, useRef, useState } from "react";
 import itinerary from "./data/itinerary.json";
 
 type EventStatus = "confirmed" | "pending" | "flexible" | "suggested" | "planned" | "assumed";
@@ -507,7 +507,7 @@ const galleryImages: GalleryImage[] = [
 
 const scenicHeaderImages = [
   {
-    title: "Rarotonga lagoon",
+    title: "Rarotonga",
     image: "/images/rarotonga-aerial.jpg",
     position: "center 54%",
   },
@@ -850,6 +850,9 @@ function eventInlineNote(event: TripEvent) {
 function eventDetailNote(event: TripEvent) {
   if (event.flight || event.type === "travel") return "";
   if (/^(confirmed reservation|confirmed plan|keep it easy)\.?$/i.test(event.notes)) return "";
+  const normalizedNote = event.notes.trim().replace(/[.!]$/, "").toLowerCase();
+  const normalizedTime = formatTime(event.time).trim().toLowerCase();
+  if (normalizedNote === normalizedTime) return "";
   return event.notes;
 }
 
@@ -858,6 +861,8 @@ function compactMapDate(place: MapPlace) {
 }
 
 function eventMetaTime(event: TripEvent, period: Period) {
+  if (event.flight) return "";
+
   const formatted = formatTime(event.time);
   const normalized = formatted.trim().toLowerCase();
   const periodLabel = period.toLowerCase();
@@ -1434,37 +1439,45 @@ function MapView({
   selectedPlaceId: string;
   startDate: string;
 }) {
+  const mapShellRef = useRef<HTMLDivElement | null>(null);
   const firstTripDate = data.days[0]?.date ?? startDate;
   const lastTripDate = data.days[data.days.length - 1]?.date ?? endDate;
   const isAitutakiOnly = startDate === "2026-10-16" && endDate === "2026-10-16";
   const allDatesSelected = startDate === firstTripDate && endDate === lastTripDate;
   const activeMapBounds = isAitutakiOnly ? aitutakiMapBounds : rarotongaMapBounds;
+  const seaChangeDate = "2026-10-09";
+  const seaChangeSelected = startDate === seaChangeDate && endDate === seaChangeDate;
   const inRangePlaces = places.filter((place) => place.date >= startDate && place.date <= endDate);
   const homeBase = places.find((place) => place.id === "sea-change-villas");
+  const visibleRangePlaces = inRangePlaces.filter((place) => place.id !== "sea-change-villas" || seaChangeSelected);
   const mappablePlaces = inRangePlaces.filter((place) =>
-    isAitutakiOnly
-      ? place.offMap && mapPoint(place, activeMapBounds)
-      : !place.offMap && mapPoint(place, activeMapBounds)
+    place.id !== "sea-change-villas" || seaChangeSelected
+  ).filter((place) =>
+    isAitutakiOnly ? place.offMap && mapPoint(place, activeMapBounds) : !place.offMap && mapPoint(place, activeMapBounds)
   );
   const visibleMappablePlaces =
     !isAitutakiOnly && homeBase && !mappablePlaces.some((place) => place.id === homeBase.id)
       ? [homeBase, ...mappablePlaces]
       : mappablePlaces;
   const visiblePlaces = isAitutakiOnly
-    ? inRangePlaces
-    : homeBase
-      ? [homeBase, ...inRangePlaces.filter((place) => place.id !== homeBase.id && !place.offMap)]
-      : inRangePlaces.filter((place) => !place.offMap);
+    ? visibleRangePlaces
+    : visibleRangePlaces.filter((place) => !place.offMap);
   const selectedMapPlace = selectedPlaceId
     ? visibleMappablePlaces.find((place) => place.id === selectedPlaceId)
     : null;
   const selectedMapPoint = selectedMapPlace ? mapPoint(selectedMapPlace, activeMapBounds) : null;
   const selectedMapImage = selectedMapPlace ? imageForPlace(selectedMapPlace) : null;
+  const popupHasImage = Boolean(selectedMapImage);
+  const textOnlyPopupStyle: CSSProperties | undefined = popupHasImage
+    ? undefined
+    : { gridTemplateColumns: "minmax(0, 1fr)", minHeight: 0 };
+  const textOnlyPopupTextStyle: CSSProperties | undefined = popupHasImage ? undefined : { gridColumn: 1 };
   const popupClass = selectedMapPoint
     ? [
         "map-popup",
-        selectedMapPoint.x > 68 ? "left" : "",
-        selectedMapPoint.y > 62 ? "above" : "",
+        popupHasImage ? "has-image" : "text-only",
+        selectedMapPoint.x > 54 ? "left" : "",
+        selectedMapPoint.y > 54 ? "above" : "",
       ]
         .filter(Boolean)
         .join(" ")
@@ -1482,6 +1495,28 @@ function MapView({
     onSelectPlace("");
   };
 
+  useEffect(() => {
+    if (!selectedPlaceId) return undefined;
+
+    const dismissWhenOutside = (event: PointerEvent) => {
+      const target = event.target;
+      if (!(target instanceof Element)) return;
+      if (mapShellRef.current?.contains(target) && target.closest(".map-pin, .map-popup")) return;
+      onSelectPlace("");
+    };
+
+    const dismissOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") onSelectPlace("");
+    };
+
+    document.addEventListener("pointerdown", dismissWhenOutside);
+    document.addEventListener("keydown", dismissOnEscape);
+    return () => {
+      document.removeEventListener("pointerdown", dismissWhenOutside);
+      document.removeEventListener("keydown", dismissOnEscape);
+    };
+  }, [onSelectPlace, selectedPlaceId]);
+
   return (
     <section className="map-view" aria-labelledby="map-title">
       <div className="map-header">
@@ -1491,71 +1526,89 @@ function MapView({
       </div>
 
       <div className="map-layout">
-        <div
-          className={isAitutakiOnly ? "island-map aitutaki-map" : "island-map"}
-          role="img"
-          aria-label={isAitutakiOnly ? "Satellite map of Aitutaki lagoon" : "Satellite map of Rarotonga itinerary locations"}
-        >
-          {isAitutakiOnly ? (
-            <>
-              <span className="map-label ait-main">Aitutaki</span>
-              <span className="map-label ait-lagoon">Lagoon</span>
-              <span className="map-label ait-arutanga">Arutanga</span>
-            </>
-          ) : (
-            <>
-              <span className="map-label north">Avarua</span>
-              <span className="map-label east">Muri</span>
-              <span className="map-label south">Titikaveka</span>
-              <span className="map-label west">Arorangi</span>
-            </>
-          )}
-          {visibleMappablePlaces.map((place) => {
-            const point = mapPoint(place, activeMapBounds);
-            if (!point) return null;
-
-            return (
-              <button
-                aria-label={place.name}
-                className={mapPinClass(place, selectedPlaceId)}
-                key={place.id}
-                onClick={() => onSelectPlace(place.id === selectedPlaceId ? "" : place.id)}
-                style={{ left: `${point.x}%`, top: `${point.y}%` }}
-                title={place.id === "sea-change-villas" ? place.name : `${compactMapDate(place)} · ${place.name}`}
-                type="button"
-              >
-                {place.id === "sea-change-villas" ? <HomeGlyph /> : null}
-              </button>
-            );
-          })}
-          {selectedMapPoint && selectedMapPlace ? (
-            <article
-              className={popupClass}
-              style={{ left: `${selectedMapPoint.x}%`, top: `${selectedMapPoint.y}%` }}
+        <div ref={mapShellRef} style={{ maxWidth: "100%", minWidth: 0, overflow: "hidden" }}>
+          <div className="map-visual-frame" style={{ display: "grid", gap: 6, maxWidth: "100%", minWidth: 0, overflow: "hidden" }}>
+            <div
+              className={isAitutakiOnly ? "island-map aitutaki-map" : "island-map"}
+              role="img"
+              aria-label={isAitutakiOnly ? "Satellite map of Aitutaki lagoon" : "Satellite map of Rarotonga itinerary locations"}
             >
-              {selectedMapImage ? (
-                <img alt={selectedMapImage.alt} loading="lazy" src={selectedMapImage.image} />
-              ) : null}
-              <strong>{selectedMapPlace.name}</strong>
-              <span>
-                {selectedMapPlace.id === "sea-change-villas"
-                  ? selectedMapPlace.area
-                  : `${compactMapDate(selectedMapPlace)} · ${selectedMapPlace.area}`}
-              </span>
-              <p>{selectedMapPlace.note}</p>
-            </article>
-          ) : null}
+              {isAitutakiOnly ? (
+                <>
+                  <span className="map-label ait-main">Aitutaki</span>
+                  <span className="map-label ait-lagoon">Lagoon</span>
+                  <span className="map-label ait-arutanga">Arutanga</span>
+                </>
+              ) : (
+                <>
+                  <span className="map-label north">Avarua</span>
+                  <span className="map-label east">Muri</span>
+                  <span className="map-label south">Titikaveka</span>
+                  <span className="map-label west">Arorangi</span>
+                </>
+              )}
+              {visibleMappablePlaces.map((place) => {
+                const point = mapPoint(place, activeMapBounds);
+                if (!point) return null;
 
-          <div className="map-overlay-controls">
-            <div className="map-color-legend" aria-label="Pin color key">
-              <span><i className="type-water" />Water</span>
-              <span><i className="type-land" />Land</span>
-              <span><i className="type-food" />Food</span>
-              <span><i className="type-travel" />Travel</span>
-              <span><i className="type-home" />Stay</span>
+                return (
+                  <button
+                    aria-label={place.name}
+                    className={mapPinClass(place, selectedPlaceId)}
+                    key={place.id}
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      onSelectPlace(place.id === selectedPlaceId ? "" : place.id);
+                    }}
+                    style={{
+                      left: `${point.x}%`,
+                      top: `${point.y}%`,
+                      zIndex: place.id === selectedPlaceId ? 9 : undefined,
+                    }}
+                    title={place.id === "sea-change-villas" ? place.name : `${compactMapDate(place)} · ${place.name}`}
+                    type="button"
+                  >
+                    {place.id === "sea-change-villas" ? <HomeGlyph /> : null}
+                  </button>
+                );
+              })}
+              {selectedMapPoint && selectedMapPlace ? (
+                <article
+                  className={popupClass}
+                  onPointerDown={(event) => event.stopPropagation()}
+                  style={{
+                    ...textOnlyPopupStyle,
+                    left: `${selectedMapPoint.x}%`,
+                    pointerEvents: "auto",
+                    top: `${selectedMapPoint.y}%`,
+                  }}
+                >
+                  {selectedMapImage ? (
+                    <img alt={selectedMapImage.alt} loading="lazy" src={selectedMapImage.image} />
+                  ) : null}
+                  <strong style={textOnlyPopupTextStyle}>{selectedMapPlace.name}</strong>
+                  <span style={textOnlyPopupTextStyle}>
+                    {selectedMapPlace.id === "sea-change-villas"
+                      ? selectedMapPlace.area
+                      : `${compactMapDate(selectedMapPlace)} · ${selectedMapPlace.area}`}
+                  </span>
+                  <p style={textOnlyPopupTextStyle}>{selectedMapPlace.note}</p>
+                </article>
+              ) : null}
             </div>
 
-            <div className="map-date-toggles" aria-label="Map date filters">
+            <div className="map-legend-footer">
+              <div className="map-color-legend" aria-label="Pin color key">
+                <span><i className="type-water" />Water</span>
+                <span><i className="type-land" />Land</span>
+                <span><i className="type-food" />Food</span>
+                <span><i className="type-travel" />Travel</span>
+              </div>
+            </div>
+          </div>
+
+          <div style={{ maxWidth: "100%", minWidth: 0, overflow: "hidden" }}>
+            <div className="map-date-toggles" aria-label="Map date filters" style={{ minWidth: 0 }}>
               <button
                 aria-pressed={allDatesSelected}
                 className={allDatesSelected ? "active" : ""}
