@@ -352,7 +352,7 @@ const galleryImages: GalleryImage[] = [
     id: "nautilus",
     title: "Nautilus Resort",
     date: "2026-10-10",
-    label: "Opening dinner",
+    label: "Dinner",
     image:
       "https://images.squarespace-cdn.com/content/v1/68d84e7615147738b7ee4fee/66fcfb58-3e1f-4e7a-acda-558e02f3fd85/NavigateNautilusResortPolynesianRestaurantPool.webp?format=1500w",
     alt: "Nautilus Resort pool and restaurant beside Muri Lagoon.",
@@ -422,7 +422,7 @@ const galleryImages: GalleryImage[] = [
     date: "2026-10-16",
     label: "Day trip",
     image:
-      "https://img.rezdy.com/PRODUCT_IMAGE/80884/c27c7a1c594f48eea198c9764927d79dDJI_0764_Ait_2560_lg.jpg",
+      "https://cookislands.travel/sites/default/files/styles/full_win/public/2025-03/Channel.jpg.webp?itok=s1v9fcTN",
     alt: "Aerial view of Aitutaki lagoon and white sand channels.",
   },
   {
