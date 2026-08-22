@@ -644,12 +644,7 @@ function MapGlyph() {
 
 function ClockGlyph() {
   return (
-    <span className="clock-glyph" aria-hidden="true">
-      <svg viewBox="0 0 24 24">
-        <circle cx="12" cy="12" r="8.5" />
-        <path d="M12 7.5v5l3 1.8" />
-      </svg>
-    </span>
+    <span className="clock-glyph" aria-hidden="true">◷</span>
   );
 }
 

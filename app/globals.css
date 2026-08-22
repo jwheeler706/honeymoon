@@ -603,20 +603,10 @@ button {
 }
 
 .clock-glyph {
-  display: inline-grid;
-  width: 13px;
-  height: 13px;
-  place-items: center;
-}
-
-.clock-glyph svg {
-  width: 13px;
-  height: 13px;
-  fill: none;
-  stroke: currentColor;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  stroke-width: 1.7;
+  font-family: sans-serif;
+  font-size: 0.9em;
+  font-weight: 400;
+  line-height: 1;
 }
 
 .event-card h4 {

@@ -195,7 +195,7 @@
           "time": "afternoon",
           "status": "suggested",
           "type": "downtime",
-          "notes": "Protect energy before dinner."
+          "notes": ""
         },
         {
           "title": "Dinner at Nautilus Resort",
@@ -390,7 +390,7 @@
         },
         {
           "title": "Aitutaki lagoon day trip",
-          "time": "daytime",
+          "time": "09:00",
           "status": "confirmed",
           "type": "excursion",
           "notes": "Booking NIPXNP."
