@@ -1116,7 +1116,10 @@ function MapView({
   selectedPlaceId: string;
   startDate: string;
 }) {
+  const firstTripDate = data.days[0]?.date ?? startDate;
+  const lastTripDate = data.days[data.days.length - 1]?.date ?? endDate;
   const isAitutakiOnly = startDate === "2026-10-16" && endDate === "2026-10-16";
+  const allDatesSelected = startDate === firstTripDate && endDate === lastTripDate;
   const activeMapBounds = isAitutakiOnly ? aitutakiMapBounds : rarotongaMapBounds;
   const inRangePlaces = places.filter((place) => place.date >= startDate && place.date <= endDate);
   const homeBase = places.find((place) => place.id === "sea-change-villas");
@@ -1148,40 +1151,20 @@ function MapView({
         .filter(Boolean)
         .join(" ")
     : "";
+  const showAllDates = () => onDateRangeChange(firstTripDate, lastTripDate);
+  const showSingleDate = (date: string) => {
+    if (startDate === date && endDate === date) {
+      showAllDates();
+      return;
+    }
+    onDateRangeChange(date, date);
+  };
 
   return (
     <section className="map-view" aria-labelledby="map-title">
       <div className="map-header">
         <div>
           <p className="section-label" id="map-title">{isAitutakiOnly ? "Aitutaki map" : "Island map"}</p>
-        </div>
-        <div className="date-range">
-          <label>
-            From
-            <select
-              onChange={(event) => onDateRangeChange(event.target.value, endDate)}
-              value={startDate}
-            >
-              {data.days.map((day) => (
-                <option key={day.date} value={day.date}>
-                  {formatDate(day.date)}
-                </option>
-              ))}
-            </select>
-          </label>
-          <label>
-            To
-            <select
-              onChange={(event) => onDateRangeChange(startDate, event.target.value)}
-              value={endDate}
-            >
-              {data.days.map((day) => (
-                <option key={day.date} value={day.date}>
-                  {formatDate(day.date)}
-                </option>
-              ))}
-            </select>
-          </label>
         </div>
       </div>
 
@@ -1233,28 +1216,45 @@ function MapView({
               <p>{selectedPlace.note}</p>
             </article>
           ) : null}
-          <div className="map-legend" aria-label="Map pin key">
-            {data.days
-              .filter((day) => day.date >= startDate && day.date <= endDate)
-              .map((day) => (
-                <span className={dayColorClass(day.date)} key={day.date}>
-                  <i />
-                  {formatDate(day.date)}
-                </span>
-              ))}
-          </div>
+        </div>
+
+        <div className="map-date-toggles" aria-label="Map date filters">
+          <button
+            aria-pressed={allDatesSelected}
+            className={allDatesSelected ? "active" : ""}
+            onClick={showAllDates}
+            type="button"
+          >
+            All
+          </button>
+          {data.days.map((day) => {
+            const selected = !allDatesSelected && startDate === day.date && endDate === day.date;
+            return (
+              <button
+                aria-pressed={selected}
+                className={`${selected ? "active" : ""} ${dayColorClass(day.date)}`}
+                key={day.date}
+                onClick={() => showSingleDate(day.date)}
+                type="button"
+              >
+                <i />
+                {formatDate(day.date)}
+              </button>
+            );
+          })}
         </div>
 
         {offMapPlaces.length ? (
           <div className="off-map-list" aria-label="Off-map trip items">
+            <span>Aitutaki</span>
             {offMapPlaces.map((place) => (
               <button
-                className={place.id === selectedPlace.id ? `off-map-pill active ${dayColorClass(place.date)}` : `off-map-pill ${dayColorClass(place.date)}`}
+                className={place.id === selectedPlace.id ? "active" : ""}
                 key={place.id}
                 onClick={() => onSelectPlace(place.id)}
                 type="button"
               >
-                {formatDate(place.date)} · {place.name}
+                {place.name}
               </button>
             ))}
           </div>
@@ -1264,27 +1264,9 @@ function MapView({
           <article
             className={selectedPlace.id === "sea-change-villas" ? "selected-place home-base-detail" : "selected-place"}
           >
-            <span className={`status-badge ${selectedPlace.status}`}>{statusLabels[selectedPlace.status]}</span>
             <h3>{selectedPlace.name}</h3>
+            <span>{formatDate(selectedPlace.date)} · {selectedPlace.area}</span>
             <p>{selectedPlace.note}</p>
-            <dl>
-              <div>
-                <dt>Date</dt>
-                <dd>{formatLongDate(selectedPlace.date)}</dd>
-              </div>
-              <div>
-                <dt>Area</dt>
-                <dd>{selectedPlace.area}</dd>
-              </div>
-              <div>
-                <dt>Part of day</dt>
-                <dd>{selectedPlace.period}</dd>
-              </div>
-              <div>
-                <dt>Type</dt>
-                <dd>{typeLabels[selectedPlace.type]}</dd>
-              </div>
-            </dl>
           </article>
 
           <div className="place-list" aria-label="Visible map places">

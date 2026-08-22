@@ -748,7 +748,7 @@ button {
 .map-header {
   display: grid;
   gap: 10px;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
 
 .map-header h2 {
@@ -763,29 +763,6 @@ button {
   margin: 0;
   color: var(--muted);
   line-height: 1.42;
-}
-
-.date-range {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
-}
-
-.date-range label {
-  display: grid;
-  gap: 6px;
-  color: var(--muted);
-  font-size: 0.84rem;
-  font-weight: 800;
-}
-
-.date-range select {
-  min-width: 0;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background: var(--field-bg);
-  color: var(--ink);
-  padding: 10px;
 }
 
 .map-layout {
@@ -1004,41 +981,41 @@ button {
   line-height: 1.3;
 }
 
-.map-legend {
-  position: absolute;
-  left: 8px;
-  right: 8px;
-  bottom: 8px;
-  z-index: 2;
+.map-date-toggles {
   display: flex;
-  gap: 6px;
+  gap: 7px;
   overflow-x: auto;
-  padding-right: 130px;
+  padding-bottom: 2px;
   scrollbar-width: none;
 }
 
-.map-legend::-webkit-scrollbar,
+.map-date-toggles::-webkit-scrollbar,
 .off-map-list::-webkit-scrollbar,
 .place-list::-webkit-scrollbar {
   display: none;
 }
 
-.map-legend span,
-.off-map-pill {
+.map-date-toggles button {
   display: inline-flex;
   flex: 0 0 auto;
   align-items: center;
   gap: 5px;
-  border: 1px solid rgba(243, 238, 226, 0.14);
+  border: 1px solid rgba(243, 238, 226, 0.12);
   border-radius: 999px;
-  background: rgba(3, 10, 17, 0.68);
-  color: rgba(255, 253, 248, 0.88);
+  background: transparent;
+  color: var(--muted);
   font-size: 0.68rem;
-  font-weight: 900;
-  padding: 5px 7px;
+  font-weight: 800;
+  padding: 5px 8px;
 }
 
-.map-legend i {
+.map-date-toggles button.active {
+  border-color: color-mix(in srgb, var(--pin-color, var(--reef)) 54%, transparent);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--ink);
+}
+
+.map-date-toggles i {
   width: 9px;
   height: 9px;
   border-radius: 999px;
@@ -1047,76 +1024,69 @@ button {
 
 .off-map-list {
   display: flex;
-  gap: 8px;
+  gap: 10px;
+  align-items: center;
   overflow-x: auto;
+  color: var(--muted);
+  font-size: 0.78rem;
   scrollbar-width: none;
 }
 
-.off-map-pill {
-  border-color: color-mix(in srgb, var(--pin-color) 44%, transparent);
-  color: #fffdf8;
+.off-map-list > span {
+  flex: 0 0 auto;
+  color: var(--muted);
+  font-weight: 800;
 }
 
-.off-map-pill.active {
-  background: color-mix(in srgb, var(--pin-color) 28%, rgba(3, 10, 17, 0.78));
+.off-map-list button {
+  flex: 0 0 auto;
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  padding: 0;
+  font-size: 0.8rem;
+  text-align: left;
+}
+
+.off-map-list button.active {
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-color: var(--reef);
+  text-underline-offset: 4px;
 }
 
 .map-details {
   display: grid;
-  gap: 10px;
+  gap: 8px;
 }
 
 .selected-place {
-  padding: 12px;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background: var(--panel-strong);
+  padding: 2px 0 8px;
+  border-bottom: 1px solid var(--line);
 }
 
 .selected-place.home-base-detail {
-  border-color: rgba(240, 201, 120, 0.42);
-  background:
-    linear-gradient(135deg, rgba(240, 201, 120, 0.12), transparent 48%),
-    var(--panel-strong);
+  border-bottom-color: rgba(240, 201, 120, 0.28);
 }
 
 .selected-place h3 {
-  margin: 8px 0 5px;
+  margin: 0 0 4px;
   font-family: var(--font-display);
-  font-size: 1.18rem;
+  font-size: 1.02rem;
   font-weight: 650;
 }
 
+.selected-place > span,
 .selected-place p {
   margin: 0;
   color: var(--muted);
-  line-height: 1.5;
-}
-
-.selected-place dl {
-  display: none;
-  gap: 8px;
-  margin: 14px 0 0;
-}
-
-.selected-place div {
-  display: grid;
-  grid-template-columns: 90px minmax(0, 1fr);
-  gap: 8px;
-}
-
-.selected-place dt {
-  color: var(--muted);
-  font-size: 0.8rem;
-}
-
-.selected-place dd {
-  margin: 0;
+  font-size: 0.82rem;
+  line-height: 1.35;
 }
 
 .place-list {
   display: flex;
-  gap: 8px;
+  gap: 12px;
   overflow-x: auto;
   padding-bottom: 2px;
   scrollbar-width: none;
@@ -1124,24 +1094,24 @@ button {
 
 .place-row {
   display: grid;
-  flex: 0 0 min(260px, 82vw);
-  grid-template-columns: 10px minmax(0, 1fr);
-  gap: 10px;
+  flex: 0 0 min(210px, 70vw);
+  grid-template-columns: 8px minmax(0, 1fr);
+  gap: 8px;
   align-items: center;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.045);
+  border: 0;
+  background: transparent;
   color: var(--ink);
-  padding: 11px;
+  padding: 0;
   text-align: left;
 }
 
 .place-row.active {
-  border-color: color-mix(in srgb, var(--pin-color) 58%, transparent);
-  background: var(--panel-strong);
+  color: var(--ink);
 }
 
 .place-row .status-dot {
+  width: 7px;
+  height: 7px;
   background: var(--pin-color);
 }
 
@@ -1151,8 +1121,9 @@ button {
 }
 
 .place-row small {
-  margin-top: 3px;
+  margin-top: 2px;
   color: var(--muted);
+  font-size: 0.72rem;
 }
 
 .reservations-view {
@@ -1338,11 +1309,6 @@ button {
     grid-template-columns: minmax(0, 1fr) auto;
   }
 
-  .map-header {
-    grid-template-columns: minmax(0, 1fr) 260px;
-    align-items: start;
-  }
-
   .map-layout {
     grid-template-columns: minmax(0, 1fr);
   }
@@ -1351,17 +1317,8 @@ button {
     min-height: 0;
   }
 
-  .map-details {
-    grid-template-columns: 260px minmax(0, 1fr);
-    align-items: stretch;
-  }
-
-  .place-list {
-    align-content: stretch;
-  }
-
   .place-row {
-    flex-basis: 230px;
+    flex-basis: 190px;
   }
 
   .gallery-grid {
