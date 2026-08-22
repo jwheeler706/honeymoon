@@ -1,4 +1,4 @@
-const CACHE_NAME = "rarotonga-honeymoon-v53";
+const CACHE_NAME = "rarotonga-honeymoon-v54";
 const APP_SHELL = [
   "/",
   "/favicon.svg",
