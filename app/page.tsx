@@ -59,6 +59,11 @@ type Reservation = {
   location?: string;
 };
 
+type CalendarItem = TripEvent & {
+  day: Day;
+  period: Period;
+};
+
 type TripData = typeof itinerary & {
   days: Day[];
   reservations: Reservation[];
@@ -954,7 +959,7 @@ export default function Home() {
             {view === "plan"
               ? "Today"
               : view === "reservations"
-                ? "Reservations"
+                ? "Calendar"
                 : view === "map"
                   ? "Map"
                   : "Gallery"}
@@ -963,7 +968,10 @@ export default function Home() {
       </section>
 
       {state.view === "reservations" ? (
-        <ReservationsView reservations={data.reservations} />
+        <CalendarView
+          days={data.days}
+          onSelectDay={(activeDay) => updateState({ activeDay, view: "plan" })}
+        />
       ) : state.view === "map" ? (
         <MapView
           endDate={state.mapEnd}
@@ -1364,59 +1372,93 @@ function MapView({
   );
 }
 
-function ReservationsView({ reservations }: { reservations: Reservation[] }) {
-  const groups = reservations.reduce<Array<{ date: string; items: Reservation[] }>>((accumulator, reservation) => {
-    const current = accumulator[accumulator.length - 1];
-    if (current?.date === reservation.date) {
-      current.items.push(reservation);
-    } else {
-      accumulator.push({ date: reservation.date, items: [reservation] });
-    }
-    return accumulator;
-  }, []);
+function calendarItemsForDay(day: Day): CalendarItem[] {
+  return day.events
+    .map((event) => ({
+      ...event,
+      day,
+      period: eventPeriod(event),
+    }))
+    .sort((a, b) => eventStartMinutes(a) - eventStartMinutes(b));
+}
 
+function calendarItemClass(item: CalendarItem) {
+  return [
+    "calendar-item",
+    `calendar-${item.status}`,
+    item.flight || item.type === "travel" ? "calendar-travel" : "",
+    item.type === "reservation" || item.type === "meal" ? "calendar-food" : "",
+    item.type === "excursion" || item.type === "activity" ? "calendar-activity" : "",
+  ]
+    .filter(Boolean)
+    .join(" ");
+}
+
+function calendarItemText(item: CalendarItem) {
+  if (item.flight) return item.flight.route;
+  if (item.status === "flexible" || item.status === "suggested") return statusLabels[item.status];
+  if (item.status === "planned") return "Loose plan";
+  return item.type === "meal" || item.type === "reservation" ? "Booked" : typeLabels[item.type];
+}
+
+function CalendarView({
+  days,
+  onSelectDay,
+}: {
+  days: Day[];
+  onSelectDay: (day: string) => void;
+}) {
   return (
-    <section className="reservations-view" aria-labelledby="reservations-title">
-      <h2 className="sr-only" id="reservations-title">Saved plans</h2>
-      <div className="reservation-list">
-        {groups.map((group) => (
-          <details
-            className="reservation-day"
-            key={group.date}
-            open={group.date <= "2026-10-11"}
-          >
-            <summary>
-              <span>{formatLongDate(group.date)}</span>
-            </summary>
-            <div className="reservation-day-items">
-              {group.items.map((reservation) => {
-                const when = reservation.time ? formatTime(reservation.time) : "Time TBD";
-                const reservationImage = imageForReservation(reservation);
+    <section className="calendar-view" aria-labelledby="calendar-title">
+      <div className="calendar-header">
+        <p className="section-label">Trip calendar</p>
+        <h2 id="calendar-title">Oct 8-18</h2>
+      </div>
+
+      <div className="calendar-board">
+        {days.map((day) => (
+          <article className={`calendar-day ${dayColorClass(day.date)}`} key={day.date}>
+            <button
+              className="calendar-day-head"
+              onClick={() => onSelectDay(day.date)}
+              type="button"
+            >
+              <span>
+                <strong>{day.weekday}</strong>
+                <small>{formatDate(day.date)}</small>
+              </span>
+              <b>{day.title}</b>
+            </button>
+
+            <div className="calendar-lanes">
+              {periodLabels.map((period) => {
+                const items = calendarItemsForDay(day).filter((item) => item.period === period);
                 return (
-                  <article
-                    className={`reservation-row ${reservationImage ? "has-photo" : ""} ${dayColorClass(reservation.date)}`}
-                    key={`${reservation.date}-${reservation.name}`}
-                  >
-                    {reservationImage ? (
-                      <img
-                        alt={reservationImage.alt}
-                        className="reservation-photo"
-                        loading="lazy"
-                        src={reservationImage.image}
-                      />
-                    ) : null}
-                    <div className="reservation-copy">
-                      <div className="reservation-main">
-                        <time>{when}</time>
-                        <span className={`status-dot ${reservation.status}`} aria-label={statusLabels[reservation.status]} />
-                      </div>
-                      <strong>{reservation.name}</strong>
+                  <div className="calendar-lane" key={period}>
+                    <span>{period}</span>
+                    <div className="calendar-lane-items">
+                      {items.length ? (
+                        items.map((item) => (
+                          <button
+                            className={calendarItemClass(item)}
+                            key={`${day.date}-${item.title}`}
+                            onClick={() => onSelectDay(day.date)}
+                            type="button"
+                          >
+                            <time>{formatTime(item.time)}</time>
+                            <strong>{item.title}</strong>
+                            <small>{calendarItemText(item)}</small>
+                          </button>
+                        ))
+                      ) : (
+                        <p>Open</p>
+                      )}
                     </div>
-                  </article>
+                  </div>
                 );
               })}
             </div>
-          </details>
+          </article>
         ))}
       </div>
     </section>
