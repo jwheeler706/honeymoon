@@ -129,7 +129,8 @@ type HeaderKey =
 
 type HeaderContext = {
   key: HeaderKey;
-  eyebrow: string;
+  label: string;
+  time: string;
   title: string;
   subtitle: string;
 };
@@ -632,7 +633,8 @@ function headerContext(now = new Date()): HeaderContext {
   if (now < tripStart) {
     return {
       key: "countdown",
-      eyebrow: `Rarotonga time · ${formatRarotongaTime(now)}`,
+      label: "Rarotonga time",
+      time: formatRarotongaTime(now),
       title: countdownText(now),
       subtitle: "",
     };
@@ -643,7 +645,8 @@ function headerContext(now = new Date()): HeaderContext {
   if (now >= tripEnd || !current) {
     return {
       key: "beach",
-      eyebrow: `Rarotonga time · ${formatRarotongaTime(now)}`,
+      label: "Rarotonga time",
+      time: formatRarotongaTime(now),
       title: "Rarotonga",
       subtitle: "",
     };
@@ -651,7 +654,8 @@ function headerContext(now = new Date()): HeaderContext {
 
   return {
     key: headerKeyForEvent(current.event),
-    eyebrow: `Rarotonga time · ${formatRarotongaTime(now)}`,
+    label: "Rarotonga time",
+    time: formatRarotongaTime(now),
     title: current.event.title,
     subtitle: `${formatTime(current.event.time)} · ${current.day.title}`,
   };
@@ -814,7 +818,8 @@ export default function Home() {
       <section className={`top-panel header-${header.key}`} aria-labelledby="trip-title">
         <div className="title-block">
           <p className="header-meta">
-            <span>{header.eyebrow}</span>
+            <span>{header.label}</span>
+            <span>{header.time}</span>
             {weather ? <span>{weather.temperature}° {weather.label}</span> : null}
           </p>
           <h1 id="trip-title">{header.title}</h1>
