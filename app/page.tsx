@@ -1152,6 +1152,28 @@ export default function Home() {
     });
   }
 
+  function showMapPlaceOnToday(place: MapPlace) {
+    const day = data.days.find((item) => item.date === place.date);
+    if (!day) return;
+
+    const matchingEvents = day.events.filter((event) => mapPlaceForEvent(event, day) === place.id);
+    const matchingEvent = place.id === "rarotonga-airport-car-pickup"
+      ? matchingEvents.find((event) => normalizedMatch(event.title).includes("rental")) ?? matchingEvents[0]
+      : matchingEvents.find((event) => event.flight) ?? matchingEvents[0];
+    const targetId = matchingEvent
+      ? `event-${eventKey(day, matchingEvent)}`
+      : `period-${day.date}-${place.period.toLowerCase()}`;
+
+    updateState({ activeDay: day.date, selectedPlace: "", view: "plan" });
+
+    window.setTimeout(() => {
+      document.getElementById(targetId)?.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
+    }, 80);
+  }
+
   return (
     <main className={`app-shell theme-${timeTheme} weather-${weather?.mood ?? "neutral"}`}>
       <section className={`top-panel header-${header.key}`} style={headerStyle} aria-labelledby="trip-title">
@@ -1221,6 +1243,7 @@ export default function Home() {
         <MapView
           endDate={state.mapEnd}
           onDateRangeChange={(mapStart, mapEnd) => updateState({ mapStart, mapEnd })}
+          onOpenPlace={showMapPlaceOnToday}
           onSelectPlace={(selectedPlace) => updateState({ selectedPlace })}
           places={mapPlaces}
           selectedPlaceId={state.selectedPlace}
@@ -1257,7 +1280,12 @@ export default function Home() {
                 if (skipOpenPeriod) return null;
 
                 return (
-                  <section className="period-section" key={period} aria-label={period}>
+                  <section
+                    aria-label={period}
+                    className="period-section"
+                    id={`period-${activeDay.date}-${period.toLowerCase()}`}
+                    key={period}
+                  >
                     <div className="period-heading">
                       <h3>{period}</h3>
                       {events.length ? null : <p>{openPeriodCopy}</p>}
@@ -1277,7 +1305,7 @@ export default function Home() {
                           const metaStatus = eventMetaStatus(event);
                           const timeSensitiveReservation = isTimeSensitiveReservation(event);
                           return (
-                            <article className="event-card" key={key}>
+                            <article className="event-card" id={`event-${key}`} key={key}>
                               <div className="event-main">
                                 <div>
                                   <h4 className={titleClass}>
@@ -1470,6 +1498,7 @@ function recommendationText(day: Day, period: Period) {
 function MapView({
   endDate,
   onDateRangeChange,
+  onOpenPlace,
   onSelectPlace,
   places,
   selectedPlaceId,
@@ -1477,6 +1506,7 @@ function MapView({
 }: {
   endDate: string;
   onDateRangeChange: (startDate: string, endDate: string) => void;
+  onOpenPlace: (place: MapPlace) => void;
   onSelectPlace: (placeId: string) => void;
   places: MapPlace[];
   selectedPlaceId: string;
@@ -1625,8 +1655,10 @@ function MapView({
                 );
               })}
               {selectedMapPoint && selectedMapPlace ? (
-                <article
+                <button
+                  aria-label={`Open ${selectedMapPlace.name} on Today`}
                   className={popupClass}
+                  onClick={() => onOpenPlace(selectedMapPlace)}
                   onPointerDown={(event) => event.stopPropagation()}
                   style={{
                     ...textOnlyPopupStyle,
@@ -1634,6 +1666,7 @@ function MapView({
                     pointerEvents: "auto",
                     top: `${selectedMapPoint.y}%`,
                   }}
+                  type="button"
                 >
                   {selectedMapImage ? (
                     <img alt={selectedMapImage.alt} loading="lazy" src={selectedMapImage.image} />
@@ -1645,7 +1678,7 @@ function MapView({
                       : `${compactMapDate(selectedMapPlace)} · ${selectedMapPlace.area}`}
                   </span>
                   <p style={textOnlyPopupTextStyle}>{selectedMapPlace.note}</p>
-                </article>
+                </button>
               ) : null}
               <div className="map-legend-overlay">
                 <div className="map-color-legend" aria-label="Pin color key">

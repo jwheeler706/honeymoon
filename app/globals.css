@@ -1137,9 +1137,17 @@ button {
   border-radius: 8px;
   background: rgba(4, 17, 19, 0.9);
   color: var(--ink);
+  font: inherit;
   padding: 9px 10px;
   pointer-events: none;
+  text-align: left;
+  cursor: pointer;
   box-shadow: 0 14px 32px rgba(0, 0, 0, 0.42);
+}
+
+.map-popup:hover,
+.map-popup:focus-visible {
+  border-color: rgba(126, 224, 226, 0.68);
 }
 
 .map-popup.left {
