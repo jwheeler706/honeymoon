@@ -220,10 +220,10 @@ const mapPlaces: MapPlace[] = [
     period: "Evening",
     status: "confirmed",
     type: "reservation",
-    area: "Avarua",
+    area: "Tupapa / Avarua",
     note: "Dinner at 6:15 PM.",
-    lat: -21.22734,
-    lng: -159.7713,
+    lat: -21.2074,
+    lng: -159.7619,
   },
   {
     id: "black-rock",
@@ -384,6 +384,23 @@ const galleryImages: GalleryImage[] = [
     alt: "Rarotonga lagoon and reef from above.",
   },
   {
+    id: "muri-beach",
+    title: "Muri Beach",
+    date: "2026-10-12",
+    label: "Lagoon",
+    image:
+      "https://commons.wikimedia.org/wiki/Special:Redirect/file/Muri_Beach,_Rarotonga,_Cook_Islands.jpg",
+    alt: "Muri Beach with calm lagoon water and island scenery.",
+  },
+  {
+    id: "muri-islets",
+    title: "Muri lagoon islets",
+    date: "2026-10-12",
+    label: "Lagoon",
+    image: "https://www.ncl.com/sites/default/files/RAR_05_1920X1080%20LG_0.jpg",
+    alt: "Muri Lagoon and islets from above.",
+  },
+  {
     id: "rarotonga-peaks",
     title: "Rarotonga peaks",
     date: "2026-10-14",
@@ -421,9 +438,8 @@ const galleryImages: GalleryImage[] = [
     title: "Aitutaki",
     date: "2026-10-16",
     label: "Day trip",
-    image:
-      "https://cookislands.travel/sites/default/files/styles/full_win/public/2025-03/Channel.jpg.webp?itok=s1v9fcTN",
-    alt: "Aerial view of Aitutaki lagoon and white sand channels.",
+    image: "https://www.matrikibeachhuts.com/aituta354.jpg",
+    alt: "Satellite-style view of Aitutaki lagoon and reef.",
   },
   {
     id: "one-foot",
@@ -1110,6 +1126,8 @@ export default function Home() {
                           const eventImage = imageForEvent(event);
                           const inlineNote = eventInlineNote(event);
                           const eventMapPlace = mapPlaceForEvent(event);
+                          const titleClass =
+                            event.flight || event.type === "travel" ? "event-title" : "event-title event-title-accent";
                           return (
                             <article className="event-card" key={key}>
                               <div className="event-main">
@@ -1129,7 +1147,7 @@ export default function Home() {
                                       </span>
                                     )}
                                   </div>
-                                  <h4>
+                                  <h4 className={titleClass}>
                                     {event.title}
                                     {inlineNote ? <span> - {inlineNote}</span> : null}
                                   </h4>
@@ -1185,6 +1203,18 @@ export default function Home() {
 }
 
 function GalleryView({ images }: { images: GalleryImage[] }) {
+  const scenicOrder = new Map(
+    ["lagoon", "muri-beach", "muri-islets", "rarotonga-peaks", "lagoon-swim", "palm-beach"].map((id, index) => [
+      id,
+      index,
+    ]),
+  );
+  const orderedImages = [...images].sort((a, b) => {
+    const aOrder = scenicOrder.get(a.id) ?? Number.MAX_SAFE_INTEGER;
+    const bOrder = scenicOrder.get(b.id) ?? Number.MAX_SAFE_INTEGER;
+    return aOrder - bOrder;
+  });
+
   return (
     <section className="gallery-view" aria-labelledby="gallery-title">
       <div className="gallery-header">
@@ -1200,7 +1230,7 @@ function GalleryView({ images }: { images: GalleryImage[] }) {
         ))}
       </div>
       <div className="gallery-grid">
-        {images.map((image) => (
+        {orderedImages.map((image) => (
           <article className="gallery-card" key={image.id}>
             <img
               alt={image.alt}

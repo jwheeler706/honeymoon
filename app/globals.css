@@ -587,6 +587,13 @@ button {
   letter-spacing: 0;
 }
 
+.event-title-accent {
+  font-family: var(--font-display);
+  font-size: 1.12rem;
+  font-weight: 650;
+  line-height: 1.18;
+}
+
 .event-card h4 span {
   color: var(--muted);
   font-weight: 650;
