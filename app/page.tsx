@@ -564,6 +564,15 @@ function formatLongDate(dateString: string) {
   }).format(new Date(`${dateString}T12:00:00Z`));
 }
 
+function formatMapGroupDate(dateString: string) {
+  return new Intl.DateTimeFormat("en-US", {
+    weekday: "short",
+    month: "short",
+    day: "numeric",
+    timeZone: "UTC",
+  }).format(new Date(`${dateString}T12:00:00Z`));
+}
+
 function formatTime(time: string | null) {
   if (!time) return "Time TBD";
   if (time === "morning" || time === "afternoon" || time === "daytime" || time === "evening") {
@@ -1496,7 +1505,15 @@ function MapView({
   const visiblePlaces = (isAitutakiOnly
     ? visibleRangePlaces
     : visibleRangePlaces.filter((place) => !place.offMap)
-  ).sort((a, b) => periodLabels.indexOf(a.period) - periodLabels.indexOf(b.period));
+  ).sort((a, b) =>
+    a.date.localeCompare(b.date) || periodLabels.indexOf(a.period) - periodLabels.indexOf(b.period)
+  );
+  const groupedVisiblePlaces = allDatesSelected
+    ? Array.from(new Set(visiblePlaces.map((place) => place.date))).map((date) => ({
+        date,
+        places: visiblePlaces.filter((place) => place.date === date),
+      }))
+    : [];
   const selectedMapPlace = selectedPlaceId
     ? visibleMappablePlaces.find((place) => place.id === selectedPlaceId)
     : null;
@@ -1670,29 +1687,35 @@ function MapView({
         </div>
 
         <div className="map-details">
-          <div className="place-list" aria-label="Visible map places">
-            {visiblePlaces.map((place) => (
-              <div
-                className={`place-row ${mapColorClass(place)}`}
-                key={place.id}
-              >
-                <span className="status-dot" />
-                <span>
-                  <strong>{place.name}</strong>
-                  <small>
-                    {place.id === "sea-change-villas"
-                      ? place.area
-                      : allDatesSelected
-                        ? `${compactMapDate(place)} · ${place.area}`
-                        : `${place.period} · ${place.area}`}
-                  </small>
-                </span>
-              </div>
-            ))}
+          <div className={`place-list ${allDatesSelected ? "grouped" : ""}`} aria-label="Visible map places">
+            {allDatesSelected
+              ? groupedVisiblePlaces.map((group) => (
+                  <section className="map-day-group" key={group.date}>
+                    <h3>{formatMapGroupDate(group.date)}</h3>
+                    <div className="map-day-places">
+                      {group.places.map((place) => (
+                        <PlaceRow key={place.id} place={place} />
+                      ))}
+                    </div>
+                  </section>
+                ))
+              : visiblePlaces.map((place) => <PlaceRow key={place.id} place={place} />)}
           </div>
         </div>
       </div>
     </section>
+  );
+}
+
+function PlaceRow({ place }: { place: MapPlace }) {
+  return (
+    <div className={`place-row ${mapColorClass(place)}`}>
+      <span className="status-dot" />
+      <span>
+        <strong>{place.name}</strong>
+        <small>{place.id === "sea-change-villas" ? place.area : `${place.period} · ${place.area}`}</small>
+      </span>
+    </div>
   );
 }
 

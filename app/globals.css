@@ -1362,6 +1362,38 @@ button {
   scrollbar-width: none;
 }
 
+.place-list.grouped {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 12px 18px;
+  overflow-x: visible;
+  padding-top: 4px;
+}
+
+.map-day-group {
+  min-width: 0;
+  padding-top: 8px;
+  border-top: 1px solid var(--line);
+}
+
+.map-day-group h3 {
+  margin: 0 0 7px;
+  color: var(--sand);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.map-day-places {
+  display: grid;
+  gap: 7px;
+}
+
+.map-day-places .place-row {
+  width: 100%;
+}
+
 .place-row {
   display: grid;
   flex: 0 0 min(210px, 70vw);
