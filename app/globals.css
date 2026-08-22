@@ -60,6 +60,20 @@ select {
   font: inherit;
 }
 
+select {
+  color-scheme: dark;
+}
+
+select option {
+  background: #162522;
+  color: #f7efe3;
+}
+
+select option:checked {
+  background: #1f615e;
+  color: #ffffff;
+}
+
 button {
   cursor: pointer;
 }
