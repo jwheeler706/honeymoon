@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { type CSSProperties, useEffect, useState } from "react";
 import itinerary from "./data/itinerary.json";
 
 type EventStatus = "confirmed" | "pending" | "flexible" | "suggested" | "planned" | "assumed";
@@ -173,6 +173,7 @@ type GalleryImage = {
   label: string;
   image: string;
   alt: string;
+  position?: string;
 };
 
 const mapPlaces: MapPlace[] = [
@@ -413,8 +414,25 @@ const galleryImages: GalleryImage[] = [
     title: "Blue Lagoon Restaurant",
     date: "2026-10-16",
     label: "Dinner",
-    image: "https://enjoycookislands.com/uploads/general/VR4A0089.jpg?mtime=1470958087",
+    image:
+      "https://cookislands.travel/sites/default/files/styles/supplier_detail_image/public/2020-10/AitutakiVillage3.jpg.avif?itok=7xt5km8a",
     alt: "Blue Lagoon Restaurant at Aitutaki Village.",
+    position: "center 72%",
+  },
+];
+
+const scenicHeaderImages = [
+  {
+    title: "Rarotonga reef",
+    image:
+      "https://www.downunderendeavours.com/wp-content/uploads/2018/08/SMB-cooks-650x400-rarotonga-aerial-island-view-1324.jpg",
+    position: "center 54%",
+  },
+  {
+    title: "Lagoon cliffs",
+    image:
+      "https://images.squarespace-cdn.com/content/v1/68d84e7615147738b7ee4fee/7b01c2a4-ec9a-4f39-b2f5-f63a858fc10f/Pana-Lagoon3.webp?format=1500w",
+    position: "center 46%",
   },
 ];
 
@@ -466,6 +484,10 @@ function formatTime(time: string | null) {
 
 function eventKey(day: Day, event: TripEvent) {
   return `${day.date}-${event.title}`;
+}
+
+function hourlyScenicIndex() {
+  return Math.floor(Date.now() / 3_600_000) % scenicHeaderImages.length;
 }
 
 function mapPoint(place: MapPlace, bounds = rarotongaMapBounds) {
@@ -682,28 +704,37 @@ function imageForPlace(place: MapPlace) {
   return imageForEvent(eventLike);
 }
 
+function normalizedMatch(value: string) {
+  return value.toLowerCase();
+}
+
+function mapPlaceForEvent(event: TripEvent) {
+  if (event.flight || event.type === "travel") return null;
+  const title = normalizedMatch(event.title);
+  const note = normalizedMatch(event.notes);
+  const combined = `${title} ${note}`;
+
+  if (combined.includes("sea change")) return "sea-change-villas";
+  if (combined.includes("punanga")) return "punanga-nui-market";
+  if (combined.includes("nautilus")) return "nautilus";
+  if (combined.includes("tamarind")) return "tamarind";
+  if (combined.includes("black rock") || combined.includes("arorangi") || combined.includes("north and west")) {
+    return "black-rock";
+  }
+  if (combined.includes("on the beach")) return "otb";
+  if (combined.includes("turtle")) return "turtles";
+  if (combined.includes("raemaru") || combined.includes("hike")) return "raemaru";
+  if (combined.includes("antipodes")) return "antipodes";
+  if (combined.includes("one foot") || combined.includes("tapuaetai")) return "one-foot-island-lunch";
+  if (combined.includes("blue lagoon")) return "blue-lagoon-restaurant";
+  if (combined.includes("aitutaki")) return "aitutaki";
+
+  return null;
+}
+
 function eventInlineNote(event: TripEvent) {
-  if (!event.notes || event.flight) return "";
-
-  const note = event.notes.trim();
-  const normalized = note.toLowerCase();
-  const isDuplicateTime = /^\d{1,2}:\d{2}\s*(am|pm)\.?$/i.test(note);
-  const hiddenNotes = [
-    "confirmed reservation.",
-    "confirmed pickup.",
-    "confirmed plan.",
-    "main restaurant.",
-    "only if we feel like it.",
-    "protect energy before dinner.",
-    "keep it open.",
-    "keep it easy.",
-    "only if weather and energy line up.",
-    "confirm check-in details.",
-    "low effort.",
-  ];
-
-  if (isDuplicateTime || hiddenNotes.includes(normalized)) return "";
-  return note.replace(/\.$/, "");
+  if (event.flight) return "";
+  return "";
 }
 
 function currentTripEvent(now = new Date()) {
@@ -829,6 +860,7 @@ export default function Home() {
   });
   const [timeTheme, setTimeTheme] = useState<TimeTheme>(() => currentTimeTheme());
   const [header, setHeader] = useState<HeaderContext>(() => headerContext());
+  const [scenicIndex, setScenicIndex] = useState(() => hourlyScenicIndex());
   const [weather, setWeather] = useState<WeatherInfo | null>(null);
 
   useEffect(() => {
@@ -852,6 +884,13 @@ export default function Home() {
       const now = new Date();
       setTimeTheme(currentTimeTheme(now));
       setHeader(headerContext(now));
+    }, 60_000);
+    return () => window.clearInterval(timer);
+  }, []);
+
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      setScenicIndex(hourlyScenicIndex());
     }, 60_000);
     return () => window.clearInterval(timer);
   }, []);
@@ -893,6 +932,14 @@ export default function Home() {
   }, []);
 
   const activeDay = data.days.find((day) => day.date === state.activeDay) ?? data.days[0];
+  const scenicHeader = header.key === "countdown" || header.key === "beach" || header.key === "flight";
+  const scenicImage = scenicHeaderImages[scenicIndex % scenicHeaderImages.length];
+  const headerStyle: CSSProperties | undefined = scenicHeader
+    ? {
+        "--header-image": `url("${scenicImage.image}")`,
+        backgroundPosition: scenicImage.position,
+      } as CSSProperties
+    : undefined;
 
   function updateState(update: Partial<AppState>) {
     setState((current) => ({ ...current, ...update }));
@@ -918,9 +965,19 @@ export default function Home() {
     }));
   }
 
+  function showEventOnMap(day: Day, placeId: string) {
+    updateState({
+      activeDay: day.date,
+      mapStart: day.date,
+      mapEnd: day.date,
+      selectedPlace: placeId,
+      view: "map",
+    });
+  }
+
   return (
     <main className={`app-shell theme-${timeTheme}`}>
-      <section className={`top-panel header-${header.key}`} aria-labelledby="trip-title">
+      <section className={`top-panel header-${header.key}`} style={headerStyle} aria-labelledby="trip-title">
         <div className="title-block">
           <p className="header-meta">
             <span>{header.time} {header.label}</span>
@@ -1006,9 +1063,15 @@ export default function Home() {
             <div className="period-stack">
               {periodLabels.map((period) => {
                 const events = activeDay.events.filter((event) => eventPeriod(event) === period);
+                const skipOpenPeriod =
+                  !events.length &&
+                  (activeDay.theme.includes("travel") ||
+                    activeDay.events.every((event) => event.flight || event.type === "travel"));
                 const openPeriodCopy = [periodTone(activeDay, period), recommendationText(activeDay, period)]
                   .filter(Boolean)
                   .join(" ");
+                if (skipOpenPeriod) return null;
+
                 return (
                   <section className="period-section" key={period} aria-label={period}>
                     <div className="period-heading">
@@ -1022,6 +1085,7 @@ export default function Home() {
                           const key = eventKey(activeDay, event);
                           const eventImage = imageForEvent(event);
                           const inlineNote = eventInlineNote(event);
+                          const eventMapPlace = mapPlaceForEvent(event);
                           return (
                             <article className="event-card" key={key}>
                               <div className="event-main">
@@ -1058,6 +1122,17 @@ export default function Home() {
                                 </div>
                               </div>
 
+                              {eventMapPlace ? (
+                                <button
+                                  aria-label={`Show ${event.title} on map`}
+                                  className="event-map-link"
+                                  onClick={() => showEventOnMap(activeDay, eventMapPlace)}
+                                  type="button"
+                                >
+                                  <span aria-hidden="true" className="map-glyph" />
+                                </button>
+                              ) : null}
+
                               <details className={`event-note ${state.notes[key] ? "has-note" : ""}`}>
                                 <summary aria-label={`Trip note for ${event.title}`}>
                                   <span aria-hidden="true" className="note-glyph" />
@@ -1092,10 +1167,23 @@ function GalleryView({ images }: { images: GalleryImage[] }) {
         <p className="section-label">Trip pictures</p>
         <h2 id="gallery-title">Trip images</h2>
       </div>
+      <div className="header-scene-strip" aria-label="Header scenes">
+        {scenicHeaderImages.map((image) => (
+          <article key={image.title}>
+            <img alt={`${image.title} header scene.`} loading="lazy" src={image.image} />
+            <span>{image.title}</span>
+          </article>
+        ))}
+      </div>
       <div className="gallery-grid">
         {images.map((image) => (
           <article className="gallery-card" key={image.id}>
-            <img alt={image.alt} loading="lazy" src={image.image} />
+            <img
+              alt={image.alt}
+              loading="lazy"
+              src={image.image}
+              style={image.position ? { objectPosition: image.position } : undefined}
+            />
             <div>
               <span>{formatDate(image.date)} · {image.label}</span>
               <h3>{image.title}</h3>
@@ -1400,6 +1488,7 @@ function calendarItemClass(item: CalendarItem) {
 
 function calendarItemText(item: CalendarItem) {
   if (item.flight) return item.flight.route;
+  if (item.type === "travel") return "Confirmed";
   if (item.status === "flexible" || item.status === "suggested") return statusLabels[item.status];
   if (item.status === "planned") return "Loose plan";
   return item.type === "meal" || item.type === "reservation" ? "Booked" : typeLabels[item.type];

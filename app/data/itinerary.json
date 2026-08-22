@@ -26,7 +26,7 @@
         "dropoffLocation": "Rarotonga Airport",
         "dropoffDate": "2026-10-17",
         "dropoffTime": "11:00",
-        "notes": "Confirm AM/PM on return time."
+        "notes": "11:00 AM return."
       },
       "notes": [
         "Use driver days preferentially for farther north and west-side destinations.",
@@ -447,11 +447,11 @@
           "notes": "Keep plans close and easy."
         },
         {
-          "title": "Return rental car",
+          "title": "Return rental car at Rarotonga Airport",
           "time": "11:00",
           "status": "confirmed",
           "type": "travel",
-          "notes": "Rarotonga Airport. Confirm AM/PM."
+          "notes": "11:00 AM return."
         },
         {
           "title": "AS 896 to Honolulu",
@@ -626,10 +626,10 @@
     {
       "date": "2026-10-17",
       "time": "11:00",
-      "name": "Return rental car",
+      "name": "Return rental car at Rarotonga Airport",
       "type": "transport",
       "status": "confirmed",
-      "notes": "Rarotonga Airport. Confirm AM/PM."
+      "notes": "11:00 AM return."
     }
   ]
 }
