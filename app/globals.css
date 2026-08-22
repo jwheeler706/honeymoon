@@ -703,9 +703,8 @@ button {
 }
 
 .flight-glyph {
-  color: color-mix(in srgb, var(--muted) 82%, transparent);
-  font-family: sans-serif;
-  font-size: 0.82em;
+  font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
+  font-size: 0.9em;
   font-weight: 400;
   line-height: 1;
 }

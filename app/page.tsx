@@ -1309,7 +1309,7 @@ export default function Home() {
                               <div className="event-main">
                                 <div>
                                   <h4 className={titleClass}>
-                                    {event.flight ? <span aria-hidden="true" className="flight-glyph">✈</span> : null}
+                                    {event.flight ? <span aria-hidden="true" className="flight-glyph">✈️</span> : null}
                                     {event.title}
                                     {inlineNote ? <span> - {inlineNote}</span> : null}
                                   </h4>
