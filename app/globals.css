@@ -1140,26 +1140,60 @@ button {
 
 .reservation-list {
   display: grid;
-  gap: 14px;
+  gap: 8px;
 }
 
 .reservation-day {
   display: grid;
-  gap: 7px;
-}
-
-.reservation-day + .reservation-day {
-  padding-top: 13px;
   border-top: 1px solid var(--line);
 }
 
-.reservation-day h3 {
-  margin: 0;
+.reservation-day:first-child {
+  border-top: 0;
+}
+
+.reservation-day summary {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0;
   color: var(--lagoon);
   font-size: 0.82rem;
   font-weight: 800;
   letter-spacing: 0;
+  list-style: none;
   text-transform: uppercase;
+  cursor: pointer;
+}
+
+.reservation-day summary::-webkit-details-marker {
+  display: none;
+}
+
+.reservation-day summary::after {
+  color: var(--muted);
+  content: "+";
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.reservation-day[open] summary::after {
+  content: "-";
+}
+
+.reservation-day summary small {
+  margin-left: auto;
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: none;
+}
+
+.reservation-day-items {
+  display: grid;
+  gap: 7px;
+  padding-bottom: 8px;
 }
 
 .reservation-row {

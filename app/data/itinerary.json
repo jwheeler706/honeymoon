@@ -452,6 +452,14 @@
   ],
   "reservations": [
     {
+      "date": "2026-10-09",
+      "time": "23:30",
+      "name": "Sea Change Villas Lagoon View Villa",
+      "type": "lodging",
+      "status": "confirmed",
+      "notes": "Check-in around 11:30 PM. Confirm arrival details."
+    },
+    {
       "date": "2026-10-10",
       "time": "18:00",
       "name": "Nautilus Resort",

@@ -1311,35 +1311,44 @@ function ReservationsView({ reservations }: { reservations: Reservation[] }) {
       <h2 className="sr-only" id="reservations-title">Saved plans</h2>
       <div className="reservation-list">
         {groups.map((group) => (
-          <section className="reservation-day" key={group.date} aria-label={formatLongDate(group.date)}>
-            <h3>{formatLongDate(group.date)}</h3>
-            {group.items.map((reservation) => {
-              const when = reservation.time ? formatTime(reservation.time) : "Time TBD";
-              const reservationImage = imageForReservation(reservation);
-              return (
-                <article
-                  className={`reservation-row ${reservationImage ? "has-photo" : ""} ${dayColorClass(reservation.date)}`}
-                  key={`${reservation.date}-${reservation.name}`}
-                >
-                  {reservationImage ? (
-                    <img
-                      alt={reservationImage.alt}
-                      className="reservation-photo"
-                      loading="lazy"
-                      src={reservationImage.image}
-                    />
-                  ) : null}
-                  <div className="reservation-copy">
-                    <div className="reservation-main">
-                      <time>{when}</time>
-                      <span className={`status-dot ${reservation.status}`} aria-label={statusLabels[reservation.status]} />
+          <details
+            className="reservation-day"
+            key={group.date}
+            open={group.date <= "2026-10-11"}
+          >
+            <summary>
+              <span>{formatLongDate(group.date)}</span>
+              <small>{group.items.length} {group.items.length === 1 ? "plan" : "plans"}</small>
+            </summary>
+            <div className="reservation-day-items">
+              {group.items.map((reservation) => {
+                const when = reservation.time ? formatTime(reservation.time) : "Time TBD";
+                const reservationImage = imageForReservation(reservation);
+                return (
+                  <article
+                    className={`reservation-row ${reservationImage ? "has-photo" : ""} ${dayColorClass(reservation.date)}`}
+                    key={`${reservation.date}-${reservation.name}`}
+                  >
+                    {reservationImage ? (
+                      <img
+                        alt={reservationImage.alt}
+                        className="reservation-photo"
+                        loading="lazy"
+                        src={reservationImage.image}
+                      />
+                    ) : null}
+                    <div className="reservation-copy">
+                      <div className="reservation-main">
+                        <time>{when}</time>
+                        <span className={`status-dot ${reservation.status}`} aria-label={statusLabels[reservation.status]} />
+                      </div>
+                      <strong>{reservation.name}</strong>
                     </div>
-                    <strong>{reservation.name}</strong>
-                  </div>
-                </article>
-              );
-            })}
-          </section>
+                  </article>
+                );
+              })}
+            </div>
+          </details>
         ))}
       </div>
     </section>
