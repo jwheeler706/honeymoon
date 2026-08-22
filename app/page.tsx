@@ -190,6 +190,18 @@ const mapPlaces: MapPlace[] = [
     lng: -159.77176,
   },
   {
+    id: "rarotonga-airport-arrival",
+    name: "Rarotonga Airport",
+    date: "2026-10-09",
+    period: "Evening",
+    status: "confirmed",
+    type: "travel",
+    area: "Avarua / Nikao",
+    note: "Arrive on AS 895 at 10:50 PM.",
+    lat: -21.2027,
+    lng: -159.806,
+  },
+  {
     id: "punanga-nui-market",
     name: "Punanga Nui Market / Avarua",
     date: "2026-10-10",
@@ -248,6 +260,18 @@ const mapPlaces: MapPlace[] = [
     note: "Dinner at 6:00 PM.",
     lat: -21.22471,
     lng: -159.8292,
+  },
+  {
+    id: "rarotonga-airport-car-pickup",
+    name: "Rarotonga Airport",
+    date: "2026-10-13",
+    period: "Morning",
+    status: "confirmed",
+    type: "travel",
+    area: "Avarua / Nikao",
+    note: "Pick up the rental car at 9:00 AM.",
+    lat: -21.2027,
+    lng: -159.806,
   },
   {
     id: "turtles",
@@ -311,6 +335,19 @@ const mapPlaces: MapPlace[] = [
     offMap: true,
   },
   {
+    id: "aitutaki-airport",
+    name: "Aitutaki Airport",
+    date: "2026-10-16",
+    period: "Morning",
+    status: "confirmed",
+    type: "travel",
+    area: "Aitutaki",
+    note: "Air Rarotonga flights arrive at 8:50 AM and depart at 7:10 PM.",
+    lat: -18.8342,
+    lng: -159.7655,
+    offMap: true,
+  },
+  {
     id: "one-foot-island-lunch",
     name: "Lunch on One Foot Island",
     date: "2026-10-16",
@@ -335,6 +372,18 @@ const mapPlaces: MapPlace[] = [
     lat: -18.84826,
     lng: -159.76008,
     offMap: true,
+  },
+  {
+    id: "rarotonga-airport-departure",
+    name: "Rarotonga Airport",
+    date: "2026-10-17",
+    period: "Afternoon",
+    status: "confirmed",
+    type: "travel",
+    area: "Avarua / Nikao",
+    note: "Return the rental car at 11:00 AM, then depart on AS 896 at 12:05 PM.",
+    lat: -21.2027,
+    lng: -159.806,
   },
 ];
 
@@ -474,6 +523,21 @@ const scenicHeaderImages = [
     image: "https://www.ncl.com/sites/default/files/RAR_05_1920X1080%20LG_0.jpg",
     position: "center 52%",
   },
+  {
+    title: "Rarotonga peaks",
+    image: "https://www.pacific-travel-house.com/reisefuehrer/application/files/3616/7119/2407/rarotonga-berge.jpg",
+    position: "center 45%",
+  },
+  {
+    title: "Lagoon swim",
+    image: "https://imgix.theurbanlist.com/content/general/cook-islands-swimming-spots.jpg?auto=format%2Ccompress&ixlib=php-4.1.0&w=728",
+    position: "center 52%",
+  },
+  {
+    title: "Palm beach",
+    image: "https://jonistravelling.com/wp-content/uploads/2023/03/palm-grove-resort-nearby-beach-rarotonga.jpg",
+    position: "center 48%",
+  },
 ];
 
 const rarotongaMapBounds: MapBounds = {
@@ -566,6 +630,20 @@ function HomeGlyph() {
     <span className="home-glyph" aria-hidden="true">
       <svg viewBox="0 0 24 24">
         <path d="M3 12 12 4l9 8v8H3z" />
+      </svg>
+    </span>
+  );
+}
+
+function MapGlyph() {
+  return (
+    <span className="map-glyph" aria-hidden="true">
+      <svg viewBox="0 0 24 24">
+        <path d="M4.5 5.5h15v3l-1.5 1.2 1.5 1.3v7.5h-15v-3l1.4-1.2-1.4-1.3z" />
+        <path d="M9.5 5.5v13" />
+        <path d="M14.5 5.5v13" />
+        <path d="m6.8 8.1 1.4-.8" />
+        <path d="m16.2 15.9 1.4-.8" />
       </svg>
     </span>
   );
@@ -765,8 +843,24 @@ function normalizedMatch(value: string) {
   return value.toLowerCase();
 }
 
-function mapPlaceForEvent(event: TripEvent) {
-  if (event.flight || event.type === "travel") return null;
+function airportMapPlaceForEvent(event: TripEvent, day?: Day) {
+  const title = normalizedMatch(event.title);
+  const note = normalizedMatch(event.notes);
+  const route = event.flight ? normalizedMatch(event.flight.route) : "";
+  const combined = `${title} ${note} ${route}`;
+
+  if (!combined.includes("rar") && !combined.includes("rarotonga airport")) return null;
+  if (day?.date === "2026-10-09") return "rarotonga-airport-arrival";
+  if (day?.date === "2026-10-13") return "rarotonga-airport-car-pickup";
+  if (day?.date === "2026-10-16" && (combined.includes("ait") || combined.includes("aitutaki"))) {
+    return "aitutaki-airport";
+  }
+  if (day?.date === "2026-10-17") return "rarotonga-airport-departure";
+  return null;
+}
+
+function mapPlaceForEvent(event: TripEvent, day?: Day) {
+  if (event.flight || event.type === "travel") return airportMapPlaceForEvent(event, day);
   const title = normalizedMatch(event.title);
   const note = normalizedMatch(event.notes);
   const combined = `${title} ${note}`;
@@ -798,6 +892,18 @@ function eventDetailNote(event: TripEvent) {
   if (event.flight) return "";
   if (event.title.includes("Punanga Nui")) return event.notes;
   return "";
+}
+
+function eventMetaTime(event: TripEvent, period: Period) {
+  const formatted = formatTime(event.time);
+  const normalized = formatted.trim().toLowerCase();
+  const periodLabel = period.toLowerCase();
+  const broadSlots = new Set(["morning", "afternoon", "daytime", "evening"]);
+  return normalized === periodLabel || broadSlots.has(normalized) ? "" : formatted;
+}
+
+function eventMetaStatus(event: TripEvent) {
+  return event.status === "flexible" ? statusLabels[event.status] : "";
 }
 
 function currentTripEvent(now = new Date()) {
@@ -1149,9 +1255,11 @@ export default function Home() {
                           const eventImage = imageForEvent(event);
                           const inlineNote = eventInlineNote(event);
                           const detailNote = eventDetailNote(event);
-                          const eventMapPlace = mapPlaceForEvent(event);
+                          const eventMapPlace = mapPlaceForEvent(event, activeDay);
                           const titleClass =
                             event.flight || event.type === "travel" ? "event-title" : "event-title event-title-accent";
+                          const metaTime = eventMetaTime(event, period);
+                          const metaStatus = eventMetaStatus(event);
                           return (
                             <article className="event-card" key={key}>
                               <div className="event-main">
@@ -1167,14 +1275,14 @@ export default function Home() {
                                     {event.title}
                                     {inlineNote ? <span> - {inlineNote}</span> : null}
                                   </h4>
-                                  <div className="event-topline">
-                                    <time>{formatTime(event.time)}</time>
-                                    {event.status === "confirmed" ? null : (
-                                      <span className={`status-badge ${event.status}`}>
-                                        {statusLabels[event.status]}
-                                      </span>
-                                    )}
-                                  </div>
+                                  {metaTime || metaStatus ? (
+                                    <div className="event-topline">
+                                      {metaTime ? <time>{metaTime}</time> : null}
+                                      {metaStatus ? (
+                                        <span className={`status-badge ${event.status}`}>{metaStatus}</span>
+                                      ) : null}
+                                    </div>
+                                  ) : null}
                                   {detailNote ? <p className="event-detail-note">{detailNote}</p> : null}
                                   {event.flight ? <p>{event.notes}</p> : null}
                                   {eventImage ? (
@@ -1196,7 +1304,7 @@ export default function Home() {
                                   onClick={() => showEventOnMap(activeDay, eventMapPlace)}
                                   type="button"
                                 >
-                                  <span aria-hidden="true" className="map-glyph" />
+                                  <MapGlyph />
                                 </button>
                               ) : null}
 
@@ -1234,22 +1342,23 @@ function GalleryView({ images }: { images: GalleryImage[] }) {
       index,
     ]),
   );
-  const orderedImages = [...images].sort((a, b) => {
+  const orderedImages = images.filter((image) => !scenicOrder.has(image.id)).sort((a, b) => {
     const aOrder = scenicOrder.get(a.id) ?? Number.MAX_SAFE_INTEGER;
     const bOrder = scenicOrder.get(b.id) ?? Number.MAX_SAFE_INTEGER;
     return aOrder - bOrder;
   });
 
   return (
-    <section className="gallery-view" aria-labelledby="gallery-title">
-      <div className="gallery-header">
-        <p className="section-label">Trip pictures</p>
-        <h2 id="gallery-title">Trip images</h2>
-      </div>
-      <div className="header-scene-strip" aria-label="Header scenes">
+    <section className="gallery-view" aria-label="Gallery">
+      <div className="header-scene-strip" aria-label="Island scenes">
         {scenicHeaderImages.map((image) => (
           <article key={image.title}>
-            <img alt={`${image.title} header scene.`} loading="lazy" src={image.image} />
+            <img
+              alt={`${image.title}.`}
+              loading="lazy"
+              src={image.image}
+              style={{ objectPosition: image.position }}
+            />
             <span>{image.title}</span>
           </article>
         ))}
@@ -1466,39 +1575,41 @@ function MapView({
               <p>{selectedMapPlace.note}</p>
             </article>
           ) : null}
-        </div>
 
-        <div className="map-date-toggles" aria-label="Map date filters">
-          <button
-            aria-pressed={allDatesSelected}
-            className={allDatesSelected ? "active" : ""}
-            onClick={showAllDates}
-            type="button"
-          >
-            All
-          </button>
-          {data.days.map((day) => {
-            const selected = !allDatesSelected && startDate === day.date && endDate === day.date;
-            return (
+          <div className="map-overlay-controls">
+            <div className="map-color-legend" aria-label="Pin color key">
+              <span><i className="type-water" />Water</span>
+              <span><i className="type-land" />Land</span>
+              <span><i className="type-food" />Food</span>
+              <span><i className="type-travel" />Travel</span>
+              <span><i className="type-home" />Stay</span>
+            </div>
+
+            <div className="map-date-toggles" aria-label="Map date filters">
               <button
-                aria-pressed={selected}
-                className={selected ? "active" : ""}
-                key={day.date}
-                onClick={() => showSingleDate(day.date)}
+                aria-pressed={allDatesSelected}
+                className={allDatesSelected ? "active" : ""}
+                onClick={showAllDates}
                 type="button"
               >
-                {formatDate(day.date)}
+                All
               </button>
-            );
-          })}
-        </div>
-
-        <div className="map-color-legend" aria-label="Pin color key">
-          <span><i className="type-water" />Water</span>
-          <span><i className="type-land" />Land</span>
-          <span><i className="type-food" />Food</span>
-          <span><i className="type-travel" />Travel</span>
-          <span><i className="type-home" />Stay</span>
+              {data.days.map((day) => {
+                const selected = !allDatesSelected && startDate === day.date && endDate === day.date;
+                return (
+                  <button
+                    aria-pressed={selected}
+                    className={selected ? "active" : ""}
+                    key={day.date}
+                    onClick={() => showSingleDate(day.date)}
+                    type="button"
+                  >
+                    {formatDate(day.date)}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
         </div>
 
         {offMapPlaces.length ? (
@@ -1530,7 +1641,7 @@ function MapView({
                 onClick={() => onSelectPlace(place.id)}
                 type="button"
               >
-                <span className={`status-dot ${place.status}`} />
+                <span className="status-dot" />
                 <span>
                   <strong>{place.name}</strong>
                   <small>{formatDate(place.date)} · {place.period} · {place.area}</small>
@@ -1568,10 +1679,9 @@ function calendarItemClass(item: CalendarItem) {
 
 function calendarItemText(item: CalendarItem) {
   if (item.flight) return item.flight.route;
-  if (item.type === "travel") return "Confirmed";
   if (item.status === "flexible" || item.status === "suggested") return statusLabels[item.status];
-  if (item.status === "planned") return "Loose plan";
-  return item.type === "meal" || item.type === "reservation" ? "Booked" : typeLabels[item.type];
+  if (item.status === "planned" || item.type === "travel") return "";
+  return item.type === "meal" || item.type === "reservation" ? "" : typeLabels[item.type];
 }
 
 function CalendarView({
@@ -1589,50 +1699,62 @@ function CalendarView({
       </div>
 
       <div className="calendar-board">
-        {days.map((day) => (
-          <article className={`calendar-day ${dayColorClass(day.date)}`} key={day.date}>
-            <button
-              className="calendar-day-head"
-              onClick={() => onSelectDay(day.date)}
-              type="button"
-            >
-              <span>
-                <strong>{day.weekday}</strong>
-                <small>{formatDate(day.date)}</small>
-              </span>
-              <b>{day.title}</b>
-            </button>
+        {days.map((day) => {
+          const dayItems = calendarItemsForDay(day);
+          const travelOnlyDay = day.events.every((event) => event.flight || event.type === "travel");
+          return (
+            <article className={`calendar-day ${dayColorClass(day.date)}`} key={day.date}>
+              <button
+                className="calendar-day-head"
+                onClick={() => onSelectDay(day.date)}
+                type="button"
+              >
+                <span>
+                  <strong>{day.weekday}</strong>
+                  <small>{formatDate(day.date)}</small>
+                </span>
+                <b>{day.title}</b>
+              </button>
 
-            <div className="calendar-lanes">
-              {periodLabels.map((period) => {
-                const items = calendarItemsForDay(day).filter((item) => item.period === period);
-                return (
-                  <div className="calendar-lane" key={period}>
-                    <span>{period}</span>
-                    <div className="calendar-lane-items">
-                      {items.length ? (
-                        items.map((item) => (
-                          <button
+              <div className="calendar-lanes">
+                {periodLabels.map((period) => {
+                  const items = dayItems.filter((item) => item.period === period);
+                  if (!items.length && travelOnlyDay) return null;
+                  return (
+                    <div className="calendar-lane" key={period}>
+                      <span>{period}</span>
+                      <div className="calendar-lane-items">
+                        {items.length ? (
+                          items.map((item) => (
+                            <button
                             className={calendarItemClass(item)}
                             key={`${day.date}-${item.title}`}
                             onClick={() => onSelectDay(day.date)}
                             type="button"
                           >
-                            <time>{formatTime(item.time)}</time>
-                            <strong>{item.title}</strong>
-                            <small>{calendarItemText(item)}</small>
+                            {(() => {
+                              const itemText = calendarItemText(item);
+                              return (
+                                <>
+                                  <time>{formatTime(item.time)}</time>
+                                  <strong>{item.title}</strong>
+                                  {itemText ? <small>{itemText}</small> : null}
+                                </>
+                              );
+                            })()}
                           </button>
                         ))
                       ) : (
-                        <p>Open</p>
-                      )}
+                          <p>Open</p>
+                        )}
+                      </div>
                     </div>
-                  </div>
-                );
-              })}
-            </div>
-          </article>
-        ))}
+                  );
+                })}
+              </div>
+            </article>
+          );
+        })}
       </div>
     </section>
   );
