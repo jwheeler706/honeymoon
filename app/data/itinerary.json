@@ -149,7 +149,7 @@
           "notes": "Protect energy before dinner."
         },
         {
-          "title": "Opening honeymoon dinner at Nautilus Resort",
+          "title": "Dinner at Nautilus Resort",
           "time": "18:00",
           "status": "confirmed",
           "type": "reservation",
@@ -168,18 +168,18 @@
       "summary": "North/west island day. Tamarind at night.",
       "events": [
         {
-          "title": "Driver-based north/west island exploration",
+          "title": "North and west island loop, with Aroa, Arorangi, Black Rock, and beach stops",
           "time": "daytime",
           "status": "planned",
           "type": "activity",
-          "notes": "Aroa, Arorangi, Black Rock, beach stops."
+          "notes": "Keep it easy."
         },
         {
           "title": "Dinner at Tamarind House main restaurant",
           "time": "18:15",
           "status": "confirmed",
           "type": "reservation",
-          "notes": "Main restaurant."
+          "notes": "Confirmed reservation."
         }
       ],
       "transport": "Driver day.",
@@ -194,11 +194,11 @@
       "summary": "West-side beach day. On the Beach at sunset.",
       "events": [
         {
-          "title": "West-side beach and lagoon time",
+          "title": "Beach, snorkel, and wander on the west side",
           "time": "daytime",
           "status": "planned",
           "type": "activity",
-          "notes": "Beach, snorkel, wander."
+          "notes": "Keep it easy."
         },
         {
           "title": "Dinner at On the Beach Bar & Restaurant",
@@ -220,25 +220,25 @@
       "summary": "Slow morning. Turtle snorkel at 2:30.",
       "events": [
         {
-          "title": "Pick up rental car",
+          "title": "Pick up Mid Sport rental car at Rarotonga Airport",
           "time": "09:00",
           "status": "confirmed",
           "type": "travel",
-          "notes": "Mid Sport. Rarotonga Airport."
+          "notes": "Confirmed pickup."
         },
         {
-          "title": "Slow morning at Sea Change Villas",
+          "title": "Slow villa morning at Sea Change",
           "time": "morning",
           "status": "planned",
           "type": "downtime",
-          "notes": "Villa, pool, lagoon."
+          "notes": "Keep it easy."
         },
         {
-          "title": "Lunch near the south side",
+          "title": "Lunch near the south side, maybe Charlie's",
           "time": "11:30",
           "status": "suggested",
           "type": "meal",
-          "notes": "Charlie's works."
+          "notes": "Keep it easy."
         },
         {
           "title": "Swim With The Turtles Rarotonga",
@@ -251,11 +251,11 @@
           "notes": "Confirm check-in details."
         },
         {
-          "title": "Easy dinner",
+          "title": "Easy dinner, takeaway or casual",
           "time": "evening",
           "status": "flexible",
           "type": "meal",
-          "notes": "Takeaway or casual."
+          "notes": "Keep it easy."
         }
       ],
       "transport": "Rental car starts at 9:00 AM.",
@@ -270,11 +270,11 @@
       "summary": "Flexible adventure day.",
       "events": [
         {
-          "title": "Flexible hike or land-based activity",
+          "title": "Flexible hike or land day, Raemaru if weather works",
           "time": "daytime",
           "status": "suggested",
           "type": "activity",
-          "notes": "Raemaru preferred. Weather decides."
+          "notes": "Keep it easy."
         }
       ],
       "transport": "Rental car.",
@@ -296,7 +296,7 @@
           "notes": "Keep it open."
         },
         {
-          "title": "Optional hike if not done October 14",
+          "title": "Optional hike",
           "time": "daytime",
           "status": "flexible",
           "type": "activity",
@@ -319,7 +319,7 @@
       "title": "Aitutaki Day Trip",
       "status": "confirmed",
       "theme": "major excursion",
-      "summary": "Aitutaki 8:00-8:00. One Foot Island lunch.",
+      "summary": "Aitutaki day trip. One Foot Island lunch, Blue Lagoon dinner.",
       "events": [
         {
           "title": "GZ-612 to Aitutaki",
@@ -340,18 +340,18 @@
           }
         },
         {
-          "title": "Aitutaki day trip",
+          "title": "Aitutaki lagoon day trip",
           "time": "daytime",
           "status": "confirmed",
           "type": "excursion",
           "notes": "Booking NIPXNP."
         },
         {
-          "title": "Lunch on One Foot Island",
+          "title": "Lunch on One Foot Island / Tapuaetai",
           "time": "afternoon",
           "status": "confirmed",
           "type": "meal",
-          "notes": "Tapuaetai lunch stop."
+          "notes": "Lunch stop."
         },
         {
           "title": "GZ-621 to Rarotonga",
@@ -372,11 +372,11 @@
           }
         },
         {
-          "title": "Very casual dinner",
-          "time": "evening",
-          "status": "planned",
+          "title": "Blue Lagoon Restaurant dinner after the tour drop-off, around 5:00 PM",
+          "time": "17:00",
+          "status": "confirmed",
           "type": "meal",
-          "notes": "Low effort."
+          "notes": "Confirmed plan."
         }
       ],
       "transport": "Air Rarotonga. Ref NIPXNP.",
@@ -465,7 +465,7 @@
       "name": "Nautilus Resort",
       "type": "dinner",
       "status": "confirmed",
-      "notes": "Opening dinner."
+      "notes": "Dinner reservation."
     },
     {
       "date": "2026-10-11",
@@ -473,7 +473,7 @@
       "name": "Tamarind House main restaurant",
       "type": "dinner",
       "status": "confirmed",
-      "notes": "Main restaurant."
+      "notes": "Dinner reservation."
     },
     {
       "date": "2026-10-12",
@@ -486,10 +486,10 @@
     {
       "date": "2026-10-13",
       "time": "09:00",
-      "name": "Pick up rental car",
+      "name": "Pick up Mid Sport rental car",
       "type": "transport",
       "status": "confirmed",
-      "notes": "Mid Sport. Rarotonga Airport."
+      "notes": "Rarotonga Airport."
     },
     {
       "date": "2026-10-13",
@@ -512,10 +512,18 @@
     {
       "date": "2026-10-16",
       "time": "08:00",
-      "name": "Aitutaki day trip",
+      "name": "Aitutaki lagoon day trip",
       "type": "excursion",
       "status": "confirmed",
       "notes": "GZ-612 out, GZ-621 back. Ref NIPXNP."
+    },
+    {
+      "date": "2026-10-16",
+      "time": "17:00",
+      "name": "Blue Lagoon Restaurant",
+      "type": "dinner",
+      "status": "confirmed",
+      "notes": "Tour company drop-off around 5:00 PM."
     },
     {
       "date": "2026-10-17",

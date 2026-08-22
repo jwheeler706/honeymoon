@@ -973,6 +973,14 @@ button {
   line-height: 1.2;
 }
 
+.map-popup img {
+  width: 100%;
+  aspect-ratio: 16 / 7;
+  border-radius: 6px;
+  object-fit: cover;
+  margin-bottom: 3px;
+}
+
 .map-popup span,
 .map-popup p {
   margin: 0;

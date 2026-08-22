@@ -317,6 +317,19 @@ const mapPlaces: MapPlace[] = [
     lng: -159.73603,
     offMap: true,
   },
+  {
+    id: "blue-lagoon-restaurant",
+    name: "Blue Lagoon Restaurant",
+    date: "2026-10-16",
+    period: "Evening",
+    status: "confirmed",
+    type: "meal",
+    area: "Ootu Point",
+    note: "Dinner around 5:00 PM.",
+    lat: -18.84826,
+    lng: -159.76008,
+    offMap: true,
+  },
 ];
 
 const galleryImages: GalleryImage[] = [
@@ -380,6 +393,23 @@ const galleryImages: GalleryImage[] = [
     label: "Day trip",
     image: "https://commons.wikimedia.org/wiki/Special:Redirect/file/Aitutaki_aerialview.jpg",
     alt: "Aerial view of Aitutaki lagoon.",
+  },
+  {
+    id: "one-foot",
+    title: "One Foot Island",
+    date: "2026-10-16",
+    label: "Lunch stop",
+    image:
+      "https://commons.wikimedia.org/wiki/Special:Redirect/file/One_Foot_Island_Aitutaki_Cook_Islands_(5651684648).jpg",
+    alt: "One Foot Island and the surrounding Aitutaki lagoon.",
+  },
+  {
+    id: "blue-lagoon",
+    title: "Blue Lagoon Restaurant",
+    date: "2026-10-16",
+    label: "Dinner",
+    image: "https://enjoycookislands.com/uploads/general/VR4A0089.jpg?mtime=1470958087",
+    alt: "Blue Lagoon Restaurant at Aitutaki Village.",
   },
 ];
 
@@ -457,11 +487,11 @@ function HomeGlyph() {
   );
 }
 
-function mapPinClass(place: MapPlace, selectedPlace: MapPlace) {
+function mapPinClass(place: MapPlace, selectedPlaceId: string) {
   return [
     "map-pin",
     dayColorClass(place.date),
-    place.id === selectedPlace.id ? "active" : "",
+    place.id === selectedPlaceId ? "active" : "",
     place.id === "sea-change-villas" ? "home-base" : "",
   ]
     .filter(Boolean)
@@ -599,11 +629,15 @@ function imageForEvent(event: TripEvent) {
   if (title.includes("otb") || title.includes("on the beach")) {
     return galleryImages.find((image) => image.id === "otb") ?? null;
   }
+  if (title.includes("blue lagoon")) return galleryImages.find((image) => image.id === "blue-lagoon") ?? null;
+  if (title.includes("one foot") || title.includes("tapuaetai")) {
+    return galleryImages.find((image) => image.id === "one-foot") ?? null;
+  }
   if (title.includes("west-side") || title.includes("lagoon") || title.includes("snorkel")) {
     return galleryImages.find((image) => image.id === "lagoon") ?? null;
   }
   if (title.includes("turtle")) return galleryImages.find((image) => image.id === "turtles") ?? null;
-  if (title.includes("aitutaki") || title.includes("one foot")) {
+  if (title.includes("aitutaki")) {
     return galleryImages.find((image) => image.id === "aitutaki") ?? null;
   }
 
@@ -619,12 +653,28 @@ function imageForReservation(reservation: Reservation) {
   if (name.includes("otb") || name.includes("on the beach")) {
     return galleryImages.find((image) => image.id === "otb") ?? null;
   }
+  if (name.includes("blue lagoon")) return galleryImages.find((image) => image.id === "blue-lagoon") ?? null;
+  if (name.includes("one foot") || name.includes("tapuaetai")) {
+    return galleryImages.find((image) => image.id === "one-foot") ?? null;
+  }
   if (name.includes("turtle")) return galleryImages.find((image) => image.id === "turtles") ?? null;
-  if (name.includes("aitutaki") || name.includes("one foot")) {
+  if (name.includes("aitutaki")) {
     return galleryImages.find((image) => image.id === "aitutaki") ?? null;
   }
 
   return null;
+}
+
+function imageForPlace(place: MapPlace) {
+  const eventLike: TripEvent = {
+    notes: place.note,
+    status: place.status,
+    time: null,
+    title: place.name,
+    type: place.type,
+  };
+
+  return imageForEvent(eventLike);
 }
 
 function eventInlineNote(event: TripEvent) {
@@ -635,10 +685,13 @@ function eventInlineNote(event: TripEvent) {
   const isDuplicateTime = /^\d{1,2}:\d{2}\s*(am|pm)\.?$/i.test(note);
   const hiddenNotes = [
     "confirmed reservation.",
+    "confirmed pickup.",
+    "confirmed plan.",
     "main restaurant.",
     "only if we feel like it.",
     "protect energy before dinner.",
     "keep it open.",
+    "keep it easy.",
     "only if weather and energy line up.",
     "confirm check-in details.",
     "low effort.",
@@ -708,7 +761,7 @@ function periodTone(day: Day, period: Period) {
       Evening: "First proper honeymoon dinner.",
     },
     "2026-10-11": {
-      Morning: "Let the driver day unfold without rushing.",
+      Morning: "Easy start before the island loop.",
       Afternoon: "Scenic stops, beach time, and an easy reset before dinner.",
       Evening: "Tamarind House main restaurant.",
     },
@@ -734,7 +787,7 @@ function periodTone(day: Day, period: Period) {
     "2026-10-16": {
       Morning: "Aitutaki day.",
       Afternoon: "Aitutaki day.",
-      Evening: "Easy dinner.",
+      Evening: "Blue Lagoon after the tour.",
     },
     "2026-10-17": {
       Morning: "Final slow morning and packing.",
@@ -1139,9 +1192,11 @@ function MapView({
   const offMapPlaces = isAitutakiOnly ? [] : inRangePlaces.filter((place) => place.offMap);
   const selectedPlace =
     visiblePlaces.find((place) => place.id === selectedPlaceId) ?? visiblePlaces[0] ?? places[0];
-  const selectedMapPoint = visibleMappablePlaces.some((place) => place.id === selectedPlace.id)
-    ? mapPoint(selectedPlace, activeMapBounds)
+  const selectedMapPlace = selectedPlaceId
+    ? visibleMappablePlaces.find((place) => place.id === selectedPlaceId)
     : null;
+  const selectedMapPoint = selectedMapPlace ? mapPoint(selectedMapPlace, activeMapBounds) : null;
+  const selectedMapImage = selectedMapPlace ? imageForPlace(selectedMapPlace) : null;
   const popupClass = selectedMapPoint
     ? [
         "map-popup",
@@ -1195,9 +1250,9 @@ function MapView({
             return (
               <button
                 aria-label={place.name}
-                className={mapPinClass(place, selectedPlace)}
+                className={mapPinClass(place, selectedPlaceId)}
                 key={place.id}
-                onClick={() => onSelectPlace(place.id)}
+                onClick={() => onSelectPlace(place.id === selectedPlaceId ? "" : place.id)}
                 style={{ left: `${point.x}%`, top: `${point.y}%` }}
                 title={`${formatDate(place.date)} · ${place.name}`}
                 type="button"
@@ -1206,14 +1261,17 @@ function MapView({
               </button>
             );
           })}
-          {selectedMapPoint ? (
+          {selectedMapPoint && selectedMapPlace ? (
             <article
               className={popupClass}
               style={{ left: `${selectedMapPoint.x}%`, top: `${selectedMapPoint.y}%` }}
             >
-              <strong>{selectedPlace.name}</strong>
-              <span>{formatDate(selectedPlace.date)} · {selectedPlace.area}</span>
-              <p>{selectedPlace.note}</p>
+              {selectedMapImage ? (
+                <img alt={selectedMapImage.alt} loading="lazy" src={selectedMapImage.image} />
+              ) : null}
+              <strong>{selectedMapPlace.name}</strong>
+              <span>{formatDate(selectedMapPlace.date)} · {selectedMapPlace.area}</span>
+              <p>{selectedMapPlace.note}</p>
             </article>
           ) : null}
         </div>
@@ -1249,7 +1307,7 @@ function MapView({
             <span>Aitutaki</span>
             {offMapPlaces.map((place) => (
               <button
-                className={place.id === selectedPlace.id ? "active" : ""}
+                className={place.id === selectedPlaceId ? "active" : ""}
                 key={place.id}
                 onClick={() => onSelectPlace(place.id)}
                 type="button"
@@ -1273,7 +1331,7 @@ function MapView({
             {visiblePlaces.map((place) => (
               <button
                 className={
-                  place.id === selectedPlace.id
+                  place.id === selectedPlaceId
                     ? `place-row active ${dayColorClass(place.date)}`
                     : `place-row ${dayColorClass(place.date)}`
                 }
