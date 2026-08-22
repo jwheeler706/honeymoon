@@ -653,7 +653,7 @@ function MapGlyph() {
 
 function ClockGlyph() {
   return (
-    <span className="clock-glyph" aria-hidden="true">◷</span>
+    <span className="clock-glyph" aria-hidden="true">⏰</span>
   );
 }
 
