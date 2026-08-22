@@ -596,6 +596,29 @@ button {
   font-weight: 750;
 }
 
+.reservation-time {
+  display: inline-flex;
+  gap: 5px;
+  align-items: center;
+}
+
+.clock-glyph {
+  display: inline-grid;
+  width: 13px;
+  height: 13px;
+  place-items: center;
+}
+
+.clock-glyph svg {
+  width: 13px;
+  height: 13px;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.7;
+}
+
 .event-card h4 {
   display: flex;
   gap: 6px;

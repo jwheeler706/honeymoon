@@ -642,6 +642,17 @@ function MapGlyph() {
   );
 }
 
+function ClockGlyph() {
+  return (
+    <span className="clock-glyph" aria-hidden="true">
+      <svg viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="8.5" />
+        <path d="M12 7.5v5l3 1.8" />
+      </svg>
+    </span>
+  );
+}
+
 function mapPinClass(place: MapPlace, selectedPlaceId: string) {
   return [
     "map-pin",
@@ -861,13 +872,21 @@ function compactMapDate(place: MapPlace) {
 }
 
 function eventMetaTime(event: TripEvent, period: Period) {
-  if (event.flight) return "";
+  if (event.flight || event.status === "flexible") return "";
 
   const formatted = formatTime(event.time);
   const normalized = formatted.trim().toLowerCase();
   const periodLabel = period.toLowerCase();
   const broadSlots = new Set(["morning", "afternoon", "daytime", "evening"]);
   return normalized === periodLabel || broadSlots.has(normalized) ? "" : formatted;
+}
+
+function isTimeSensitiveReservation(event: TripEvent) {
+  return (
+    event.status === "confirmed" &&
+    (event.type === "meal" || event.type === "reservation") &&
+    /^\d{2}:\d{2}$/.test(event.time ?? "")
+  );
 }
 
 function eventMetaStatus(event: TripEvent) {
@@ -1222,6 +1241,7 @@ export default function Home() {
                             event.flight || event.type === "travel" ? "event-title" : "event-title event-title-accent";
                           const metaTime = eventMetaTime(event, period);
                           const metaStatus = eventMetaStatus(event);
+                          const timeSensitiveReservation = isTimeSensitiveReservation(event);
                           return (
                             <article className="event-card" key={key}>
                               <div className="event-main">
@@ -1233,7 +1253,12 @@ export default function Home() {
                                   </h4>
                                   {metaTime || metaStatus ? (
                                     <div className="event-topline">
-                                      {metaTime ? <time>{metaTime}</time> : null}
+                                      {metaTime ? (
+                                        <time className={timeSensitiveReservation ? "reservation-time" : undefined}>
+                                          {timeSensitiveReservation ? <ClockGlyph /> : null}
+                                          {metaTime}
+                                        </time>
+                                      ) : null}
                                       {metaStatus ? (
                                         <span className={`status-badge ${event.status}`}>{metaStatus}</span>
                                       ) : null}
