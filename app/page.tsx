@@ -593,6 +593,24 @@ function headerKeyForEvent(event: TripEvent): HeaderKey {
   return "beach";
 }
 
+function imageForEvent(event: TripEvent) {
+  const title = event.title.toLowerCase();
+
+  if (event.flight || event.type === "travel") return null;
+  if (title.includes("sea change")) return galleryImages.find((image) => image.id === "sea-change") ?? null;
+  if (title.includes("nautilus")) return galleryImages.find((image) => image.id === "nautilus") ?? null;
+  if (title.includes("tamarind")) return galleryImages.find((image) => image.id === "tamarind") ?? null;
+  if (title.includes("otb") || title.includes("on the beach") || title.includes("west-side")) {
+    return galleryImages.find((image) => image.id === "otb") ?? null;
+  }
+  if (title.includes("turtle")) return galleryImages.find((image) => image.id === "turtles") ?? null;
+  if (title.includes("aitutaki") || title.includes("one foot")) {
+    return galleryImages.find((image) => image.id === "aitutaki") ?? null;
+  }
+
+  return null;
+}
+
 function currentTripEvent(now = new Date()) {
   const { date, minutes } = rarotongaDateParts(now);
   const day = data.days.find((tripDay) => tripDay.date === date);
@@ -882,6 +900,7 @@ export default function Home() {
                       <div className="timeline">
                         {events.map((event) => {
                           const key = eventKey(activeDay, event);
+                          const eventImage = imageForEvent(event);
                           return (
                             <article className="event-card" key={key}>
                               <div className="event-main">
@@ -903,6 +922,14 @@ export default function Home() {
                                   </div>
                                   <h4>{event.title}</h4>
                                   <p>{event.notes}</p>
+                                  {eventImage ? (
+                                    <img
+                                      alt={eventImage.alt}
+                                      className="event-photo"
+                                      loading="lazy"
+                                      src={eventImage.image}
+                                    />
+                                  ) : null}
                                   <EventDetails event={event} />
                                 </div>
                               </div>
