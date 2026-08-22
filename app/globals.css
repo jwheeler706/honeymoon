@@ -85,11 +85,10 @@ button {
   min-height: 100vh;
   overflow-x: hidden;
   background:
-    radial-gradient(circle at 14% 0%, var(--glow-a), transparent 28rem),
-    radial-gradient(circle at 92% 10%, var(--glow-b), transparent 22rem),
+    linear-gradient(160deg, var(--weather-wash, transparent), transparent 62%),
     linear-gradient(145deg, rgba(255, 255, 255, 0.025), transparent 40%),
     var(--background);
-  transition: background 500ms ease, color 500ms ease;
+  transition: background 1400ms ease, color 800ms ease;
 }
 
 .theme-morning {
@@ -160,8 +159,32 @@ button {
   --hero-tint-c: rgba(100, 197, 219, 0.1);
 }
 
+.weather-clear {
+  --background: #11150d;
+  --panel: rgba(29, 34, 22, 0.9);
+  --panel-strong: rgba(37, 41, 28, 0.95);
+  --weather-wash: rgba(151, 128, 56, 0.13);
+  --hero-weather: rgba(193, 151, 65, 0.13);
+}
+
+.weather-cloud {
+  --background: #0d1112;
+  --panel: rgba(24, 28, 29, 0.9);
+  --panel-strong: rgba(31, 35, 36, 0.95);
+  --weather-wash: rgba(114, 119, 116, 0.13);
+  --hero-weather: rgba(112, 119, 118, 0.18);
+}
+
+.weather-rain {
+  --background: #061119;
+  --panel: rgba(10, 27, 38, 0.9);
+  --panel-strong: rgba(14, 35, 48, 0.95);
+  --weather-wash: rgba(39, 99, 128, 0.2);
+  --hero-weather: rgba(43, 114, 151, 0.22);
+}
+
 .top-panel {
-  --header-image: url("https://www.downunderendeavours.com/wp-content/uploads/2018/08/SMB-cooks-650x400-rarotonga-aerial-island-view-1324.jpg");
+  --header-image: url("/images/rarotonga-aerial.jpg");
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   gap: 8px;
@@ -170,53 +193,58 @@ button {
   border: 1px solid var(--line);
   border-radius: 8px;
   background:
-    radial-gradient(circle at 84% 12%, var(--hero-tint-c), transparent 15rem),
+    linear-gradient(155deg, var(--hero-weather, transparent), transparent 58%),
     linear-gradient(125deg, var(--hero-tint-a), var(--hero-tint-b)),
     var(--header-image);
   background-position: center;
   background-size: cover;
   color: #fffdf8;
+  transition: background 1400ms ease;
 }
 
 .header-countdown,
 .header-beach,
 .header-flight {
-  --header-image: url("https://www.downunderendeavours.com/wp-content/uploads/2018/08/SMB-cooks-650x400-rarotonga-aerial-island-view-1324.jpg");
+  --header-image: url("/images/rarotonga-aerial.jpg");
 }
 
 .header-villa {
-  --header-image: url("https://static1.squarespace.com/static/63d3ff8f9022444b080ead34/t/63f40fba2764b604666ec0d1/1676939195062/Beach+Front+VillasDSC_7451.jpg?format=1500w");
+  --header-image: url("/images/sea-change.webp");
   background-position: center 55%;
 }
 
-.header-nautilus,
+.header-nautilus {
+  --header-image: url("/images/nautilus.webp");
+  background-position: center 58%;
+}
+
 .header-dinner {
-  --header-image: url("https://images.squarespace-cdn.com/content/v1/68d84e7615147738b7ee4fee/66fcfb58-3e1f-4e7a-acda-558e02f3fd85/NavigateNautilusResortPolynesianRestaurantPool.webp?format=1500w");
+  --header-image: url("/images/south-coast-beach.jpg");
   background-position: center 58%;
 }
 
 .header-tamarind {
-  --header-image: url("https://images.squarespace-cdn.com/content/v1/63d3ff8f9022444b080ead34/42664d02-a318-46ff-b33b-38e7ecf18c39/tamarind%2Brestaurant%2Brarotonga.jpg");
+  --header-image: url("/images/tamarind.webp");
   background-position: center 55%;
 }
 
 .header-otb {
-  --header-image: url("https://enjoycookislands.com/uploads/general/_1200x630_crop_center-center_82_none_ns/OTB-1.jpeg?mtime=1469048986");
+  --header-image: url("/images/otb.jpg");
   background-position: center 60%;
 }
 
 .header-turtle {
-  --header-image: url("https://static1.squarespace.com/static/5e6f0f42668a2e3fcf7b19a4/t/6a3fd4e916d56f3a046e56ee/1782568169078/29AugSCIphotos-13.jpg?format=1500w");
+  --header-image: url("/images/turtles.webp");
   background-position: center 48%;
 }
 
 .header-aitutaki {
-  --header-image: url("https://commons.wikimedia.org/wiki/Special:Redirect/file/Aitutaki_aerialview.jpg");
+  --header-image: url("/images/map-aitutaki.jpg");
   background-position: center 52%;
 }
 
 .header-hike {
-  --header-image: url("https://images.squarespace-cdn.com/content/v1/68d84e7615147738b7ee4fee/7b01c2a4-ec9a-4f39-b2f5-f63a858fc10f/Pana-Lagoon3.webp?format=1500w");
+  --header-image: url("/images/rarotonga-peaks.jpg");
 }
 
 .title-block {
@@ -678,14 +706,14 @@ button {
 .event-map-link {
   position: absolute;
   top: 9px;
-  right: 38px;
+  right: 36px;
   display: grid;
   width: 24px;
   height: 24px;
   place-items: center;
   border: 1px solid transparent;
-  border-radius: 999px;
-  background: transparent;
+  border-radius: 5px;
+  background: rgba(243, 238, 226, 0.025);
   color: var(--muted);
   cursor: pointer;
   opacity: 0.58;
@@ -842,7 +870,7 @@ button {
   border-radius: 8px;
   background:
     linear-gradient(rgba(2, 10, 14, 0.02), rgba(2, 10, 14, 0.08)),
-    url("https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/export?bbox=-159.86,-21.295,-159.69,-21.165&bboxSR=4326&imageSR=4326&size=900,690&format=jpg&f=image");
+    url("/images/map-rarotonga.jpg");
   background-position: center;
   background-size: 100% 100%;
 }
@@ -850,7 +878,7 @@ button {
 .island-map.aitutaki-map {
   background:
     linear-gradient(rgba(2, 10, 14, 0.02), rgba(2, 10, 14, 0.08)),
-    url("https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/export?bbox=-159.855,-18.955,-159.715,-18.825&bboxSR=4326&imageSR=4326&size=900,690&format=jpg&f=image");
+    url("/images/map-aitutaki.jpg");
   background-position: center;
   background-size: 100% 100%;
 }
@@ -922,6 +950,12 @@ button {
   border-radius: 999px;
   background: var(--pin-color, var(--reef));
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.48);
+}
+
+.map-pin::after {
+  position: absolute;
+  inset: -12px;
+  content: "";
 }
 
 .type-home {
@@ -1081,6 +1115,7 @@ button {
   color: var(--muted);
   font-size: 0.67rem;
   font-weight: 800;
+  min-height: 36px;
   padding: 6px 9px;
 }
 
@@ -1536,10 +1571,15 @@ button {
 
 .header-scene-strip {
   display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 8px;
   margin: 0 0 14px;
   padding-bottom: 14px;
   border-bottom: 1px solid var(--line);
+}
+
+.header-scene-strip article:first-child {
+  grid-column: 1 / -1;
 }
 
 .header-scene-strip article {
@@ -1647,6 +1687,14 @@ button {
   .gallery-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+
+  .header-scene-strip {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .header-scene-strip article:first-child {
+    grid-column: auto;
+  }
 }
 
 @media (max-width: 420px) {
@@ -1658,8 +1706,118 @@ button {
     padding: 18px;
   }
 
-  .event-main {
+  .calendar-day-head,
+  .calendar-lane {
     grid-template-columns: 1fr;
   }
 
+  .calendar-lane > span {
+    color: var(--muted);
+  }
+
+  .calendar-item strong {
+    overflow: visible;
+    overflow-wrap: anywhere;
+    text-overflow: clip;
+  }
+
+  .gallery-card img {
+    aspect-ratio: 4 / 3;
+  }
+
+}
+
+@media (max-width: 560px) {
+  .island-map .map-popup,
+  .island-map .map-popup.left,
+  .island-map .map-popup.above,
+  .island-map .map-popup.left.above {
+    top: 10px !important;
+    right: 10px;
+    bottom: auto;
+    left: 10px !important;
+    grid-template-columns: 84px minmax(0, 1fr);
+    gap: 2px 9px;
+    width: auto;
+    max-width: none;
+    min-height: 84px;
+    padding: 7px;
+    translate: none;
+  }
+
+  .island-map .map-popup:not(:has(img)) {
+    grid-template-columns: minmax(0, 1fr);
+    min-height: 0;
+    padding: 9px 10px;
+  }
+
+  .island-map .map-popup img {
+    grid-row: 1 / span 3;
+    width: 84px;
+    height: 68px;
+    margin: 0;
+    aspect-ratio: auto;
+    align-self: center;
+  }
+
+  .island-map .map-popup strong,
+  .island-map .map-popup span,
+  .island-map .map-popup p {
+    grid-column: 2;
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .island-map .map-popup:not(:has(img)) strong,
+  .island-map .map-popup:not(:has(img)) span,
+  .island-map .map-popup:not(:has(img)) p {
+    grid-column: 1;
+  }
+
+  .island-map .map-popup strong {
+    font-size: 0.8rem;
+  }
+
+  .island-map .map-popup span,
+  .island-map .map-popup p {
+    font-size: 0.68rem;
+    line-height: 1.2;
+  }
+
+  .place-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px 12px;
+    overflow-x: visible;
+    padding: 2px 0;
+  }
+
+  .place-row {
+    min-width: 0;
+    max-width: 100%;
+    grid-template-columns: 7px minmax(0, 1fr);
+    gap: 7px;
+    align-items: start;
+  }
+
+  .place-row .status-dot {
+    margin-top: 0.38rem;
+  }
+
+  .place-row strong,
+  .place-row small {
+    min-width: 0;
+    overflow-wrap: anywhere;
+    white-space: normal;
+  }
+
+  .place-row strong {
+    font-size: 0.88rem;
+    line-height: 1.2;
+  }
+
+  .place-row small {
+    font-size: 0.68rem;
+    line-height: 1.25;
+  }
 }

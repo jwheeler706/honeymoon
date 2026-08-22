@@ -90,7 +90,7 @@ const initialState: AppState = {
   view: "plan",
   mapStart: data.days[0].date,
   mapEnd: data.days[data.days.length - 1].date,
-  selectedPlace: "sea-change-villas",
+  selectedPlace: "",
   done: {},
   saved: {},
   notes: {},
@@ -143,6 +143,7 @@ type HeaderContext = {
 type WeatherInfo = {
   temperature: number;
   label: string;
+  mood: "clear" | "cloud" | "rain";
 };
 
 type MapPlace = {
@@ -234,15 +235,15 @@ const mapPlaces: MapPlace[] = [
     type: "reservation",
     area: "Tupapa / Avarua",
     note: "Dinner at 6:15 PM.",
-    lat: -21.2074,
-    lng: -159.7619,
+    lat: -21.20432,
+    lng: -159.762705,
   },
   {
     id: "black-rock",
     name: "Black Rock / west-side wandering",
     date: "2026-10-11",
     period: "Afternoon",
-    status: "planned",
+    status: "flexible",
     type: "activity",
     area: "Northwest coast",
     note: "Scenic stop.",
@@ -343,8 +344,8 @@ const mapPlaces: MapPlace[] = [
     type: "travel",
     area: "Aitutaki",
     note: "Air Rarotonga flights arrive at 8:50 AM and depart at 7:10 PM.",
-    lat: -18.8342,
-    lng: -159.7655,
+    lat: -18.82953,
+    lng: -159.766715,
     offMap: true,
   },
   {
@@ -369,8 +370,8 @@ const mapPlaces: MapPlace[] = [
     type: "meal",
     area: "Ootu Point",
     note: "Dinner around 5:00 PM.",
-    lat: -18.84826,
-    lng: -159.76008,
+    lat: -18.848215,
+    lng: -159.760167,
     offMap: true,
   },
   {
@@ -393,8 +394,7 @@ const galleryImages: GalleryImage[] = [
     title: "Sea Change Villas",
     date: "2026-10-09",
     label: "Home base",
-    image:
-      "https://static1.squarespace.com/static/63d3ff8f9022444b080ead34/63d3ff9e9022444b080eafde/6400444bee76315d2009ec27/1691017310932/Lagoon+View+Villa+DSC_5745.jpg?format=1500w",
+    image: "/images/sea-change.webp",
     alt: "Lagoon View Villa at Sea Change Villas in Rarotonga.",
   },
   {
@@ -402,8 +402,7 @@ const galleryImages: GalleryImage[] = [
     title: "Nautilus Resort",
     date: "2026-10-10",
     label: "Dinner",
-    image:
-      "https://images.squarespace-cdn.com/content/v1/68d84e7615147738b7ee4fee/66fcfb58-3e1f-4e7a-acda-558e02f3fd85/NavigateNautilusResortPolynesianRestaurantPool.webp?format=1500w",
+    image: "/images/nautilus.webp",
     alt: "Nautilus Resort pool and restaurant beside Muri Lagoon.",
   },
   {
@@ -411,8 +410,7 @@ const galleryImages: GalleryImage[] = [
     title: "Tamarind House",
     date: "2026-10-11",
     label: "Dinner",
-    image:
-      "https://images.squarespace-cdn.com/content/v1/63d3ff8f9022444b080ead34/42664d02-a318-46ff-b33b-38e7ecf18c39/tamarind%2Brestaurant%2Brarotonga.jpg",
+    image: "/images/tamarind.webp",
     alt: "Sunset dining setting at Tamarind House in Rarotonga.",
   },
   {
@@ -420,7 +418,7 @@ const galleryImages: GalleryImage[] = [
     title: "On the Beach Bar & Restaurant",
     date: "2026-10-12",
     label: "Beach dinner",
-    image: "https://enjoycookislands.com/uploads/general/_1200x630_crop_center-center_82_none_ns/OTB-1.jpeg?mtime=1469048986",
+    image: "/images/otb.jpg",
     alt: "Beachfront dining room at On the Beach in Rarotonga.",
   },
   {
@@ -428,8 +426,7 @@ const galleryImages: GalleryImage[] = [
     title: "West-side lagoon",
     date: "2026-10-12",
     label: "Beach day",
-    image:
-      "https://www.downunderendeavours.com/wp-content/uploads/2018/08/SMB-cooks-650x400-rarotonga-aerial-island-view-1324.jpg",
+    image: "/images/rarotonga-aerial.jpg",
     alt: "Rarotonga lagoon and reef from above.",
   },
   {
@@ -437,8 +434,7 @@ const galleryImages: GalleryImage[] = [
     title: "Muri Beach",
     date: "2026-10-12",
     label: "Lagoon",
-    image:
-      "https://commons.wikimedia.org/wiki/Special:Redirect/file/Muri_Beach,_Rarotonga,_Cook_Islands.jpg",
+    image: "/images/muri-beach.jpg",
     alt: "Muri Beach with calm lagoon water and island scenery.",
   },
   {
@@ -446,7 +442,7 @@ const galleryImages: GalleryImage[] = [
     title: "Muri lagoon islets",
     date: "2026-10-12",
     label: "Lagoon",
-    image: "https://www.ncl.com/sites/default/files/RAR_05_1920X1080%20LG_0.jpg",
+    image: "/images/muri-islets.jpg",
     alt: "Muri Lagoon and islets from above.",
   },
   {
@@ -454,7 +450,7 @@ const galleryImages: GalleryImage[] = [
     title: "Rarotonga peaks",
     date: "2026-10-14",
     label: "Nature",
-    image: "https://www.pacific-travel-house.com/reisefuehrer/application/files/3616/7119/2407/rarotonga-berge.jpg",
+    image: "/images/rarotonga-peaks.jpg",
     alt: "Green volcanic peaks and rainforest in Rarotonga.",
   },
   {
@@ -462,24 +458,23 @@ const galleryImages: GalleryImage[] = [
     title: "Lagoon swim",
     date: "2026-10-15",
     label: "Lagoon",
-    image: "https://imgix.theurbanlist.com/content/general/cook-islands-swimming-spots.jpg?auto=format%2Ccompress&ixlib=php-4.1.0&w=728",
+    image: "/images/lagoon-swim.jpg",
     alt: "Clear Rarotonga lagoon water with palms and mountains beyond.",
   },
   {
     id: "palm-beach",
-    title: "Palm beach",
+    title: "South-coast beach",
     date: "2026-10-15",
     label: "Beach",
-    image: "https://jonistravelling.com/wp-content/uploads/2023/03/palm-grove-resort-nearby-beach-rarotonga.jpg",
-    alt: "Palm-lined white sand beach and turquoise water in Rarotonga.",
+    image: "/images/south-coast-beach.jpg",
+    alt: "Palm-lined beach and turquoise water on Rarotonga's south coast.",
   },
   {
     id: "turtles",
     title: "Swim With The Turtles",
     date: "2026-10-13",
     label: "Snorkel",
-    image:
-      "https://static1.squarespace.com/static/5e6f0f42668a2e3fcf7b19a4/t/6a3fd4e916d56f3a046e56ee/1782568169078/29AugSCIphotos-13.jpg?format=1500w",
+    image: "/images/turtles.webp",
     alt: "Sea turtle underwater during a Snorkel Cook Islands excursion.",
   },
   {
@@ -487,16 +482,16 @@ const galleryImages: GalleryImage[] = [
     title: "Aitutaki",
     date: "2026-10-16",
     label: "Day trip",
-    image: "https://www.matrikibeachhuts.com/aituta354.jpg",
-    alt: "Satellite-style view of Aitutaki lagoon and reef.",
+    image: "/images/map-aitutaki.jpg",
+    alt: "Satellite view of Aitutaki lagoon and reef.",
+    position: "center",
   },
   {
     id: "one-foot",
     title: "One Foot Island",
     date: "2026-10-16",
     label: "Lunch stop",
-    image:
-      "https://commons.wikimedia.org/wiki/Special:Redirect/file/One_Foot_Island_Aitutaki_Cook_Islands_(5651684648).jpg",
+    image: "/images/one-foot.jpg",
     alt: "One Foot Island and the surrounding Aitutaki lagoon.",
   },
   {
@@ -504,38 +499,36 @@ const galleryImages: GalleryImage[] = [
     title: "Blue Lagoon Restaurant",
     date: "2026-10-16",
     label: "Dinner",
-    image:
-      "https://cookislands.travel/sites/default/files/styles/supplier_detail_image/public/2020-10/AitutakiVillage3.jpg.avif?itok=7xt5km8a",
-    alt: "Blue Lagoon Restaurant at Aitutaki Village.",
-    position: "center 72%",
+    image: "/images/blue-lagoon.jpg",
+    alt: "Dinner at Blue Lagoon Restaurant with Ootu Beach beyond.",
+    position: "center",
   },
 ];
 
 const scenicHeaderImages = [
   {
     title: "Rarotonga lagoon",
-    image:
-      "https://www.downunderendeavours.com/wp-content/uploads/2018/08/SMB-cooks-650x400-rarotonga-aerial-island-view-1324.jpg",
+    image: "/images/rarotonga-aerial.jpg",
     position: "center 54%",
   },
   {
     title: "Muri lagoon",
-    image: "https://www.ncl.com/sites/default/files/RAR_05_1920X1080%20LG_0.jpg",
+    image: "/images/muri-islets.jpg",
     position: "center 52%",
   },
   {
     title: "Rarotonga peaks",
-    image: "https://www.pacific-travel-house.com/reisefuehrer/application/files/3616/7119/2407/rarotonga-berge.jpg",
+    image: "/images/rarotonga-peaks.jpg",
     position: "center 45%",
   },
   {
     title: "Lagoon swim",
-    image: "https://imgix.theurbanlist.com/content/general/cook-islands-swimming-spots.jpg?auto=format%2Ccompress&ixlib=php-4.1.0&w=728",
+    image: "/images/lagoon-swim.jpg",
     position: "center 52%",
   },
   {
-    title: "Palm beach",
-    image: "https://jonistravelling.com/wp-content/uploads/2023/03/palm-grove-resort-nearby-beach-rarotonga.jpg",
+    title: "South-coast beach",
+    image: "/images/south-coast-beach.jpg",
     position: "center 48%",
   },
 ];
@@ -660,14 +653,6 @@ function mapPinClass(place: MapPlace, selectedPlaceId: string) {
     .join(" ");
 }
 
-function mainAnchor(day: Day) {
-  return (
-    day.events.find((event) => event.status === "confirmed" && event.type === "reservation") ??
-    day.events.find((event) => event.status === "confirmed") ??
-    day.events[0]
-  );
-}
-
 function rarotongaHour(date = new Date()) {
   const parts = new Intl.DateTimeFormat("en-US", {
     hour: "numeric",
@@ -721,17 +706,6 @@ function countdownText(now = new Date()) {
   return `${days} days to Rarotonga`;
 }
 
-function themeLabel(theme: TimeTheme) {
-  const labels: Record<TimeTheme, string> = {
-    morning: "Lagoon morning",
-    day: "Warm island day",
-    evening: "Golden evening",
-    night: "Quiet island night",
-  };
-
-  return labels[theme];
-}
-
 function weatherLabel(code: number) {
   if (code === 0) return "Clear";
   if ([1, 2].includes(code)) return "Partly sunny";
@@ -742,6 +716,12 @@ function weatherLabel(code: number) {
   if ([71, 73, 75, 77, 85, 86].includes(code)) return "Snow";
   if ([95, 96, 99].includes(code)) return "Storms";
   return "Island weather";
+}
+
+function weatherMood(code: number): WeatherInfo["mood"] {
+  if ([0, 1, 2].includes(code)) return "clear";
+  if ([3, 45, 48].includes(code)) return "cloud";
+  return "rain";
 }
 
 function eventPeriod(event: TripEvent): Period {
@@ -800,27 +780,6 @@ function imageForEvent(event: TripEvent) {
   }
   if (title.includes("turtle")) return galleryImages.find((image) => image.id === "turtles") ?? null;
   if (title.includes("aitutaki")) {
-    return galleryImages.find((image) => image.id === "aitutaki") ?? null;
-  }
-
-  return null;
-}
-
-function imageForReservation(reservation: Reservation) {
-  const name = reservation.name.toLowerCase();
-
-  if (name.includes("sea change")) return galleryImages.find((image) => image.id === "sea-change") ?? null;
-  if (name.includes("nautilus")) return galleryImages.find((image) => image.id === "nautilus") ?? null;
-  if (name.includes("tamarind")) return galleryImages.find((image) => image.id === "tamarind") ?? null;
-  if (name.includes("otb") || name.includes("on the beach")) {
-    return galleryImages.find((image) => image.id === "otb") ?? null;
-  }
-  if (name.includes("blue lagoon")) return galleryImages.find((image) => image.id === "blue-lagoon") ?? null;
-  if (name.includes("one foot") || name.includes("tapuaetai")) {
-    return galleryImages.find((image) => image.id === "one-foot") ?? null;
-  }
-  if (name.includes("turtle")) return galleryImages.find((image) => image.id === "turtles") ?? null;
-  if (name.includes("aitutaki")) {
     return galleryImages.find((image) => image.id === "aitutaki") ?? null;
   }
 
@@ -889,9 +848,13 @@ function eventInlineNote(event: TripEvent) {
 }
 
 function eventDetailNote(event: TripEvent) {
-  if (event.flight) return "";
-  if (event.title.includes("Punanga Nui")) return event.notes;
-  return "";
+  if (event.flight || event.type === "travel") return "";
+  if (/^(confirmed reservation|confirmed plan|keep it easy)\.?$/i.test(event.notes)) return "";
+  return event.notes;
+}
+
+function compactMapDate(place: MapPlace) {
+  return `${place.period} ${formatDate(place.date)}`;
 }
 
 function eventMetaTime(event: TripEvent, period: Period) {
@@ -1085,6 +1048,7 @@ export default function Home() {
           setWeather({
             temperature: Math.round(temperature),
             label: weatherLabel(code),
+            mood: weatherMood(code),
           });
         }
       } catch {
@@ -1103,10 +1067,13 @@ export default function Home() {
   const activeDay = data.days.find((day) => day.date === state.activeDay) ?? data.days[0];
   const scenicHeader = header.key === "countdown" || header.key === "beach" || header.key === "flight";
   const scenicImage = scenicHeaderImages[scenicIndex % scenicHeaderImages.length];
-  const headerStyle: CSSProperties | undefined = scenicHeader
+  const activeHeaderEvent = currentTripEvent()?.event;
+  const activityHeaderImage = activeHeaderEvent ? imageForEvent(activeHeaderEvent) : null;
+  const headerImage = scenicHeader ? scenicImage : activityHeaderImage;
+  const headerStyle: CSSProperties | undefined = headerImage
     ? {
-        "--header-image": `url("${scenicImage.image}")`,
-        backgroundPosition: scenicImage.position,
+        "--header-image": `url("${headerImage.image}")`,
+        backgroundPosition: headerImage.position ?? "center",
       } as CSSProperties
     : undefined;
 
@@ -1145,7 +1112,7 @@ export default function Home() {
   }
 
   return (
-    <main className={`app-shell theme-${timeTheme}`}>
+    <main className={`app-shell theme-${timeTheme} weather-${weather?.mood ?? "neutral"}`}>
       <section className={`top-panel header-${header.key}`} style={headerStyle} aria-labelledby="trip-title">
         <div className="title-block">
           <p className="header-meta">
@@ -1189,7 +1156,7 @@ export default function Home() {
             {view === "plan"
               ? "Today"
               : view === "reservations"
-                ? "Calendar"
+                ? "Itinerary"
                 : view === "map"
                   ? "Map"
                   : "Gallery"}
@@ -1284,7 +1251,6 @@ export default function Home() {
                                     </div>
                                   ) : null}
                                   {detailNote ? <p className="event-detail-note">{detailNote}</p> : null}
-                                  {event.flight ? <p>{event.notes}</p> : null}
                                   {eventImage ? (
                                     <img
                                       alt={eventImage.alt}
@@ -1480,16 +1446,17 @@ function MapView({
       ? place.offMap && mapPoint(place, activeMapBounds)
       : !place.offMap && mapPoint(place, activeMapBounds)
   );
-  const homeIsInRange = inRangePlaces.some((place) => place.id === "sea-change-villas");
   const visibleMappablePlaces =
     !isAitutakiOnly && homeBase && !mappablePlaces.some((place) => place.id === homeBase.id)
       ? [homeBase, ...mappablePlaces]
       : mappablePlaces;
-  const visiblePlaces = inRangePlaces;
-  const offMapPlaces = isAitutakiOnly ? [] : inRangePlaces.filter((place) => place.offMap);
-  const selectedHomeBase = selectedPlaceId === "sea-change-villas" && Boolean(homeBase);
+  const visiblePlaces = isAitutakiOnly
+    ? inRangePlaces
+    : homeBase
+      ? [homeBase, ...inRangePlaces.filter((place) => place.id !== homeBase.id && !place.offMap)]
+      : inRangePlaces.filter((place) => !place.offMap);
   const selectedMapPlace = selectedPlaceId
-    ? visibleMappablePlaces.find((place) => place.id === selectedPlaceId && (place.id !== "sea-change-villas" || homeIsInRange || selectedHomeBase))
+    ? visibleMappablePlaces.find((place) => place.id === selectedPlaceId)
     : null;
   const selectedMapPoint = selectedMapPlace ? mapPoint(selectedMapPlace, activeMapBounds) : null;
   const selectedMapImage = selectedMapPlace ? imageForPlace(selectedMapPlace) : null;
@@ -1504,7 +1471,7 @@ function MapView({
     : "";
   const showAllDates = () => {
     onDateRangeChange(firstTripDate, lastTripDate);
-    if (homeBase) onSelectPlace(homeBase.id);
+    onSelectPlace("");
   };
   const showSingleDate = (date: string) => {
     if (startDate === date && endDate === date) {
@@ -1512,8 +1479,7 @@ function MapView({
       return;
     }
     onDateRangeChange(date, date);
-    const nextPlace = places.find((place) => place.date === date && !place.offMap) ?? places.find((place) => place.date === date);
-    onSelectPlace(nextPlace?.id ?? "");
+    onSelectPlace("");
   };
 
   return (
@@ -1555,7 +1521,7 @@ function MapView({
                 key={place.id}
                 onClick={() => onSelectPlace(place.id === selectedPlaceId ? "" : place.id)}
                 style={{ left: `${point.x}%`, top: `${point.y}%` }}
-                title={`${formatDate(place.date)} · ${place.name}`}
+                title={place.id === "sea-change-villas" ? place.name : `${compactMapDate(place)} · ${place.name}`}
                 type="button"
               >
                 {place.id === "sea-change-villas" ? <HomeGlyph /> : null}
@@ -1571,7 +1537,11 @@ function MapView({
                 <img alt={selectedMapImage.alt} loading="lazy" src={selectedMapImage.image} />
               ) : null}
               <strong>{selectedMapPlace.name}</strong>
-              <span>{formatDate(selectedMapPlace.date)} · {selectedMapPlace.period} · {selectedMapPlace.area}</span>
+              <span>
+                {selectedMapPlace.id === "sea-change-villas"
+                  ? selectedMapPlace.area
+                  : `${compactMapDate(selectedMapPlace)} · ${selectedMapPlace.area}`}
+              </span>
               <p>{selectedMapPlace.note}</p>
             </article>
           ) : null}
@@ -1612,41 +1582,25 @@ function MapView({
           </div>
         </div>
 
-        {offMapPlaces.length ? (
-          <div className="off-map-list" aria-label="Off-map trip items">
-            <span>Aitutaki</span>
-            {offMapPlaces.map((place) => (
-              <button
-                className={place.id === selectedPlaceId ? "active" : ""}
-                key={place.id}
-                onClick={() => onSelectPlace(place.id)}
-                type="button"
-              >
-                {place.name}
-              </button>
-            ))}
-          </div>
-        ) : null}
-
         <div className="map-details">
           <div className="place-list" aria-label="Visible map places">
             {visiblePlaces.map((place) => (
-              <button
-                className={
-                  place.id === selectedPlaceId
-                    ? `place-row active ${mapColorClass(place)}`
-                    : `place-row ${mapColorClass(place)}`
-                }
+              <div
+                className={`place-row ${mapColorClass(place)}`}
                 key={place.id}
-                onClick={() => onSelectPlace(place.id)}
-                type="button"
               >
                 <span className="status-dot" />
                 <span>
                   <strong>{place.name}</strong>
-                  <small>{formatDate(place.date)} · {place.period} · {place.area}</small>
+                  <small>
+                    {place.id === "sea-change-villas"
+                      ? place.area
+                      : allDatesSelected
+                        ? `${compactMapDate(place)} · ${place.area}`
+                        : `${place.period} · ${place.area}`}
+                  </small>
                 </span>
-              </button>
+              </div>
             ))}
           </div>
         </div>
@@ -1694,7 +1648,6 @@ function CalendarView({
   return (
     <section className="calendar-view" aria-labelledby="calendar-title">
       <div className="calendar-header">
-        <p className="section-label">Trip calendar</p>
         <h2 id="calendar-title">Oct 8-18</h2>
       </div>
 
@@ -1736,7 +1689,9 @@ function CalendarView({
                               const itemText = calendarItemText(item);
                               return (
                                 <>
-                                  <time>{formatTime(item.time)}</time>
+                                  {eventMetaTime(item, item.period) ? (
+                                    <time>{eventMetaTime(item, item.period)}</time>
+                                  ) : null}
                                   <strong>{item.title}</strong>
                                   {itemText ? <small>{itemText}</small> : null}
                                 </>

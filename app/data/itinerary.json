@@ -2,7 +2,7 @@
   "trip": {
     "title": "Rarotonga Honeymoon",
     "destination": "Rarotonga, Cook Islands",
-    "startDate": "2026-10-09",
+    "startDate": "2026-10-08",
     "endDate": "2026-10-18",
     "timezone": "Pacific/Rarotonga",
     "lodging": {
@@ -78,7 +78,7 @@
           "time": "17:50",
           "status": "confirmed",
           "type": "travel",
-          "notes": "MKE to MSP, 5:50-7:15 PM. Seat 19A.",
+          "notes": "MKE to MSP, 5:50-7:15 PM. Seats 19A and 19B.",
           "flight": {
             "number": "DL 2885",
             "airline": "Delta Air Lines",
@@ -87,7 +87,7 @@
             "depart": "5:50 PM",
             "arrive": "7:15 PM",
             "cabin": "Delta Main Classic",
-            "seats": "19A",
+            "seats": "19A, 19B",
             "duration": "1h 25m",
             "layoverAfter": "2h in Minneapolis"
           }
@@ -97,7 +97,7 @@
           "time": "21:15",
           "status": "confirmed",
           "type": "travel",
-          "notes": "MSP to LAX, 9:15-11:25 PM. Seat 22A.",
+          "notes": "MSP to LAX, 9:15-11:25 PM. Seats 22A and 22B.",
           "flight": {
             "number": "DL 2103",
             "airline": "Delta Air Lines",
@@ -106,7 +106,7 @@
             "depart": "9:15 PM",
             "arrive": "11:25 PM",
             "cabin": "Delta Main Classic",
-            "seats": "22A",
+            "seats": "22A, 22B",
             "duration": "4h 10m"
           }
         }
@@ -212,16 +212,16 @@
       "date": "2026-10-11",
       "weekday": "Sunday",
       "title": "West and North Island Day",
-      "status": "planned",
+      "status": "flexible",
       "theme": "chauffeured scenic day",
       "summary": "North/west island day. Tamarind at night.",
       "events": [
         {
-          "title": "North and west island loop, with Aroa, Arorangi, Black Rock, and beach stops",
+          "title": "North and west island loop",
           "time": "daytime",
-          "status": "planned",
+          "status": "flexible",
           "type": "activity",
-          "notes": "Keep it easy."
+          "notes": "Wander through Aroa, Arorangi, Black Rock, and a few beach stops."
         },
         {
           "title": "Dinner at Tamarind House main restaurant",
@@ -243,11 +243,11 @@
       "summary": "West-side beach day. On the Beach at sunset.",
       "events": [
         {
-          "title": "Beach, snorkel, and wander on the west side",
+          "title": "West-side beach day",
           "time": "daytime",
-          "status": "planned",
+          "status": "flexible",
           "type": "activity",
-          "notes": "Keep it easy."
+          "notes": "Leave the afternoon open for beach time, snorkeling, and wandering."
         },
         {
           "title": "Dinner at On the Beach Bar & Restaurant",
@@ -278,16 +278,16 @@
         {
           "title": "Slow villa morning at Sea Change",
           "time": "morning",
-          "status": "planned",
+          "status": "flexible",
           "type": "downtime",
-          "notes": "Keep it easy."
+          "notes": "Take a slow morning by the villa, pool, or lagoon."
         },
         {
           "title": "Lunch near the south side, maybe Charlie's",
           "time": "11:30",
           "status": "suggested",
           "type": "meal",
-          "notes": "Keep it easy."
+          "notes": "Charlie's is an easy option if lunch sounds good."
         },
         {
           "title": "Swim With The Turtles Rarotonga",
@@ -304,7 +304,7 @@
           "time": "evening",
           "status": "flexible",
           "type": "meal",
-          "notes": "Keep it easy."
+          "notes": "Choose takeaway or somewhere casual after the snorkel."
         }
       ],
       "transport": "Rental car starts at 9:00 AM.",
@@ -319,11 +319,11 @@
       "summary": "Flexible adventure day.",
       "events": [
         {
-          "title": "Flexible hike or land day, Raemaru if weather works",
+          "title": "Raemaru Trek or a flexible land day",
           "time": "daytime",
-          "status": "suggested",
+          "status": "flexible",
           "type": "activity",
-          "notes": "Keep it easy."
+          "notes": "Let the weather and energy decide."
         }
       ],
       "transport": "Rental car.",
@@ -340,9 +340,9 @@
         {
           "title": "Lagoon / beach / villa day",
           "time": "daytime",
-          "status": "planned",
+          "status": "flexible",
           "type": "downtime",
-          "notes": "Keep it open."
+          "notes": "Keep the day open for the lagoon, beach, or villa."
         },
         {
           "title": "Optional hike",
@@ -400,14 +400,14 @@
           "time": "afternoon",
           "status": "confirmed",
           "type": "meal",
-          "notes": "Lunch stop."
+          "notes": "Pause for lunch on Tapuaetai."
         },
         {
-          "title": "Blue Lagoon Restaurant dinner after the tour drop-off, around 5:00 PM",
+          "title": "Dinner at Blue Lagoon Restaurant",
           "time": "17:00",
           "status": "confirmed",
           "type": "meal",
-          "notes": "Confirmed plan."
+          "notes": "Head over after the tour drop-off around 5:00 PM."
         },
         {
           "title": "GZ-621 to Rarotonga",
@@ -435,14 +435,14 @@
       "date": "2026-10-17",
       "weekday": "Saturday",
       "title": "Final Morning and Departure",
-      "status": "planned",
+      "status": "confirmed",
       "theme": "departure",
       "summary": "Slow morning, then flights home.",
       "events": [
         {
           "title": "Final morning at Sea Change Villas",
           "time": "morning",
-          "status": "planned",
+          "status": "flexible",
           "type": "downtime",
           "notes": "Keep plans close and easy."
         },
@@ -511,7 +511,7 @@
           "time": "08:00",
           "status": "confirmed",
           "type": "travel",
-          "notes": "LAX to ATL, 8:00 AM-3:22 PM. Seat 30A.",
+          "notes": "LAX to ATL, 8:00 AM-3:22 PM. Seats 30A and 30B.",
           "flight": {
             "number": "DL 782",
             "airline": "Delta Air Lines",
@@ -520,7 +520,7 @@
             "depart": "8:00 AM",
             "arrive": "3:22 PM",
             "cabin": "Delta Main Classic",
-            "seats": "30A",
+            "seats": "30A, 30B",
             "duration": "4h 22m",
             "layoverAfter": "1h 23m in Atlanta"
           }
@@ -530,7 +530,7 @@
           "time": "16:45",
           "status": "confirmed",
           "type": "travel",
-          "notes": "ATL to MKE, 4:45-5:45 PM. Seat 22A.",
+          "notes": "ATL to MKE, 4:45-5:45 PM. Seats 22A and 22B.",
           "flight": {
             "number": "DL 1206",
             "airline": "Delta Air Lines",
@@ -539,7 +539,7 @@
             "depart": "4:45 PM",
             "arrive": "5:45 PM",
             "cabin": "Delta Main Classic",
-            "seats": "22A",
+            "seats": "22A, 22B",
             "duration": "2h"
           }
         }

@@ -1,5 +1,23 @@
-const CACHE_NAME = "rarotonga-honeymoon-v51";
-const APP_SHELL = ["/", "/favicon.svg"];
+const CACHE_NAME = "rarotonga-honeymoon-v52";
+const APP_SHELL = [
+  "/",
+  "/favicon.svg",
+  "/images/sea-change.webp",
+  "/images/nautilus.webp",
+  "/images/tamarind.webp",
+  "/images/otb.jpg",
+  "/images/rarotonga-aerial.jpg",
+  "/images/muri-beach.jpg",
+  "/images/muri-islets.jpg",
+  "/images/rarotonga-peaks.jpg",
+  "/images/lagoon-swim.jpg",
+  "/images/south-coast-beach.jpg",
+  "/images/turtles.webp",
+  "/images/one-foot.jpg",
+  "/images/blue-lagoon.jpg",
+  "/images/map-rarotonga.jpg",
+  "/images/map-aitutaki.jpg",
+];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
