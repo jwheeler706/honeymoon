@@ -85,6 +85,23 @@ const data = itinerary as TripData;
 const storageKey = "rarotonga-honeymoon-itinerary-v1";
 const tripTimeZone = data.trip.timezone || "Pacific/Rarotonga";
 
+function offlineAssetUrls() {
+  const urls = new Set<string>(["/", "/manifest.webmanifest", "/favicon.svg"]);
+  const isLocalUrl = (url: string) => new URL(url, window.location.href).origin === window.location.origin;
+
+  document.querySelectorAll<HTMLLinkElement | HTMLScriptElement | HTMLImageElement>("link[href], script[src], img[src]")
+    .forEach((element) => {
+      const url = "href" in element ? element.href : element.src;
+      if (url && isLocalUrl(url)) urls.add(url);
+    });
+
+  performance.getEntriesByType("resource").forEach((entry) => {
+    if (isLocalUrl(entry.name)) urls.add(entry.name);
+  });
+
+  return [...urls];
+}
+
 const initialState: AppState = {
   activeDay: data.days[0].date,
   view: "plan",
@@ -1051,7 +1068,17 @@ export default function Home() {
   useEffect(() => {
     if ("serviceWorker" in navigator) {
       if (process.env.NODE_ENV === "production") {
-        navigator.serviceWorker.register("/sw.js").catch(() => undefined);
+        navigator.serviceWorker.register("/sw.js")
+          .then(() => navigator.serviceWorker.ready)
+          .then((registration) => {
+            window.setTimeout(() => {
+              registration.active?.postMessage({
+                type: "CACHE_OFFLINE",
+                urls: offlineAssetUrls(),
+              });
+            }, 0);
+          })
+          .catch(() => undefined);
       } else {
         navigator.serviceWorker.getRegistrations()
           .then((registrations) => registrations.forEach((registration) => registration.unregister()))
