@@ -2,8 +2,12 @@
   "name": "Rarotonga Honeymoon Itinerary",
   "short_name": "Honeymoon",
   "description": "A relaxed, mobile-first itinerary for the October 2026 Rarotonga honeymoon.",
+  "id": "/",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
+  "orientation": "portrait-primary",
+  "categories": ["travel", "lifestyle"],
   "background_color": "#071113",
   "theme_color": "#071113",
   "icons": [
