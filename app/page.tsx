@@ -1,6 +1,6 @@
 "use client";
 
-import { type CSSProperties, type FormEvent, useEffect, useRef, useState } from "react";
+import { type CSSProperties, type FormEvent, type PointerEvent as ReactPointerEvent, useEffect, useRef, useState } from "react";
 import itinerary from "./data/itinerary.json";
 
 type EventStatus = "confirmed" | "pending" | "flexible" | "suggested" | "planned" | "assumed";
@@ -79,6 +79,7 @@ type AppState = {
   saved: Record<string, boolean>;
   notes: Record<string, string>;
   packingItems: PackingItem[];
+  packingSeedVersion: number;
   editor: "Jeff" | "Spouse";
 };
 
@@ -97,6 +98,39 @@ const data = itinerary as TripData;
 const storageKey = "rarotonga-honeymoon-itinerary-v1";
 const tripTimeZone = data.trip.timezone || "Pacific/Rarotonga";
 
+const packingAdditions: PackingItem[] = [
+  { id: "drivers-licenses", label: "Driver's licenses", category: "Essentials", packed: false },
+  { id: "cards-cash", label: "Payment cards and some cash", category: "Essentials", packed: false },
+  { id: "insurance-details", label: "Travel insurance details", category: "Essentials", packed: false },
+  { id: "booking-confirmations", label: "Flight and stay confirmations", category: "Essentials", packed: false },
+  { id: "lightweight-tops", label: "Lightweight tops (6-8 each)", category: "Clothes", packed: false },
+  { id: "shorts-skirts", label: "Shorts or skirts (3-4 each)", category: "Clothes", packed: false },
+  { id: "underwear", label: "Underwear (10-12 each)", category: "Clothes", packed: false },
+  { id: "socks", label: "Socks (4-6 pairs each)", category: "Clothes", packed: false },
+  { id: "sleepwear", label: "Sleepwear", category: "Clothes", packed: false },
+  { id: "dinner-outfits", label: "Dinner outfits (1-2 each)", category: "Clothes", packed: false },
+  { id: "sandals", label: "Sandals or flip-flops", category: "Clothes", packed: false },
+  { id: "walking-shoes", label: "Comfortable walking shoes", category: "Clothes", packed: false },
+  { id: "rain-layer", label: "Light rain layer", category: "Clothes", packed: false },
+  { id: "cover-up", label: "Beach cover-up or sarong", category: "Beach", packed: false },
+  { id: "sun-hat", label: "Sun hat", category: "Beach", packed: false },
+  { id: "rash-guard", label: "Rash guard or sun shirt", category: "Beach", packed: false },
+  { id: "reef-shoes", label: "Reef or water shoes", category: "Beach", packed: false },
+  { id: "beach-bag", label: "Beach bag or small daypack", category: "Beach", packed: false },
+  { id: "dry-bag", label: "Small dry bag", category: "Beach", packed: false },
+  { id: "snorkel-gear", label: "Snorkel gear (if not provided)", category: "Beach", packed: false },
+  { id: "water-bottle", label: "Reusable water bottle", category: "Beach", packed: false },
+  { id: "insect-repellent", label: "Insect repellent", category: "Health", packed: false },
+  { id: "toiletries", label: "Toiletries and toothbrush", category: "Health", packed: false },
+  { id: "glasses-contacts", label: "Glasses or contacts and supplies", category: "Health", packed: false },
+  { id: "first-aid", label: "Small first-aid kit", category: "Health", packed: false },
+  { id: "prescription-info", label: "Prescription information", category: "Health", packed: false },
+  { id: "power-adapter", label: "Australia/New Zealand plug adapter", category: "Tech", packed: false },
+  { id: "power-bank", label: "Power bank", category: "Tech", packed: false },
+  { id: "headphones", label: "Headphones", category: "Tech", packed: false },
+  { id: "camera-charger", label: "Camera and charger (if bringing)", category: "Tech", packed: false },
+];
+
 const starterPackingItems: PackingItem[] = [
   { id: "passport", label: "Passports", category: "Essentials", packed: false },
   { id: "travel-documents", label: "Travel documents", category: "Essentials", packed: false },
@@ -106,6 +140,7 @@ const starterPackingItems: PackingItem[] = [
   { id: "sunglasses", label: "Sunglasses", category: "Beach", packed: false },
   { id: "medications", label: "Medications", category: "Health", packed: false },
   { id: "phone-charger", label: "Phone charger", category: "Tech", packed: false },
+  ...packingAdditions,
 ];
 
 function offlineAssetUrls() {
@@ -135,6 +170,7 @@ const initialState: AppState = {
   saved: {},
   notes: {},
   packingItems: starterPackingItems,
+  packingSeedVersion: 2,
   editor: "Jeff",
 };
 
@@ -1075,10 +1111,22 @@ export default function Home() {
 
     try {
       const restored = JSON.parse(saved) as Partial<AppState>;
+      const savedItems = Array.isArray(restored.packingItems) ? restored.packingItems : null;
+      const packingItems = savedItems && restored.packingSeedVersion !== 2
+        ? [
+            ...savedItems,
+            ...packingAdditions.filter((suggestion) =>
+              !savedItems.some((item) =>
+                item.id === suggestion.id || item.label.trim().toLowerCase() === suggestion.label.toLowerCase()
+              )
+            ),
+          ]
+        : savedItems ?? starterPackingItems;
       return {
         ...initialState,
         ...restored,
-        packingItems: Array.isArray(restored.packingItems) ? restored.packingItems : starterPackingItems,
+        packingItems,
+        packingSeedVersion: 2,
       };
     } catch {
       window.localStorage.removeItem(storageKey);
@@ -1503,7 +1551,37 @@ function PackingListView({
 }) {
   const [draft, setDraft] = useState("");
   const [category, setCategory] = useState<PackingCategory>("Essentials");
+  const [deleteCandidate, setDeleteCandidate] = useState<string | null>(null);
+  const longPressTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const pressOrigin = useRef<{ x: number; y: number } | null>(null);
   const packedCount = items.filter((item) => item.packed).length;
+
+  useEffect(() => () => {
+    if (longPressTimer.current) window.clearTimeout(longPressTimer.current);
+  }, []);
+
+  function cancelLongPress() {
+    if (longPressTimer.current) window.clearTimeout(longPressTimer.current);
+    longPressTimer.current = null;
+    pressOrigin.current = null;
+  }
+
+  function startLongPress(event: ReactPointerEvent<HTMLLIElement>, id: string) {
+    if ((event.target as Element).closest("input, button")) return;
+    cancelLongPress();
+    pressOrigin.current = { x: event.clientX, y: event.clientY };
+    longPressTimer.current = window.setTimeout(() => {
+      setDeleteCandidate(id);
+      longPressTimer.current = null;
+    }, 600);
+  }
+
+  function moveLongPress(event: ReactPointerEvent<HTMLLIElement>) {
+    if (!pressOrigin.current) return;
+    if (Math.hypot(event.clientX - pressOrigin.current.x, event.clientY - pressOrigin.current.y) > 10) {
+      cancelLongPress();
+    }
+  }
 
   function submitItem(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -1556,7 +1634,25 @@ function PackingListView({
               <h3 id={`packing-${group.toLowerCase()}`}>{group}</h3>
               <ul>
                 {groupItems.map((item) => (
-                  <li className={item.packed ? "packed" : ""} key={item.id}>
+                  <li
+                    className={item.packed ? "packed" : ""}
+                    key={item.id}
+                    onClickCapture={(event) => {
+                      if (deleteCandidate !== item.id || !(event.target as Element).closest("label")) return;
+                      event.preventDefault();
+                      event.stopPropagation();
+                    }}
+                    onContextMenu={(event) => {
+                      event.preventDefault();
+                      cancelLongPress();
+                      setDeleteCandidate(item.id);
+                    }}
+                    onPointerCancel={cancelLongPress}
+                    onPointerDown={(event) => startLongPress(event, item.id)}
+                    onPointerLeave={cancelLongPress}
+                    onPointerMove={moveLongPress}
+                    onPointerUp={cancelLongPress}
+                  >
                     <label>
                       <input
                         checked={item.packed}
@@ -1570,7 +1666,25 @@ function PackingListView({
                         Packed {new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric" }).format(item.packedAt)}
                       </time>
                     ) : null}
-                    <button aria-label={`Remove ${item.label}`} onClick={() => onRemove(item.id)} title="Remove item" type="button">×</button>
+                    <button
+                      aria-label={`Remove ${item.label}`}
+                      onClick={() => setDeleteCandidate(item.id)}
+                      title="Remove item"
+                      type="button"
+                    >×</button>
+                    {deleteCandidate === item.id ? (
+                      <div className="packing-delete-action">
+                        <span>Remove {item.label}?</span>
+                        <button
+                          onClick={() => {
+                            onRemove(item.id);
+                            setDeleteCandidate(null);
+                          }}
+                          type="button"
+                        >Delete</button>
+                        <button onClick={() => setDeleteCandidate(null)} type="button">Cancel</button>
+                      </div>
+                    ) : null}
                   </li>
                 ))}
               </ul>

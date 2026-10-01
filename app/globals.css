@@ -1939,6 +1939,7 @@ button {
 .packing-group li label span {
   overflow-wrap: anywhere;
   font-size: 0.92rem;
+  user-select: none;
 }
 
 .packing-group li.packed label span {
@@ -1969,6 +1970,39 @@ button {
 .packing-group li > button:focus-visible {
   background: var(--chip-bg);
   color: var(--ink);
+}
+
+.packing-delete-action {
+  display: flex;
+  width: 100%;
+  gap: 8px;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  padding-top: 7px;
+  border-top: 1px solid var(--line);
+}
+
+.packing-delete-action span {
+  min-width: 0;
+  flex: 1;
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.packing-delete-action button {
+  min-height: 32px;
+  border: 1px solid var(--line-strong);
+  border-radius: 6px;
+  background: var(--chip-bg);
+  color: var(--ink);
+  padding: 5px 9px;
+  font-size: 0.8rem;
+}
+
+.packing-delete-action button:first-of-type {
+  border-color: var(--coral);
+  color: var(--coral);
 }
 
 @media (max-width: 560px) {
