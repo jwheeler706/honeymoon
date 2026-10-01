@@ -1,6 +1,6 @@
 "use client";
 
-import { type CSSProperties, useEffect, useRef, useState } from "react";
+import { type CSSProperties, type FormEvent, useEffect, useRef, useState } from "react";
 import itinerary from "./data/itinerary.json";
 
 type EventStatus = "confirmed" | "pending" | "flexible" | "suggested" | "planned" | "assumed";
@@ -71,19 +71,42 @@ type TripData = typeof itinerary & {
 
 type AppState = {
   activeDay: string;
-  view: "plan" | "reservations" | "map" | "gallery";
+  view: "plan" | "reservations" | "map" | "gallery" | "packing";
   mapStart: string;
   mapEnd: string;
   selectedPlace: string;
   done: Record<string, boolean>;
   saved: Record<string, boolean>;
   notes: Record<string, string>;
+  packingItems: PackingItem[];
   editor: "Jeff" | "Spouse";
+};
+
+const packingCategories = ["Essentials", "Clothes", "Beach", "Health", "Tech"] as const;
+type PackingCategory = (typeof packingCategories)[number];
+
+type PackingItem = {
+  id: string;
+  label: string;
+  category: PackingCategory;
+  packed: boolean;
+  packedAt?: number;
 };
 
 const data = itinerary as TripData;
 const storageKey = "rarotonga-honeymoon-itinerary-v1";
 const tripTimeZone = data.trip.timezone || "Pacific/Rarotonga";
+
+const starterPackingItems: PackingItem[] = [
+  { id: "passport", label: "Passports", category: "Essentials", packed: false },
+  { id: "travel-documents", label: "Travel documents", category: "Essentials", packed: false },
+  { id: "swimwear", label: "Swimwear", category: "Clothes", packed: false },
+  { id: "light-layers", label: "Light layers", category: "Clothes", packed: false },
+  { id: "reef-safe-sunscreen", label: "Reef-safe sunscreen", category: "Beach", packed: false },
+  { id: "sunglasses", label: "Sunglasses", category: "Beach", packed: false },
+  { id: "medications", label: "Medications", category: "Health", packed: false },
+  { id: "phone-charger", label: "Phone charger", category: "Tech", packed: false },
+];
 
 function offlineAssetUrls() {
   const urls = new Set<string>(["/", "/manifest.webmanifest", "/favicon.svg"]);
@@ -111,6 +134,7 @@ const initialState: AppState = {
   done: {},
   saved: {},
   notes: {},
+  packingItems: starterPackingItems,
   editor: "Jeff",
 };
 
@@ -1050,7 +1074,12 @@ export default function Home() {
     if (!saved) return initialState;
 
     try {
-      return { ...initialState, ...(JSON.parse(saved) as Partial<AppState>) };
+      const restored = JSON.parse(saved) as Partial<AppState>;
+      return {
+        ...initialState,
+        ...restored,
+        packingItems: Array.isArray(restored.packingItems) ? restored.packingItems : starterPackingItems,
+      };
     } catch {
       window.localStorage.removeItem(storageKey);
       return initialState;
@@ -1169,6 +1198,49 @@ export default function Home() {
     }));
   }
 
+  function addPackingItem(label: string, category: PackingCategory) {
+    const trimmedLabel = label.trim();
+    if (!trimmedLabel) return;
+
+    setState((current) => ({
+      ...current,
+      packingItems: [
+        ...current.packingItems,
+        {
+          id: `${Date.now()}-${trimmedLabel.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`,
+          label: trimmedLabel,
+          category,
+          packed: false,
+        },
+      ],
+    }));
+  }
+
+  function togglePackingItem(id: string) {
+    setState((current) => ({
+      ...current,
+      packingItems: current.packingItems.map((item) =>
+        item.id === id
+          ? { ...item, packed: !item.packed, packedAt: item.packed ? undefined : Date.now() }
+          : item,
+      ),
+    }));
+  }
+
+  function removePackingItem(id: string) {
+    setState((current) => ({
+      ...current,
+      packingItems: current.packingItems.filter((item) => item.id !== id),
+    }));
+  }
+
+  function resetPackingProgress() {
+    setState((current) => ({
+      ...current,
+      packingItems: current.packingItems.map((item) => ({ ...item, packed: false, packedAt: undefined })),
+    }));
+  }
+
   function showEventOnMap(day: Day, placeId: string) {
     updateState({
       activeDay: day.date,
@@ -1226,24 +1298,26 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="day-picker" aria-label="Choose itinerary day">
-        <label>
-          <span className="sr-only">Day</span>
-          <select
-            onChange={(event) => updateState({ activeDay: event.target.value, view: "plan" })}
-            value={activeDay.date}
-          >
-            {data.days.map((day) => (
-              <option key={day.date} value={day.date}>
-                {day.weekday} · {formatDate(day.date)}
-              </option>
-            ))}
-          </select>
-        </label>
-      </section>
+      {state.view !== "packing" ? (
+        <section className="day-picker" aria-label="Choose itinerary day">
+          <label>
+            <span className="sr-only">Day</span>
+            <select
+              onChange={(event) => updateState({ activeDay: event.target.value, view: "plan" })}
+              value={activeDay.date}
+            >
+              {data.days.map((day) => (
+                <option key={day.date} value={day.date}>
+                  {day.weekday} · {formatDate(day.date)}
+                </option>
+              ))}
+            </select>
+          </label>
+        </section>
+      ) : null}
 
       <section className="control-row" aria-label="App views">
-        {(["plan", "reservations", "map", "gallery"] as const).map((view) => (
+        {(["plan", "reservations", "map", "gallery", "packing"] as const).map((view) => (
           <button
             className={state.view === view ? "view-tab active" : "view-tab"}
             key={view}
@@ -1255,8 +1329,10 @@ export default function Home() {
               : view === "reservations"
                 ? "Itinerary"
                 : view === "map"
-                  ? "Map"
-                  : "Gallery"}
+                ? "Map"
+                  : view === "gallery"
+                    ? "Gallery"
+                    : "Packing"}
           </button>
         ))}
       </section>
@@ -1278,6 +1354,14 @@ export default function Home() {
         />
       ) : state.view === "gallery" ? (
         <GalleryView images={galleryImages} />
+      ) : state.view === "packing" ? (
+        <PackingListView
+          items={state.packingItems}
+          onAdd={addPackingItem}
+          onRemove={removePackingItem}
+          onResetProgress={resetPackingProgress}
+          onToggle={togglePackingItem}
+        />
       ) : (
         <section className="itinerary-layout compact">
           <section className="day-detail" aria-labelledby="active-day-title">
@@ -1401,6 +1485,100 @@ export default function Home() {
         </section>
       )}
     </main>
+  );
+}
+
+function PackingListView({
+  items,
+  onAdd,
+  onRemove,
+  onResetProgress,
+  onToggle,
+}: {
+  items: PackingItem[];
+  onAdd: (label: string, category: PackingCategory) => void;
+  onRemove: (id: string) => void;
+  onResetProgress: () => void;
+  onToggle: (id: string) => void;
+}) {
+  const [draft, setDraft] = useState("");
+  const [category, setCategory] = useState<PackingCategory>("Essentials");
+  const packedCount = items.filter((item) => item.packed).length;
+
+  function submitItem(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (!draft.trim()) return;
+    onAdd(draft, category);
+    setDraft("");
+  }
+
+  return (
+    <section className="packing-view" aria-labelledby="packing-title">
+      <header className="packing-header">
+        <div>
+          <span className="date-kicker">Offline checklist</span>
+          <h2 id="packing-title">Packing list</h2>
+          <p>{packedCount} of {items.length} packed. Changes stay on this device.</p>
+        </div>
+        {packedCount ? (
+          <button className="packing-reset" onClick={onResetProgress} type="button">
+            Reset checks
+          </button>
+        ) : null}
+      </header>
+
+      <form className="packing-add" onSubmit={submitItem}>
+        <label className="sr-only" htmlFor="packing-item">Add an item</label>
+        <input
+          id="packing-item"
+          onChange={(event) => setDraft(event.target.value)}
+          placeholder="Add something to bring"
+          value={draft}
+        />
+        <label className="sr-only" htmlFor="packing-category">Category</label>
+        <select
+          id="packing-category"
+          onChange={(event) => setCategory(event.target.value as PackingCategory)}
+          value={category}
+        >
+          {packingCategories.map((option) => <option key={option}>{option}</option>)}
+        </select>
+        <button type="submit">Add</button>
+      </form>
+
+      <div className="packing-groups">
+        {packingCategories.map((group) => {
+          const groupItems = items.filter((item) => item.category === group);
+          if (!groupItems.length) return null;
+
+          return (
+            <section className="packing-group" key={group} aria-labelledby={`packing-${group.toLowerCase()}`}>
+              <h3 id={`packing-${group.toLowerCase()}`}>{group}</h3>
+              <ul>
+                {groupItems.map((item) => (
+                  <li className={item.packed ? "packed" : ""} key={item.id}>
+                    <label>
+                      <input
+                        checked={item.packed}
+                        onChange={() => onToggle(item.id)}
+                        type="checkbox"
+                      />
+                      <span>{item.label}</span>
+                    </label>
+                    {item.packedAt ? (
+                      <time dateTime={new Date(item.packedAt).toISOString()}>
+                        Packed {new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric" }).format(item.packedAt)}
+                      </time>
+                    ) : null}
+                    <button aria-label={`Remove ${item.label}`} onClick={() => onRemove(item.id)} title="Remove item" type="button">×</button>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          );
+        })}
+      </div>
+    </section>
   );
 }
 
