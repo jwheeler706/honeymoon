@@ -1764,7 +1764,7 @@ function WeatherView({
               );
             })}
           </div>
-          <p className="weather-source">Forecasts can change, especially farther out. Check tour operators for sea conditions. Data: <a href="https://open-meteo.com/" target="_blank" rel="noreferrer">Open-Meteo</a>.</p>
+          <p className="weather-source">Weather data: <a href="https://open-meteo.com/" target="_blank" rel="noreferrer">Open-Meteo</a>.</p>
         </>
       ) : (
         <p className="weather-empty" role="status">
