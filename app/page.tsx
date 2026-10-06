@@ -1714,7 +1714,7 @@ function WeatherView({
           {forecast.current ? (
             <div className="weather-current">
               <div>
-                <span className="section-label">Current in {weatherLocations[location].label}</span>
+                <span className="section-label">{!online || forecastIsOld || error ? "At last update" : "Current"} in {weatherLocations[location].label}</span>
                 <strong>{forecast.current.temperature}°</strong>
               </div>
               <span>{forecast.current.label}</span>
@@ -1743,7 +1743,7 @@ function WeatherView({
                       <span>{day.rainAmount === null ? "—" : `${day.rainAmount.toFixed(2)} in`}</span>
                       <span>Wind {day.wind === null ? "—" : `${Math.round(day.wind)} mph`}</span>
                     </div>
-                  ) : <p className="weather-unavailable">Forecast not available yet</p>}
+                  ) : <p className="weather-unavailable">No forecast for this date</p>}
                 </article>
               );
             })}
