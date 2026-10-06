@@ -606,10 +606,18 @@ button {
   line-height: 1;
 }
 
-.weather-current > span {
+.weather-current-condition {
+  display: grid;
+  justify-items: end;
+  gap: 1px;
   color: var(--lagoon);
   font-size: 0.9rem;
   font-weight: 800;
+}
+
+.weather-current-icon {
+  font-size: 1.9rem;
+  line-height: 1.1;
 }
 
 .weather-list-heading {
@@ -665,6 +673,18 @@ button {
   margin-top: 8px;
   color: var(--muted);
   font-size: 0.73rem;
+}
+
+.weather-day-condition {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.weather-day-condition > span {
+  display: inline-block;
+  width: 1.1em;
+  text-align: center;
 }
 
 .weather-source a {

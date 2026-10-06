@@ -71,7 +71,7 @@ type TripData = typeof itinerary & {
 
 type AppState = {
   activeDay: string;
-  view: "plan" | "reservations" | "map" | "gallery" | "packing" | "weather";
+  view: "plan" | "reservations" | "map" | "weather" | "gallery" | "packing";
   mapStart: string;
   mapEnd: string;
   selectedPlace: string;
@@ -174,6 +174,15 @@ const initialState: AppState = {
   editor: "Jeff",
 };
 
+const viewLabels = {
+  plan: "Today",
+  reservations: "Itinerary",
+  map: "Map",
+  weather: "Weather",
+  gallery: "Gallery",
+  packing: "Packing",
+} as const;
+
 const statusLabels: Record<EventStatus, string> = {
   confirmed: "Confirmed",
   pending: "Pending",
@@ -221,6 +230,7 @@ type WeatherInfo = {
   temperature: number;
   label: string;
   mood: "clear" | "cloud" | "rain";
+  code?: number;
 };
 
 type WeatherDay = {
@@ -861,6 +871,19 @@ function weatherMood(code: number): WeatherInfo["mood"] {
   return "rain";
 }
 
+function weatherEmoji(code: number | undefined, mood?: WeatherInfo["mood"]) {
+  if (code === undefined) return mood === "clear" ? "🌤️" : mood === "cloud" ? "☁️" : "🌧️";
+  if (code === 0) return "☀️";
+  if ([1, 2].includes(code)) return "🌤️";
+  if (code === 3) return "☁️";
+  if ([45, 48].includes(code)) return "🌫️";
+  if ([51, 53, 55, 56, 57].includes(code)) return "🌦️";
+  if ([61, 63, 65, 66, 67, 80, 81, 82].includes(code)) return "🌧️";
+  if ([71, 73, 75, 77, 85, 86].includes(code)) return "❄️";
+  if ([95, 96, 99].includes(code)) return "⛈️";
+  return "🌴";
+}
+
 function readCachedForecasts(): Forecasts {
   if (typeof window === "undefined") return {};
   try {
@@ -926,7 +949,7 @@ async function fetchIslandForecast(location: keyof typeof weatherLocations): Pro
   return {
     updatedAt: Date.now(),
     current: typeof temperature === "number" && typeof code === "number"
-      ? { temperature: Math.round(temperature), label: weatherLabel(code), mood: weatherMood(code) }
+      ? { temperature: Math.round(temperature), label: weatherLabel(code), mood: weatherMood(code), code }
       : null,
     days,
   };
@@ -1474,24 +1497,14 @@ export default function Home() {
       ) : null}
 
       <section className="control-row" aria-label="App views">
-        {(["plan", "reservations", "map", "gallery", "packing", "weather"] as const).map((view) => (
+        {(["plan", "reservations", "map", "weather", "gallery", "packing"] as const).map((view) => (
           <button
             className={state.view === view ? "view-tab active" : "view-tab"}
             key={view}
             onClick={() => updateState({ view })}
             type="button"
           >
-            {view === "plan"
-              ? "Today"
-              : view === "reservations"
-                ? "Itinerary"
-                : view === "map"
-                ? "Map"
-                  : view === "gallery"
-                    ? "Gallery"
-                    : view === "packing"
-                      ? "Packing"
-                      : "Weather"}
+            {viewLabels[view]}
           </button>
         ))}
       </section>
@@ -1717,7 +1730,10 @@ function WeatherView({
                 <span className="section-label">{!online || forecastIsOld || error ? "At last update" : "Current"} in {weatherLocations[location].label}</span>
                 <strong>{forecast.current.temperature}°</strong>
               </div>
-              <span>{forecast.current.label}</span>
+              <div className="weather-current-condition">
+                <span className="weather-current-icon" aria-hidden="true">{weatherEmoji(forecast.current.code, forecast.current.mood)}</span>
+                <span>{forecast.current.label}</span>
+              </div>
             </div>
           ) : null}
           <h3 className="weather-list-heading">Your trip days</h3>
@@ -1738,7 +1754,7 @@ function WeatherView({
                   </div>
                   {day ? (
                     <div className="weather-day-details">
-                      <span>{weatherLabel(day.code)}</span>
+                      <span className="weather-day-condition"><span aria-hidden="true">{weatherEmoji(day.code)}</span>{weatherLabel(day.code)}</span>
                       <span>Rain {day.rainChance === null ? "—" : `${Math.round(day.rainChance)}%`}</span>
                       <span>{day.rainAmount === null ? "—" : `${day.rainAmount.toFixed(2)} in`}</span>
                       <span>Wind {day.wind === null ? "—" : `${Math.round(day.wind)} mph`}</span>
