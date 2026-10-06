@@ -523,12 +523,152 @@ button {
 .day-detail,
 .calendar-view,
 .gallery-view,
-.packing-view {
+.packing-view,
+.weather-view {
   border: 1px solid var(--line);
   border-radius: 8px;
   background: var(--panel);
   box-shadow: 0 18px 40px rgba(0, 0, 0, 0.28);
   backdrop-filter: blur(18px);
+}
+
+.weather-view {
+  min-width: 0;
+  padding: 14px;
+}
+
+.weather-view-header,
+.weather-current,
+.weather-day-main {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.weather-view-header h2 {
+  margin: 5px 0 0;
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  line-height: 1.1;
+}
+
+.weather-refresh,
+.weather-location-switch button {
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--chip-bg);
+  color: var(--ink);
+  padding: 8px 11px;
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
+.weather-refresh:disabled {
+  cursor: default;
+  opacity: 0.55;
+}
+
+.weather-location-switch {
+  display: flex;
+  gap: 5px;
+  margin-top: 16px;
+}
+
+.weather-location-switch button.active {
+  border-color: var(--reef);
+  background: var(--panel-soft);
+  color: var(--lagoon);
+}
+
+.weather-updated,
+.weather-source,
+.weather-unavailable,
+.weather-empty {
+  color: var(--muted);
+  font-size: 0.78rem;
+  line-height: 1.5;
+}
+
+.weather-updated {
+  margin: 10px 0 14px;
+}
+
+.weather-current {
+  padding: 12px 0 16px;
+  border-bottom: 1px solid var(--line);
+}
+
+.weather-current strong {
+  display: block;
+  margin-top: 3px;
+  font-size: 2.2rem;
+  line-height: 1;
+}
+
+.weather-current > span {
+  color: var(--lagoon);
+  font-size: 0.9rem;
+  font-weight: 800;
+}
+
+.weather-list-heading {
+  margin: 17px 0 4px;
+  font-size: 0.88rem;
+}
+
+.weather-day {
+  padding: 12px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.weather-day.highlight {
+  border-left: 2px solid var(--sun);
+  padding-left: 10px;
+}
+
+.weather-day-main > div:first-child {
+  min-width: 0;
+}
+
+.weather-day h4 {
+  margin: 0;
+  font-size: 0.88rem;
+}
+
+.weather-day p {
+  margin: 3px 0 0;
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
+.weather-day-temp {
+  display: flex;
+  flex: 0 0 auto;
+  gap: 6px;
+  align-items: baseline;
+}
+
+.weather-day-temp strong {
+  font-size: 1.1rem;
+}
+
+.weather-day-temp span {
+  color: var(--muted);
+  font-size: 0.83rem;
+}
+
+.weather-day-details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 13px;
+  margin-top: 8px;
+  color: var(--muted);
+  font-size: 0.73rem;
+}
+
+.weather-source a {
+  color: var(--lagoon);
 }
 
 .day-detail {

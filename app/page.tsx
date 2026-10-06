@@ -71,7 +71,7 @@ type TripData = typeof itinerary & {
 
 type AppState = {
   activeDay: string;
-  view: "plan" | "reservations" | "map" | "gallery" | "packing";
+  view: "plan" | "reservations" | "map" | "gallery" | "packing" | "weather";
   mapStart: string;
   mapEnd: string;
   selectedPlace: string;
@@ -222,6 +222,30 @@ type WeatherInfo = {
   label: string;
   mood: "clear" | "cloud" | "rain";
 };
+
+type WeatherDay = {
+  date: string;
+  code: number;
+  high: number;
+  low: number;
+  rainChance: number | null;
+  rainAmount: number | null;
+  wind: number | null;
+};
+
+type IslandForecast = {
+  updatedAt: number;
+  current: WeatherInfo | null;
+  days: WeatherDay[];
+};
+
+type Forecasts = Partial<Record<"rarotonga" | "aitutaki", IslandForecast>>;
+
+const forecastStorageKey = "rarotonga-honeymoon-weather-v1";
+const weatherLocations = {
+  rarotonga: { label: "Rarotonga", latitude: -21.23, longitude: -159.78 },
+  aitutaki: { label: "Aitutaki", latitude: -18.85, longitude: -159.78 },
+} as const;
 
 type MapPlace = {
   id: string;
@@ -837,6 +861,77 @@ function weatherMood(code: number): WeatherInfo["mood"] {
   return "rain";
 }
 
+function readCachedForecasts(): Forecasts {
+  if (typeof window === "undefined") return {};
+  try {
+    const value = JSON.parse(window.localStorage.getItem(forecastStorageKey) || "{}");
+    if (!value || typeof value !== "object") return {};
+    return Object.fromEntries(
+      Object.entries(value).filter(([, forecast]) =>
+        forecast && typeof forecast === "object" &&
+        typeof (forecast as IslandForecast).updatedAt === "number" &&
+        Array.isArray((forecast as IslandForecast).days)
+      ),
+    ) as Forecasts;
+  } catch {
+    return {};
+  }
+}
+
+async function fetchIslandForecast(location: keyof typeof weatherLocations): Promise<IslandForecast> {
+  const { latitude, longitude } = weatherLocations[location];
+  const url = new URL("https://api.open-meteo.com/v1/forecast");
+  url.search = new URLSearchParams({
+    latitude: String(latitude),
+    longitude: String(longitude),
+    elevation: "5",
+    current: "temperature_2m,weather_code",
+    daily: "weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max,precipitation_sum,wind_speed_10m_max",
+    temperature_unit: "fahrenheit",
+    wind_speed_unit: "mph",
+    precipitation_unit: "inch",
+    timezone: tripTimeZone,
+    forecast_days: "16",
+  }).toString();
+  const response = await fetch(url, { cache: "no-store" });
+  if (!response.ok) throw new Error("Weather request failed");
+  const result = (await response.json()) as {
+    current?: { temperature_2m?: number; weather_code?: number };
+    daily?: {
+      time?: string[];
+      weather_code?: number[];
+      temperature_2m_max?: number[];
+      temperature_2m_min?: number[];
+      precipitation_probability_max?: (number | null)[];
+      precipitation_sum?: (number | null)[];
+      wind_speed_10m_max?: (number | null)[];
+    };
+  };
+  const daily = result.daily;
+  if (!daily?.time?.length || !daily.weather_code || !daily.temperature_2m_max || !daily.temperature_2m_min) {
+    throw new Error("Weather forecast unavailable");
+  }
+  const days = daily.time.map((date, index) => ({
+    date,
+    code: daily.weather_code![index],
+    high: daily.temperature_2m_max![index],
+    low: daily.temperature_2m_min![index],
+    rainChance: daily.precipitation_probability_max?.[index] ?? null,
+    rainAmount: daily.precipitation_sum?.[index] ?? null,
+    wind: daily.wind_speed_10m_max?.[index] ?? null,
+  })).filter((day) => Number.isFinite(day.code) && Number.isFinite(day.high) && Number.isFinite(day.low));
+  if (!days.length) throw new Error("Weather forecast unavailable");
+  const temperature = result.current?.temperature_2m;
+  const code = result.current?.weather_code;
+  return {
+    updatedAt: Date.now(),
+    current: typeof temperature === "number" && typeof code === "number"
+      ? { temperature: Math.round(temperature), label: weatherLabel(code), mood: weatherMood(code) }
+      : null,
+    days,
+  };
+}
+
 function eventPeriod(event: TripEvent): Period {
   if (event.time === "morning") return "Morning";
   if (event.time === "afternoon" || event.time === "daytime") return "Afternoon";
@@ -1134,9 +1229,16 @@ export default function Home() {
     }
   });
   const [timeTheme, setTimeTheme] = useState<TimeTheme>(() => currentTimeTheme());
+  const [clockNow, setClockNow] = useState(() => Date.now());
   const [header, setHeader] = useState<HeaderContext>(() => headerContext());
   const [scenicIndex, setScenicIndex] = useState(() => hourlyScenicIndex());
-  const [weather, setWeather] = useState<WeatherInfo | null>(null);
+  const [forecasts, setForecasts] = useState<Forecasts>(readCachedForecasts);
+  const [forecastRefresh, setForecastRefresh] = useState(0);
+  const [forecastLoading, setForecastLoading] = useState(false);
+  const [forecastError, setForecastError] = useState(false);
+  const [online, setOnline] = useState(() => typeof navigator === "undefined" || navigator.onLine);
+  const weather = online && forecasts.rarotonga && clockNow - forecasts.rarotonga.updatedAt < 3 * 60 * 60_000
+    ? forecasts.rarotonga.current : null;
 
   useEffect(() => {
     window.localStorage.setItem(storageKey, JSON.stringify(state));
@@ -1167,6 +1269,7 @@ export default function Home() {
   useEffect(() => {
     const timer = window.setInterval(() => {
       const now = new Date();
+      setClockNow(now.getTime());
       setTimeTheme(currentTimeTheme(now));
       setHeader(headerContext(now));
     }, 60_000);
@@ -1181,41 +1284,47 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
+    const onOnline = () => { setOnline(true); setForecastRefresh((value) => value + 1); };
+    const onOffline = () => setOnline(false);
+    window.addEventListener("online", onOnline);
+    window.addEventListener("offline", onOffline);
+    return () => {
+      window.removeEventListener("online", onOnline);
+      window.removeEventListener("offline", onOffline);
+    };
+  }, []);
+
+  useEffect(() => {
     let ignore = false;
-
     async function loadWeather() {
-      try {
-        const response = await fetch(
-          "https://api.open-meteo.com/v1/forecast?latitude=-21.23&longitude=-159.78&current=temperature_2m,weather_code&temperature_unit=fahrenheit&timezone=Pacific%2FRarotonga",
-        );
-        if (!response.ok) return;
-        const weatherData = (await response.json()) as {
-          current?: {
-            temperature_2m?: number;
-            weather_code?: number;
-          };
-        };
-        const temperature = weatherData.current?.temperature_2m;
-        const code = weatherData.current?.weather_code;
-        if (!ignore && typeof temperature === "number" && typeof code === "number") {
-          setWeather({
-            temperature: Math.round(temperature),
-            label: weatherLabel(code),
-            mood: weatherMood(code),
-          });
-        }
-      } catch {
-        // Weather is nice-to-have; keep the header calm if it is unavailable.
+      if (!navigator.onLine) return;
+      setForecastLoading(true);
+      const results = await Promise.allSettled(
+        (Object.keys(weatherLocations) as (keyof typeof weatherLocations)[]).map(fetchIslandForecast),
+      );
+      if (ignore) return;
+      const updates: Forecasts = {};
+      (Object.keys(weatherLocations) as (keyof typeof weatherLocations)[]).forEach((location, index) => {
+        const result = results[index];
+        if (result.status === "fulfilled") updates[location] = result.value;
+      });
+      if (Object.keys(updates).length) {
+        setForecasts((previous) => {
+          const next = { ...previous, ...updates };
+          try { window.localStorage.setItem(forecastStorageKey, JSON.stringify(next)); } catch { /* Storage may be full. */ }
+          return next;
+        });
       }
+      setForecastError(results.some((result) => result.status === "rejected"));
+      setForecastLoading(false);
     }
-
     loadWeather();
     const timer = window.setInterval(loadWeather, 30 * 60_000);
     return () => {
       ignore = true;
       window.clearInterval(timer);
     };
-  }, []);
+  }, [forecastRefresh]);
 
   const activeDay = data.days.find((day) => day.date === state.activeDay) ?? data.days[0];
   const scenicHeader = header.key === "countdown" || header.key === "beach" || header.key === "flight";
@@ -1346,7 +1455,7 @@ export default function Home() {
         </div>
       </section>
 
-      {state.view !== "packing" ? (
+      {state.view !== "packing" && state.view !== "weather" ? (
         <section className="day-picker" aria-label="Choose itinerary day">
           <label>
             <span className="sr-only">Day</span>
@@ -1365,7 +1474,7 @@ export default function Home() {
       ) : null}
 
       <section className="control-row" aria-label="App views">
-        {(["plan", "reservations", "map", "gallery", "packing"] as const).map((view) => (
+        {(["plan", "reservations", "map", "gallery", "packing", "weather"] as const).map((view) => (
           <button
             className={state.view === view ? "view-tab active" : "view-tab"}
             key={view}
@@ -1380,7 +1489,9 @@ export default function Home() {
                 ? "Map"
                   : view === "gallery"
                     ? "Gallery"
-                    : "Packing"}
+                    : view === "packing"
+                      ? "Packing"
+                      : "Weather"}
           </button>
         ))}
       </section>
@@ -1409,6 +1520,15 @@ export default function Home() {
           onRemove={removePackingItem}
           onResetProgress={resetPackingProgress}
           onToggle={togglePackingItem}
+        />
+      ) : state.view === "weather" ? (
+        <WeatherView
+          forecasts={forecasts}
+          loading={forecastLoading}
+          error={forecastError}
+          online={online}
+          now={clockNow}
+          onRefresh={() => setForecastRefresh((value) => value + 1)}
         />
       ) : (
         <section className="itinerary-layout compact">
@@ -1533,6 +1653,109 @@ export default function Home() {
         </section>
       )}
     </main>
+  );
+}
+
+function WeatherView({
+  forecasts,
+  loading,
+  error,
+  online,
+  now,
+  onRefresh,
+}: {
+  forecasts: Forecasts;
+  loading: boolean;
+  error: boolean;
+  online: boolean;
+  now: number;
+  onRefresh: () => void;
+}) {
+  const [location, setLocation] = useState<keyof typeof weatherLocations>("rarotonga");
+  const forecast = forecasts[location];
+  const forecastIsOld = forecast ? now - forecast.updatedAt > 3 * 60 * 60_000 : false;
+  const tripDays = data.days.filter((day) => day.date >= "2026-10-09" && day.date <= "2026-10-17");
+  const byDate = new Map(forecast?.days.map((day) => [day.date, day]) ?? []);
+
+  return (
+    <section className="weather-view" aria-labelledby="weather-title">
+      <div className="weather-view-header">
+        <div>
+          <span className="section-label">Island forecast</span>
+          <h2 id="weather-title">Weather</h2>
+        </div>
+        <button className="weather-refresh" type="button" onClick={onRefresh} disabled={!online || loading}>
+          {loading ? "Updating..." : "Refresh"}
+        </button>
+      </div>
+
+      <div className="weather-location-switch" role="group" aria-label="Forecast location">
+        {(Object.keys(weatherLocations) as (keyof typeof weatherLocations)[]).map((key) => (
+          <button
+            key={key}
+            type="button"
+            className={location === key ? "active" : ""}
+            aria-pressed={location === key}
+            onClick={() => setLocation(key)}
+          >
+            {weatherLocations[key].label}
+          </button>
+        ))}
+      </div>
+
+      {forecast ? (
+        <>
+          <p className="weather-updated" role="status">
+            {!online || forecastIsOld || error ? "Saved forecast" : "Updated"} {new Intl.DateTimeFormat("en-US", {
+              timeZone: tripTimeZone, month: "short", day: "numeric", hour: "numeric", minute: "2-digit",
+            }).format(forecast.updatedAt)} island time
+            {!online ? " · Offline" : error ? " · Could not refresh" : ""}
+          </p>
+          {forecast.current ? (
+            <div className="weather-current">
+              <div>
+                <span className="section-label">Current in {weatherLocations[location].label}</span>
+                <strong>{forecast.current.temperature}°</strong>
+              </div>
+              <span>{forecast.current.label}</span>
+            </div>
+          ) : null}
+          <h3 className="weather-list-heading">Your trip days</h3>
+          <div className="weather-day-list">
+            {tripDays.map((tripDay) => {
+              const day = byDate.get(tripDay.date);
+              const isAitutakiDay = tripDay.date === "2026-10-16";
+              return (
+                <article className={isAitutakiDay ? "weather-day highlight" : "weather-day"} key={tripDay.date}>
+                  <div className="weather-day-main">
+                    <div>
+                      <h4>{tripDay.weekday} · {formatDate(tripDay.date)}</h4>
+                      <p>{isAitutakiDay ? "Aitutaki day trip" : tripDay.title}</p>
+                    </div>
+                    <div className="weather-day-temp">
+                      {day ? <><strong>{Math.round(day.high)}°</strong><span>{Math.round(day.low)}°</span></> : <span>—</span>}
+                    </div>
+                  </div>
+                  {day ? (
+                    <div className="weather-day-details">
+                      <span>{weatherLabel(day.code)}</span>
+                      <span>Rain {day.rainChance === null ? "—" : `${Math.round(day.rainChance)}%`}</span>
+                      <span>{day.rainAmount === null ? "—" : `${day.rainAmount.toFixed(2)} in`}</span>
+                      <span>Wind {day.wind === null ? "—" : `${Math.round(day.wind)} mph`}</span>
+                    </div>
+                  ) : <p className="weather-unavailable">Forecast not available yet</p>}
+                </article>
+              );
+            })}
+          </div>
+          <p className="weather-source">Forecasts can change, especially farther out. Check tour operators for sea conditions. Data: <a href="https://open-meteo.com/" target="_blank" rel="noreferrer">Open-Meteo</a>.</p>
+        </>
+      ) : (
+        <p className="weather-empty" role="status">
+          {loading ? "Loading the island forecast..." : online ? "Forecast unavailable. Try refreshing." : "No saved forecast yet. Connect once to load it for offline use."}
+        </p>
+      )}
+    </section>
   );
 }
 
