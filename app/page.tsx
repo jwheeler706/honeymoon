@@ -1185,13 +1185,6 @@ function headerContext(now = new Date()): HeaderContext {
   };
 }
 
-function headerPreviewDate() {
-  if (typeof window === "undefined") return null;
-  return new URLSearchParams(window.location.search).get("preview") === "turtles"
-    ? new Date("2026-10-13T15:00:00-10:00")
-    : null;
-}
-
 function periodTone(day: Day, period: Period) {
   const tones: Record<string, Partial<Record<Period, string>>> = {
     "2026-10-08": {
@@ -1283,8 +1276,7 @@ export default function Home() {
   });
   const [timeTheme, setTimeTheme] = useState<TimeTheme>(() => currentTimeTheme());
   const [clockNow, setClockNow] = useState(() => Date.now());
-  const [previewDate] = useState(headerPreviewDate);
-  const [header, setHeader] = useState<HeaderContext>(() => headerContext(previewDate ?? new Date()));
+  const [header, setHeader] = useState<HeaderContext>(() => headerContext());
   const [scenicIndex, setScenicIndex] = useState(() => hourlyScenicIndex());
   const [forecasts, setForecasts] = useState<Forecasts>(readCachedForecasts);
   const [forecastRefresh, setForecastRefresh] = useState(0);
@@ -1325,10 +1317,10 @@ export default function Home() {
       const now = new Date();
       setClockNow(now.getTime());
       setTimeTheme(currentTimeTheme(now));
-      setHeader(headerContext(previewDate ?? now));
+      setHeader(headerContext(now));
     }, 60_000);
     return () => window.clearInterval(timer);
-  }, [previewDate]);
+  }, []);
 
   useEffect(() => {
     const timer = window.setInterval(() => {
@@ -1383,7 +1375,7 @@ export default function Home() {
   const activeDay = data.days.find((day) => day.date === state.activeDay) ?? data.days[0];
   const scenicHeader = header.key === "countdown" || header.key === "beach" || header.key === "flight";
   const scenicImage = scenicHeaderImages[scenicIndex % scenicHeaderImages.length];
-  const activeHeaderEvent = currentTripEvent(previewDate ?? new Date())?.event;
+  const activeHeaderEvent = currentTripEvent()?.event;
   const activityHeaderImage = activeHeaderEvent ? imageForEvent(activeHeaderEvent) : null;
   const headerImage = scenicHeader ? scenicImage : activityHeaderImage;
   const headlineVariant = dailyHeadlineVariant();
@@ -1491,7 +1483,7 @@ export default function Home() {
       <section className={`top-panel header-${header.key}`} style={headerStyle} aria-labelledby="trip-title">
         <div className="title-block">
           <p className="header-meta">
-            <span>{previewDate ? "ACTIVITY PREVIEW" : `${header.time} ${header.label}`}</span>
+            <span>{header.time} {header.label}</span>
             {weather ? (
               <>
                 <span>{weather.temperature}°</span>
