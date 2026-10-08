@@ -381,6 +381,12 @@ button {
   line-height: 1.08;
 }
 
+.title-block .activity-title {
+  font-size: 2rem;
+  line-height: 1.1;
+  overflow-wrap: break-word;
+}
+
 .filter-pill,
 .day-picker select {
   border: 1px solid var(--line);
@@ -2235,6 +2241,10 @@ button {
 }
 
 @media (max-width: 420px) {
+  .title-block .activity-title {
+    font-size: 1.7rem;
+  }
+
   .app-shell {
     padding: 12px;
   }

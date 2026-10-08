@@ -224,6 +224,7 @@ type HeaderContext = {
   time: string;
   title: string;
   subtitle: string;
+  focusTitle?: string;
 };
 
 type WeatherInfo = {
@@ -992,6 +993,26 @@ function headerKeyForEvent(event: TripEvent): HeaderKey {
   return "beach";
 }
 
+const activityHeaderNames: Record<string, string> = {
+  "Punanga Nui Market / Avarua": "Punanga Nui Market",
+  "Dinner at Nautilus Resort": "Nautilus Resort",
+  "North and west island loop": "North and West Island Loop",
+  "Dinner at Tamarind House main restaurant": "Tamarind House",
+  "West-side beach day": "West-side Beach",
+  "Dinner at On the Beach Bar & Restaurant": "On the Beach",
+  "Swim With The Turtles Rarotonga": "Swim With The Turtles",
+  "Raemaru Trek or a flexible land day": "Raemaru Trek",
+  "Antipodes dinner": "Antipodes",
+  "Aitutaki lagoon day trip": "Aitutaki Lagoon",
+  "Lunch on One Foot Island / Tapuaetai": "One Foot Island",
+  "Dinner at Blue Lagoon Restaurant": "Blue Lagoon Restaurant",
+};
+
+function activityHeaderName(event: TripEvent) {
+  if (event.flight || event.type === "travel") return undefined;
+  return activityHeaderNames[event.title];
+}
+
 function imageForEvent(event: TripEvent) {
   const title = event.title.toLowerCase();
 
@@ -1160,6 +1181,7 @@ function headerContext(now = new Date()): HeaderContext {
     time: formatRarotongaTime(now),
     title: current.event.title,
     subtitle: `${formatTime(current.event.time)} · ${current.day.title}`,
+    focusTitle: activityHeaderName(current.event),
   };
 }
 
@@ -1357,7 +1379,9 @@ export default function Home() {
   const activityHeaderImage = activeHeaderEvent ? imageForEvent(activeHeaderEvent) : null;
   const headerImage = scenicHeader ? scenicImage : activityHeaderImage;
   const headlineVariant = dailyHeadlineVariant();
-  const destinationHeadline = header.title.match(/^(.*?)(Rarotonga)$/);
+  const destinationHeadline = header.key === "countdown" || header.key === "beach"
+    ? header.title.match(/^(.*?)(Rarotonga)$/)
+    : null;
   const headerStyle: CSSProperties | undefined = headerImage
     ? {
         "--header-image": `url("${headerImage.image}")`,
@@ -1467,8 +1491,10 @@ export default function Home() {
               </>
             ) : null}
           </p>
-          <h1 className={`headline-variant-${headlineVariant}`} id="trip-title">
-            {destinationHeadline ? (
+          <h1 className={`headline-variant-${headlineVariant}`} id="trip-title" aria-label={header.focusTitle ? header.title : undefined}>
+            {header.focusTitle ? (
+              <span className="trip-title-destination activity-title">{header.focusTitle}</span>
+            ) : destinationHeadline ? (
               <>
                 {destinationHeadline[1] ? <span className="trip-title-lead">{destinationHeadline[1].trim()}</span> : null}
                 <span className="trip-title-destination">{destinationHeadline[2]}</span>
