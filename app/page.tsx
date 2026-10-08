@@ -1243,6 +1243,7 @@ export default function Home() {
       return {
         ...initialState,
         ...restored,
+        view: restored.view === "packing" ? "plan" : restored.view ?? initialState.view,
         packingItems,
         packingSeedVersion: 2,
       };
@@ -1497,7 +1498,7 @@ export default function Home() {
       ) : null}
 
       <section className="control-row" aria-label="App views">
-        {(["plan", "reservations", "map", "weather", "gallery", "packing"] as const).map((view) => (
+        {(["plan", "reservations", "map", "weather", "gallery"] as const).map((view) => (
           <button
             className={state.view === view ? "view-tab active" : "view-tab"}
             key={view}
