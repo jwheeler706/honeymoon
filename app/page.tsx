@@ -267,6 +267,8 @@ type MapPlace = {
   type: EventType;
   area: string;
   note: string;
+  time?: string | null;
+  sourceEventTitle?: string;
   lat?: number;
   lng?: number;
   offMap?: boolean;
@@ -289,19 +291,35 @@ type GalleryImage = {
   position?: string;
 };
 
+function mappedItineraryPlace(
+  location: Pick<MapPlace, "id" | "date" | "area" | "lat" | "lng" | "offMap"> & { eventTitle: string },
+): MapPlace {
+  const event = data.days.find((day) => day.date === location.date)?.events.find(
+    (item) => item.title === location.eventTitle,
+  );
+  if (!event) throw new Error(`Missing map event: ${location.date} ${location.eventTitle}`);
+  const { eventTitle, ...place } = location;
+  return {
+    ...place,
+    name: event.title,
+    note: eventDetailNote(event),
+    status: event.status,
+    type: event.type,
+    period: eventPeriod(event),
+    time: event.time,
+    sourceEventTitle: eventTitle,
+  };
+}
+
 const mapPlaces: MapPlace[] = [
-  {
+  mappedItineraryPlace({
     id: "sea-change-villas",
-    name: "Sea Change Villas",
     date: "2026-10-09",
-    period: "Evening",
-    status: "confirmed",
-    type: "lodging",
+    eventTitle: "Check in at Sea Change Villas, Titikaveka",
     area: "Titikaveka",
-    note: "Home base.",
     lat: -21.26645,
     lng: -159.77176,
-  },
+  }),
   {
     id: "rarotonga-airport-arrival",
     name: "HNL → RAR",
@@ -314,127 +332,95 @@ const mapPlaces: MapPlace[] = [
     lat: -21.2027,
     lng: -159.806,
   },
-  {
+  mappedItineraryPlace({
     id: "punanga-nui-market",
-    name: "Punanga Nui Market / Avarua",
     date: "2026-10-10",
-    period: "Morning",
-    status: "suggested",
-    type: "activity",
+    eventTitle: "Punanga Nui Market / Avarua",
     area: "Avarua",
-    note: "Easy first morning option.",
     lat: -21.2052,
     lng: -159.78299,
-  },
-  {
+  }),
+  mappedItineraryPlace({
     id: "nautilus",
-    name: "Nautilus Resort",
     date: "2026-10-10",
-    period: "Evening",
-    status: "confirmed",
-    type: "reservation",
+    eventTitle: "Dinner at Nautilus Resort",
     area: "Muri",
-    note: "Dinner at 6:00 PM.",
     lat: -21.26129,
     lng: -159.7329,
-  },
-  {
+  }),
+  mappedItineraryPlace({
     id: "tamarind",
-    name: "Tamarind House main restaurant",
     date: "2026-10-11",
-    period: "Evening",
-    status: "confirmed",
-    type: "reservation",
+    eventTitle: "Dinner at Tamarind House main restaurant",
     area: "Tupapa / Avarua",
-    note: "Dinner at 6:15 PM.",
     lat: -21.20432,
     lng: -159.762705,
-  },
-  {
+  }),
+  mappedItineraryPlace({
     id: "black-rock",
-    name: "Black Rock / west-side wandering",
     date: "2026-10-11",
-    period: "Afternoon",
-    status: "flexible",
-    type: "activity",
-    area: "Northwest coast",
-    note: "Scenic stop.",
+    eventTitle: "North and west island loop",
+    area: "Black Rock stop (one option)",
     lat: -21.21,
     lng: -159.82,
-  },
-  {
-    id: "otb",
-    name: "On the Beach",
+  }),
+  mappedItineraryPlace({
+    id: "west-side-beach",
     date: "2026-10-12",
-    period: "Evening",
-    status: "confirmed",
-    type: "reservation",
+    eventTitle: "West-side beach day",
+    area: "Aroa Beach (one option)",
+    lat: -21.25701,
+    lng: -159.81665,
+  }),
+  mappedItineraryPlace({
+    id: "otb",
+    date: "2026-10-12",
+    eventTitle: "Dinner at On the Beach Bar & Restaurant",
     area: "West side",
-    note: "Dinner at 6:00 PM.",
     lat: -21.22471,
     lng: -159.8292,
-  },
-  {
+  }),
+  mappedItineraryPlace({
     id: "turtles",
-    name: "Swim With The Turtles Rarotonga",
     date: "2026-10-10",
-    period: "Afternoon",
-    status: "confirmed",
-    type: "excursion",
+    eventTitle: "Swim With The Turtles Rarotonga",
     area: "Avaavaroa Passage / Takitumu",
-    note: "Turtle snorkel at 4:30 PM.",
     lat: -21.26626,
     lng: -159.77952,
-  },
-  {
+  }),
+  mappedItineraryPlace({
     id: "raemaru",
-    name: "Raemaru Trek",
     date: "2026-10-14",
-    period: "Morning",
-    status: "flexible",
-    type: "activity",
+    eventTitle: "Raemaru Trek or a flexible land day",
     area: "Arorangi",
-    note: "Weather-dependent hike.",
     lat: -21.23646,
     lng: -159.81681,
-  },
-  {
-    id: "antipodes",
-    name: "Antipodes",
+  }),
+  mappedItineraryPlace({
+    id: "optional-hike",
     date: "2026-10-15",
-    period: "Evening",
-    status: "confirmed",
-    type: "reservation",
+    eventTitle: "Optional hike",
+    area: "Raemaru (if chosen)",
+    lat: -21.23646,
+    lng: -159.81681,
+  }),
+  mappedItineraryPlace({
+    id: "antipodes",
+    date: "2026-10-15",
+    eventTitle: "Antipodes dinner",
     area: "Northwest hills",
-    note: "Dinner at 6:30 PM.",
     lat: -21.20939,
     lng: -159.82282,
-  },
-  {
-    id: "muri-easy",
-    name: "Muri casual options",
-    date: "2026-10-15",
-    period: "Evening",
-    status: "suggested",
-    type: "meal",
-    area: "Muri",
-    note: "Casual option.",
-    lat: -21.257,
-    lng: -159.733,
-  },
-  {
+  }),
+  mappedItineraryPlace({
     id: "aitutaki",
-    name: "Aitutaki day trip",
     date: "2026-10-16",
-    period: "Morning",
-    status: "confirmed",
-    type: "excursion",
+    eventTitle: "Aitutaki lagoon day trip",
     area: "Aitutaki",
-    note: "Lagoon day trip begins at 9:00 AM.",
     lat: -18.8585,
     lng: -159.7789,
     offMap: true,
-  },
+  }),
   {
     id: "aitutaki-airport",
     name: "RAR ↔ AIT",
@@ -448,32 +434,24 @@ const mapPlaces: MapPlace[] = [
     lng: -159.764025,
     offMap: true,
   },
-  {
+  mappedItineraryPlace({
     id: "one-foot-island-lunch",
-    name: "Lunch on One Foot Island",
     date: "2026-10-16",
-    period: "Afternoon",
-    status: "confirmed",
-    type: "meal",
+    eventTitle: "Lunch on One Foot Island / Tapuaetai",
     area: "Tapuaetai / One Foot Island",
-    note: "Lunch stop.",
     lat: -18.93741,
     lng: -159.73603,
     offMap: true,
-  },
-  {
+  }),
+  mappedItineraryPlace({
     id: "blue-lagoon-restaurant",
-    name: "Blue Lagoon Restaurant",
     date: "2026-10-16",
-    period: "Evening",
-    status: "confirmed",
-    type: "meal",
+    eventTitle: "Dinner at Blue Lagoon Restaurant",
     area: "Ootu Point",
-    note: "Dinner around 5:00 PM.",
     lat: -18.848215,
     lng: -159.760167,
     offMap: true,
-  },
+  }),
   {
     id: "rarotonga-airport-departure",
     name: "RAR → HNL",
@@ -727,6 +705,14 @@ function mapColorClass(place: MapPlace) {
   return "type-land";
 }
 
+function isUnbookedMapPlace(place: MapPlace) {
+  return place.status !== "confirmed";
+}
+
+function mapStatusLabel(place: MapPlace) {
+  return place.status === "suggested" ? "Suggested" : "Flexible";
+}
+
 function HomeGlyph() {
   return (
     <span className="home-glyph" aria-hidden="true">
@@ -761,6 +747,7 @@ function mapPinClass(place: MapPlace, selectedPlaceId: string) {
   return [
     "map-pin",
     mapColorClass(place),
+    isUnbookedMapPlace(place) ? "is-unbooked" : "",
     place.id === selectedPlaceId ? "active" : "",
     place.id === "sea-change-villas" ? "home-base" : "",
   ]
@@ -1064,14 +1051,17 @@ function mapPlaceForEvent(event: TripEvent, day?: Day) {
   const combined = `${title} ${note}`;
 
   if (combined.includes("sea change")) return "sea-change-villas";
+  if (day?.date === "2026-10-15" && title === "lagoon / beach / villa day") return "sea-change-villas";
   if (combined.includes("punanga")) return "punanga-nui-market";
   if (combined.includes("nautilus")) return "nautilus";
   if (combined.includes("tamarind")) return "tamarind";
   if (combined.includes("black rock") || combined.includes("arorangi") || combined.includes("north and west")) {
     return "black-rock";
   }
+  if (title.includes("west-side beach day")) return "west-side-beach";
   if (combined.includes("on the beach")) return "otb";
   if (combined.includes("turtle")) return "turtles";
+  if (day?.date === "2026-10-15" && title === "optional hike") return "optional-hike";
   if (combined.includes("raemaru") || combined.includes("hike")) return "raemaru";
   if (combined.includes("antipodes")) return "antipodes";
   if (combined.includes("one foot") || combined.includes("tapuaetai")) return "one-foot-island-lunch";
@@ -1096,7 +1086,8 @@ function eventDetailNote(event: TripEvent) {
 }
 
 function compactMapDate(place: MapPlace) {
-  return `${place.period} ${formatDate(place.date)}`;
+  const time = place.time && /^\d/.test(place.time) ? ` · ${formatTime(place.time)}` : "";
+  return `${place.period} ${formatDate(place.date)}${time}`;
 }
 
 function eventMetaTime(event: TripEvent, period: Period) {
@@ -1448,7 +1439,9 @@ export default function Home() {
     if (!day) return;
 
     const matchingEvents = day.events.filter((event) => mapPlaceForEvent(event, day) === place.id);
-    const matchingEvent = matchingEvents.find((event) => event.flight) ?? matchingEvents[0];
+    const matchingEvent = place.sourceEventTitle
+      ? matchingEvents.find((event) => event.title === place.sourceEventTitle)
+      : matchingEvents.find((event) => event.flight) ?? matchingEvents[0];
     const targetId = matchingEvent
       ? `event-${eventKey(day, matchingEvent)}`
       : `period-${day.date}-${place.period.toLowerCase()}`;
@@ -2092,16 +2085,30 @@ function MapView({
   const seaChangeSelected = startDate === seaChangeDate && endDate === seaChangeDate;
   const inRangePlaces = places.filter((place) => place.date >= startDate && place.date <= endDate);
   const homeBase = places.find((place) => place.id === "sea-change-villas");
+  const selectedDay = startDate === endDate ? data.days.find((day) => day.date === startDate) : null;
+  const homeEvent = selectedDay?.events.find((event) => mapPlaceForEvent(event, selectedDay) === "sea-change-villas");
+  const homeBaseForDate = homeBase && selectedDay && homeEvent
+    ? {
+        ...homeBase,
+        date: selectedDay.date,
+        name: homeEvent.title,
+        note: eventDetailNote(homeEvent),
+        status: homeEvent.status,
+        type: homeEvent.type,
+        period: eventPeriod(homeEvent),
+        time: homeEvent.time,
+        sourceEventTitle: homeEvent.title,
+      }
+    : homeBase;
   const visibleRangePlaces = inRangePlaces.filter((place) => place.id !== "sea-change-villas" || seaChangeSelected);
   const mappablePlaces = inRangePlaces.filter((place) =>
     place.id !== "sea-change-villas" || seaChangeSelected
   ).filter((place) =>
     isAitutakiOnly ? place.offMap && mapPoint(place, activeMapBounds) : !place.offMap && mapPoint(place, activeMapBounds)
   );
-  const visibleMappablePlaces =
-    !isAitutakiOnly && homeBase && !mappablePlaces.some((place) => place.id === homeBase.id)
-      ? [homeBase, ...mappablePlaces]
-      : mappablePlaces;
+  const visibleMappablePlaces = !isAitutakiOnly && homeBaseForDate
+    ? [homeBaseForDate, ...mappablePlaces.filter((place) => place.id !== homeBaseForDate.id)]
+    : mappablePlaces;
   const visiblePlaces = (isAitutakiOnly
     ? visibleRangePlaces
     : visibleRangePlaces.filter((place) => !place.offMap)
@@ -2208,7 +2215,7 @@ function MapView({
 
                 return (
                   <button
-                    aria-label={place.name}
+                    aria-label={isUnbookedMapPlace(place) ? `${mapStatusLabel(place)}: ${place.name}` : place.name}
                     className={mapPinClass(place, selectedPlaceId)}
                     key={place.id}
                     onClick={(event) => {
@@ -2220,7 +2227,7 @@ function MapView({
                       top: `${point.y}%`,
                       zIndex: place.id === selectedPlaceId ? 9 : undefined,
                     }}
-                    title={place.id === "sea-change-villas" ? place.name : `${compactMapDate(place)} · ${place.name}`}
+                    title={`${isUnbookedMapPlace(place) ? `${mapStatusLabel(place)} · ` : ""}${compactMapDate(place)} · ${place.name}`}
                     type="button"
                   >
                     {place.id === "sea-change-villas" ? <HomeGlyph /> : null}
@@ -2246,11 +2253,10 @@ function MapView({
                   ) : null}
                   <strong style={textOnlyPopupTextStyle}>{selectedMapPlace.name}</strong>
                   <span style={textOnlyPopupTextStyle}>
-                    {selectedMapPlace.id === "sea-change-villas"
-                      ? selectedMapPlace.area
-                      : `${compactMapDate(selectedMapPlace)} · ${selectedMapPlace.area}`}
+                    {isUnbookedMapPlace(selectedMapPlace) ? `${mapStatusLabel(selectedMapPlace)} · ` : ""}
+                    {compactMapDate(selectedMapPlace)} · {selectedMapPlace.area}
                   </span>
-                  <p style={textOnlyPopupTextStyle}>{selectedMapPlace.note}</p>
+                  {selectedMapPlace.note ? <p style={textOnlyPopupTextStyle}>{selectedMapPlace.note}</p> : null}
                 </button>
               ) : null}
               <div className="map-legend-overlay">
@@ -2315,11 +2321,14 @@ function MapView({
 
 function PlaceRow({ place }: { place: MapPlace }) {
   return (
-    <div className={`place-row ${mapColorClass(place)}`}>
+    <div className={`place-row ${mapColorClass(place)} ${isUnbookedMapPlace(place) ? "is-unbooked" : ""}`}>
       <span className="status-dot" />
       <span>
         <strong>{place.name}</strong>
-        <small>{place.id === "sea-change-villas" ? place.area : `${place.period} · ${place.area}`}</small>
+        <small>
+          {isUnbookedMapPlace(place) ? `${mapStatusLabel(place)} · ` : ""}
+          {compactMapDate(place)} · {place.area}
+        </small>
       </span>
     </div>
   );
