@@ -1201,12 +1201,12 @@ function periodTone(day: Day, period: Period) {
       Evening: "Nautilus dinner at 7:30 after the snorkel.",
     },
     "2026-10-11": {
-      Morning: "Slow villa morning; couples massage if booked.",
+      Morning: "Slow start at the villa.",
       Afternoon: "Easy east/north stops on the way to dinner, if you feel like it.",
       Evening: "Tamarind House main restaurant.",
     },
     "2026-10-12": {
-      Morning: "Easy morning at the villa.",
+      Morning: "Easy villa morning; couples massage at 11:00 if booked.",
       Afternoon: "Keep the south-side afternoon open.",
       Evening: "Easy, unhurried dinner.",
     },
@@ -2045,11 +2045,11 @@ function recommendationText(day: Day, period: Period) {
       Afternoon: ["Villa pool", "Midday rest", "Get ready for the turtle snorkel"],
     },
     "2026-10-11": {
-      Morning: ["Slow villa breakfast", "Couples massage if booked"],
+      Morning: ["Slow villa breakfast", "Lagoon time"],
       Afternoon: ["East-coast stops", "Avarua wander"],
     },
     "2026-10-12": {
-      Morning: ["Villa breakfast", "Titikaveka swim", "Charlie's for early lunch"],
+      Morning: ["Villa breakfast", "Couples massage if booked"],
       Evening: ["Takeaway", "Muri casual food", "Quiet villa night"],
     },
     "2026-10-13": {
