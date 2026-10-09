@@ -45,7 +45,7 @@
       "Preserve buffers before and after scheduled activities.",
       "Use the rental car for flexible island exploration from October 10 onward.",
       "Mix romantic dinners with casual food and unstructured time.",
-      "Aim for roughly 3-4 standout dinners, 2-3 major activities, and substantial flexible beach/villa time.",
+      "Balance booked dinners and activities with substantial flexible beach/villa time.",
       "Do not add another fine-dining reservation automatically.",
       "Do not add another turtle or lagoon wildlife excursion automatically."
     ]
@@ -306,7 +306,7 @@
       "summary": "Optional Raemaru trek, then Muri Night Market for dinner from 5:00.",
       "events": [
         {
-          "title": "Raemaru Trek or a flexible land day",
+          "title": "Optional Raemaru Trek",
           "time": "morning",
           "status": "flexible",
           "type": "activity",
@@ -329,28 +329,21 @@
       "title": "Flexible Day and Antipodes",
       "status": "confirmed",
       "theme": "protected downtime",
-      "summary": "Open day. Antipodes at 6:30.",
+      "summary": "Easy villa or lagoon morning, optional Black Rock stop, then Antipodes at 6:30.",
       "events": [
         {
-          "title": "Lagoon / beach / villa day",
-          "time": "daytime",
+          "title": "Villa or lagoon morning",
+          "time": "morning",
           "status": "flexible",
           "type": "downtime",
-          "notes": "Keep the day open for the lagoon, beach, or villa."
-        },
-        {
-          "title": "Optional hike",
-          "time": "daytime",
-          "status": "flexible",
-          "type": "activity",
-          "notes": "Only if weather and energy line up."
+          "notes": "Take it easy at the villa or lagoon."
         },
         {
           "title": "Black Rock stop before Antipodes",
           "time": "afternoon",
           "status": "flexible",
           "type": "activity",
-          "notes": "Optional short west-side stop on the way to dinner, only if weather and energy suit."
+          "notes": "Short west-side stop on the way to dinner, if you feel like it."
         },
         {
           "title": "Antipodes dinner",
@@ -361,7 +354,7 @@
         }
       ],
       "transport": "Rental car.",
-      "notes": "Buffer day; Black Rock is optional en route to dinner."
+      "notes": "Leave room to rest before dinner."
     },
     {
       "date": "2026-10-16",
@@ -581,6 +574,22 @@
       "type": "dinner",
       "status": "confirmed",
       "notes": "Dinner reservation."
+    },
+    {
+      "date": "2026-10-12",
+      "time": "10:00",
+      "name": "Couples massage at Sea Change Villas",
+      "type": "activity",
+      "status": "confirmed",
+      "notes": "45-minute couples massage at the villa."
+    },
+    {
+      "date": "2026-10-12",
+      "time": "18:00",
+      "name": "Sunset platter at Sea Change Villas",
+      "type": "dinner",
+      "status": "confirmed",
+      "notes": "Sunset dinner at the villa."
     },
     {
       "date": "2026-10-13",

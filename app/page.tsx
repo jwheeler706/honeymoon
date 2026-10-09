@@ -391,7 +391,7 @@ const mapPlaces: MapPlace[] = [
   mappedItineraryPlace({
     id: "raemaru",
     date: "2026-10-14",
-    eventTitle: "Raemaru Trek or a flexible land day",
+    eventTitle: "Optional Raemaru Trek",
     area: "Arorangi",
     lat: -21.23646,
     lng: -159.81681,
@@ -403,14 +403,6 @@ const mapPlaces: MapPlace[] = [
     area: "Muri",
     lat: -21.257534,
     lng: -159.73192,
-  }),
-  mappedItineraryPlace({
-    id: "optional-hike",
-    date: "2026-10-15",
-    eventTitle: "Optional hike",
-    area: "Raemaru (if chosen)",
-    lat: -21.23646,
-    lng: -159.81681,
   }),
   mappedItineraryPlace({
     id: "black-rock",
@@ -993,7 +985,7 @@ const activityHeaderNames: Record<string, string> = {
   "West-side beach day": "West-side Beach",
   "Dinner at On the Beach Bar & Restaurant": "On the Beach",
   "Swim With The Turtles Rarotonga": "Swim With The Turtles",
-  "Raemaru Trek or a flexible land day": "Raemaru Trek",
+  "Optional Raemaru Trek": "Raemaru Trek",
   "Antipodes dinner": "Antipodes",
   "Aitutaki lagoon day trip": "Aitutaki Lagoon",
   "Lunch on One Foot Island / Tapuaetai": "One Foot Island",
@@ -1068,7 +1060,7 @@ function mapPlaceForEvent(event: TripEvent, day?: Day) {
   const combined = `${title} ${note}`;
 
   if (combined.includes("sea change")) return "sea-change-villas";
-  if (day?.date === "2026-10-15" && title === "lagoon / beach / villa day") return "sea-change-villas";
+  if (day?.date === "2026-10-15" && title === "villa or lagoon morning") return "sea-change-villas";
   if (combined.includes("punanga")) return "punanga-nui-market";
   if (title.includes("muri night market")) return "muri-night-market";
   if (combined.includes("nautilus")) return "nautilus";
@@ -1078,7 +1070,6 @@ function mapPlaceForEvent(event: TripEvent, day?: Day) {
   if (combined.includes("tamarind")) return "tamarind";
   if (combined.includes("on the beach")) return "otb";
   if (combined.includes("turtle")) return "turtles";
-  if (day?.date === "2026-10-15" && title === "optional hike") return "optional-hike";
   if (combined.includes("raemaru") || combined.includes("hike")) return "raemaru";
   if (combined.includes("antipodes")) return "antipodes";
   if (combined.includes("one foot") || combined.includes("tapuaetai")) return "one-foot-island-lunch";
@@ -1109,9 +1100,9 @@ function mapDescription(event: TripEvent) {
     "West-side beach day": "Beach and snorkeling on the west side.",
     "Black Rock stop before Antipodes": "Optional stop on the way to Antipodes.",
     "Swim With The Turtles Rarotonga": "Arrive 10-15 minutes early.",
-    "Raemaru Trek or a flexible land day": "Trek if the weather suits.",
+    "Optional Raemaru Trek": "Trek only if the trail is dry.",
     "Muri Night Market": "Dinner from the food stalls.",
-    "Lagoon / beach / villa day": "Open villa, lagoon or beach day.",
+    "Villa or lagoon morning": "Easy villa or lagoon time.",
   };
   return shortNotes[event.title] ?? eventDetailNote(event);
 }
@@ -2066,12 +2057,12 @@ function recommendationText(day: Day, period: Period) {
       Afternoon: ["Aroa swim", "Arorangi wander"],
     },
     "2026-10-14": {
-      Morning: ["Raemaru Trek", "Beach instead if cloudy", "Coffee and no agenda"],
+      Morning: ["Raemaru if dry", "Villa time if the trail is wet", "Coffee and no agenda"],
       Afternoon: ["Villa recovery", "Easy reset", "Lagoon time"],
       Evening: ["Muri Night Market", "Dinner in Muri", "Quiet villa night"],
     },
     "2026-10-15": {
-      Morning: ["Slow villa morning", "Lagoon float", "Raemaru if not done"],
+      Morning: ["Slow villa morning", "Lagoon float"],
       Afternoon: ["Protected downtime", "Black Rock on the way to dinner"],
       Evening: ["Antipodes", "Sunset timing", "Easy ride back"],
     },
