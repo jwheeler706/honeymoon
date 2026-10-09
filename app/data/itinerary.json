@@ -248,32 +248,6 @@
     {
       "date": "2026-10-12",
       "weekday": "Monday",
-      "title": "West-Side Beach Day and On the Beach",
-      "status": "confirmed",
-      "theme": "beach and dinner",
-      "summary": "West-side beach time, then On the Beach at 6:00.",
-      "events": [
-        {
-          "title": "West-side beach day",
-          "time": "afternoon",
-          "status": "flexible",
-          "type": "activity",
-          "notes": "Start when ready. Explore Aroa and Arorangi, swim if conditions suit, and stay west for dinner."
-        },
-        {
-          "title": "Dinner at On the Beach Bar & Restaurant",
-          "time": "18:00",
-          "status": "confirmed",
-          "type": "reservation",
-          "notes": "6:00 PM."
-        }
-      ],
-      "transport": "Rental car.",
-      "notes": "Stay on the west side through dinner."
-    },
-    {
-      "date": "2026-10-13",
-      "weekday": "Tuesday",
       "title": "Slow Villa Day",
       "status": "flexible",
       "theme": "south-side lagoon day",
@@ -303,6 +277,32 @@
       ],
       "transport": "Rental car.",
       "notes": "Keep the afternoon open."
+    },
+    {
+      "date": "2026-10-13",
+      "weekday": "Tuesday",
+      "title": "West-Side Beach Day and On the Beach",
+      "status": "confirmed",
+      "theme": "beach and dinner",
+      "summary": "West-side beach time, then On the Beach at 6:00.",
+      "events": [
+        {
+          "title": "West-side beach day",
+          "time": "afternoon",
+          "status": "flexible",
+          "type": "activity",
+          "notes": "Start when ready. Explore Aroa and Arorangi, swim if conditions suit, and stay west for dinner."
+        },
+        {
+          "title": "Dinner at On the Beach Bar & Restaurant",
+          "time": "18:00",
+          "status": "confirmed",
+          "type": "reservation",
+          "notes": "6:00 PM."
+        }
+      ],
+      "transport": "Rental car.",
+      "notes": "Stay on the west side through dinner."
     },
     {
       "date": "2026-10-14",
@@ -583,7 +583,7 @@
       "notes": "Dinner reservation."
     },
     {
-      "date": "2026-10-12",
+      "date": "2026-10-13",
       "time": "18:00",
       "name": "On the Beach Bar & Restaurant",
       "type": "dinner",

@@ -366,7 +366,7 @@ const mapPlaces: MapPlace[] = [
   }),
   mappedItineraryPlace({
     id: "west-side-beach",
-    date: "2026-10-12",
+    date: "2026-10-13",
     eventTitle: "West-side beach day",
     area: "Aroa Beach (one option)",
     lat: -21.25701,
@@ -374,7 +374,7 @@ const mapPlaces: MapPlace[] = [
   }),
   mappedItineraryPlace({
     id: "otb",
-    date: "2026-10-12",
+    date: "2026-10-13",
     eventTitle: "Dinner at On the Beach Bar & Restaurant",
     area: "West side",
     lat: -21.22471,
@@ -502,7 +502,7 @@ const galleryImages: GalleryImage[] = [
   {
     id: "otb",
     title: "On the Beach Bar & Restaurant",
-    date: "2026-10-12",
+    date: "2026-10-13",
     label: "Beach dinner",
     image: "/images/otb.jpg",
     alt: "Beachfront dining room at On the Beach in Rarotonga.",
@@ -510,7 +510,7 @@ const galleryImages: GalleryImage[] = [
   {
     id: "lagoon",
     title: "West-side lagoon",
-    date: "2026-10-12",
+    date: "2026-10-13",
     label: "Beach day",
     image: "/images/rarotonga-aerial.jpg",
     alt: "Rarotonga lagoon and reef from above.",
@@ -518,7 +518,7 @@ const galleryImages: GalleryImage[] = [
   {
     id: "muri-beach",
     title: "Muri Beach",
-    date: "2026-10-12",
+    date: "2026-10-11",
     label: "Lagoon",
     image: "/images/muri-beach.jpg",
     alt: "Muri Beach with calm lagoon water and island scenery.",
@@ -526,7 +526,7 @@ const galleryImages: GalleryImage[] = [
   {
     id: "muri-islets",
     title: "Muri lagoon islets",
-    date: "2026-10-12",
+    date: "2026-10-11",
     label: "Lagoon",
     image: "/images/muri-islets.jpg",
     alt: "Muri Lagoon and islets from above.",
@@ -1206,13 +1206,13 @@ function periodTone(day: Day, period: Period) {
       Evening: "Tamarind House main restaurant.",
     },
     "2026-10-12": {
-      Afternoon: "West-side beach time; stay nearby for dinner.",
-      Evening: "On the Beach at 6:00.",
-    },
-    "2026-10-13": {
       Morning: "Easy morning at the villa.",
       Afternoon: "Keep the south-side afternoon open.",
       Evening: "Easy, unhurried dinner.",
+    },
+    "2026-10-13": {
+      Afternoon: "West-side beach time; stay nearby for dinner.",
+      Evening: "On the Beach at 6:00.",
     },
     "2026-10-14": {
       Morning: "Weather decides.",
@@ -2049,12 +2049,12 @@ function recommendationText(day: Day, period: Period) {
       Afternoon: ["East-coast stops", "Avarua wander"],
     },
     "2026-10-12": {
-      Morning: ["Slow breakfast", "Beach bag day"],
-      Afternoon: ["Aroa swim", "Arorangi wander"],
-    },
-    "2026-10-13": {
       Morning: ["Villa breakfast", "Titikaveka swim", "Charlie's for early lunch"],
       Evening: ["Takeaway", "Muri casual food", "Quiet villa night"],
+    },
+    "2026-10-13": {
+      Morning: ["Slow breakfast", "Beach bag day"],
+      Afternoon: ["Aroa swim", "Arorangi wander"],
     },
     "2026-10-14": {
       Morning: ["Raemaru Trek", "Beach instead if cloudy", "Coffee and no agenda"],
