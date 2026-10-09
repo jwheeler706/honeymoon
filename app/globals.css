@@ -1238,8 +1238,10 @@ button {
 }
 
 .map-pin.is-unbooked:not(.home-base) {
-  border: 2px solid var(--pin-color);
-  background: rgba(4, 13, 17, 0.92);
+  width: 12px;
+  height: 12px;
+  border: 2px dashed var(--pin-color);
+  background: transparent;
 }
 
 .type-home {
@@ -1266,6 +1268,11 @@ button {
   width: 14px;
   height: 14px;
   outline: 2px solid rgba(243, 238, 226, 0.3);
+}
+
+.map-pin.is-unbooked:not(.home-base).active {
+  width: 14px;
+  height: 14px;
 }
 
 .map-pin.home-base {
@@ -1611,7 +1618,9 @@ button {
 }
 
 .place-row.is-unbooked .status-dot {
-  border: 1.5px solid var(--pin-color);
+  width: 8px;
+  height: 8px;
+  border: 1.5px dashed var(--pin-color);
   background: transparent;
 }
 

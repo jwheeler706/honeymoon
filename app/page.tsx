@@ -1087,7 +1087,7 @@ function eventDetailNote(event: TripEvent) {
 
 function mapDescription(event: TripEvent) {
   const shortNotes: Record<string, string> = {
-    "Punanga Nui Market / Avarua": "Saturday market; closes at noon.",
+    "Punanga Nui Market / Avarua": "Browse food and craft stalls.",
     "North and west island loop": "Scenic loop via Aroa, Arorangi and Black Rock.",
     "West-side beach day": "Beach and snorkeling on the west side.",
     "Swim With The Turtles Rarotonga": "Arrive 10-15 minutes early.",
