@@ -1238,10 +1238,19 @@ button {
 }
 
 .map-pin.is-unbooked:not(.home-base) {
-  width: 12px;
-  height: 12px;
-  border: 2px dashed var(--pin-color);
-  background: transparent;
+  width: 16px;
+  height: 16px;
+  border: 0;
+  background: repeating-conic-gradient(var(--pin-color) 0deg 24deg, transparent 24deg 36deg);
+}
+
+.map-pin.is-unbooked:not(.home-base)::before {
+  position: absolute;
+  inset: 3px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.42);
+  content: "";
+  pointer-events: none;
 }
 
 .type-home {
@@ -1271,8 +1280,8 @@ button {
 }
 
 .map-pin.is-unbooked:not(.home-base).active {
-  width: 14px;
-  height: 14px;
+  width: 18px;
+  height: 18px;
 }
 
 .map-pin.home-base {
