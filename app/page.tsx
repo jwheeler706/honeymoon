@@ -397,6 +397,14 @@ const mapPlaces: MapPlace[] = [
     lng: -159.81681,
   }),
   mappedItineraryPlace({
+    id: "muri-night-market",
+    date: "2026-10-14",
+    eventTitle: "Muri Night Market",
+    area: "Muri",
+    lat: -21.257534,
+    lng: -159.73192,
+  }),
+  mappedItineraryPlace({
     id: "optional-hike",
     date: "2026-10-15",
     eventTitle: "Optional hike",
@@ -1062,6 +1070,7 @@ function mapPlaceForEvent(event: TripEvent, day?: Day) {
   if (combined.includes("sea change")) return "sea-change-villas";
   if (day?.date === "2026-10-15" && title === "lagoon / beach / villa day") return "sea-change-villas";
   if (combined.includes("punanga")) return "punanga-nui-market";
+  if (title.includes("muri night market")) return "muri-night-market";
   if (combined.includes("nautilus")) return "nautilus";
   if (title.includes("west-side beach day")) return "west-side-beach";
   if (title.includes("north/east-side wander")) return "north-east-wander";
@@ -1102,6 +1111,7 @@ function mapDescription(event: TripEvent) {
     "Swim With The Turtles Rarotonga": "Arrive 10-15 minutes early.",
     "Slow villa morning at Sea Change": "Slow morning by the villa or lagoon.",
     "Raemaru Trek or a flexible land day": "Trek if the weather suits.",
+    "Muri Night Market": "Food stalls for a flexible dinner.",
     "Lagoon / beach / villa day": "Open villa, lagoon or beach day.",
   };
   return shortNotes[event.title] ?? eventDetailNote(event);
@@ -1208,16 +1218,16 @@ function periodTone(day: Day, period: Period) {
     "2026-10-12": {
       Morning: "Easy villa morning; couples massage at 11:00 if booked.",
       Afternoon: "Keep the south-side afternoon open.",
-      Evening: "Easy, unhurried dinner.",
+      Evening: "Sunset platter at the villa, if arranged.",
     },
     "2026-10-13": {
       Afternoon: "West-side beach time; stay nearby for dinner.",
       Evening: "On the Beach at 6:00.",
     },
     "2026-10-14": {
-      Morning: "Weather decides.",
-      Afternoon: "Adventure window if it feels right.",
-      Evening: "Open night.",
+      Morning: "Raemaru only if the trail is dry and you feel up for it.",
+      Afternoon: "Rest before heading to Muri.",
+      Evening: "Muri Night Market from 5:00, if you feel like it.",
     },
     "2026-10-15": {
       Morning: "Slow honeymoon morning.",
@@ -2050,7 +2060,7 @@ function recommendationText(day: Day, period: Period) {
     },
     "2026-10-12": {
       Morning: ["Villa breakfast", "Couples massage if booked"],
-      Evening: ["Takeaway", "Muri casual food", "Quiet villa night"],
+      Evening: ["Sunset platter if booked", "Villa evening", "Quiet night"],
     },
     "2026-10-13": {
       Morning: ["Slow breakfast", "Beach bag day"],
@@ -2058,8 +2068,8 @@ function recommendationText(day: Day, period: Period) {
     },
     "2026-10-14": {
       Morning: ["Raemaru Trek", "Beach instead if cloudy", "Coffee and no agenda"],
-      Afternoon: ["Villa recovery", "Short island drive", "Easy reset"],
-      Evening: ["Sunset drink", "Simple dinner", "Quiet villa night"],
+      Afternoon: ["Villa recovery", "Easy reset", "Lagoon time"],
+      Evening: ["Muri Night Market", "Dinner in Muri", "Quiet villa night"],
     },
     "2026-10-15": {
       Morning: ["Slow villa morning", "Lagoon float", "Raemaru if not done"],
