@@ -377,12 +377,12 @@ const mapPlaces: MapPlace[] = [
   {
     id: "turtles",
     name: "Swim With The Turtles Rarotonga",
-    date: "2026-10-13",
+    date: "2026-10-10",
     period: "Afternoon",
     status: "confirmed",
     type: "excursion",
     area: "Avaavaroa Passage / Takitumu",
-    note: "Turtle snorkel at 2:30 PM.",
+    note: "Turtle snorkel at 4:30 PM.",
     lat: -21.26626,
     lng: -159.77952,
   },
@@ -572,7 +572,7 @@ const galleryImages: GalleryImage[] = [
   {
     id: "turtles",
     title: "Swim With The Turtles",
-    date: "2026-10-13",
+    date: "2026-10-10",
     label: "Snorkel",
     image: "/images/turtles.webp",
     alt: "Sea turtle underwater during a Snorkel Cook Islands excursion.",
@@ -1184,8 +1184,8 @@ function periodTone(day: Day, period: Period) {
     },
     "2026-10-10": {
       Morning: "Ease into the island if you are feeling fresh.",
-      Afternoon: "Leave room for villa time before dinner.",
-      Evening: "First proper honeymoon dinner.",
+      Afternoon: "Villa downtime, then the turtle snorkel at 4:30.",
+      Evening: "Nautilus dinner at 7:30 after the snorkel.",
     },
     "2026-10-11": {
       Morning: "Easy start before the island loop.",
@@ -1198,8 +1198,8 @@ function periodTone(day: Day, period: Period) {
     },
     "2026-10-13": {
       Morning: "Easy morning at the villa.",
-      Afternoon: "Turtle snorkel is the main moment.",
-      Evening: "Chill night after the water.",
+      Afternoon: "Keep the south-side afternoon open.",
+      Evening: "Easy, unhurried dinner.",
     },
     "2026-10-14": {
       Morning: "Weather decides.",
@@ -2027,7 +2027,7 @@ function recommendationText(day: Day, period: Period) {
   const options: Record<string, Partial<Record<Period, string[]>>> = {
     "2026-10-10": {
       Morning: ["Punanga Nui Market", "Coffee in Avarua", "Sleep in if needed"],
-      Afternoon: ["Villa pool", "Titikaveka lagoon", "Easy pre-dinner reset"],
+      Afternoon: ["Villa pool", "Midday rest", "Get ready for the turtle snorkel"],
     },
     "2026-10-11": {
       Morning: ["Aroa Beach", "Black Rock", "Scenic driver loop"],
