@@ -16,7 +16,9 @@
       "rentalCar": {
         "pickupDate": "2026-10-10",
         "pickupTime": "09:00",
-        "notes": "9:00 AM pickup arranged."
+        "dropoffLocation": "Rarotonga Airport",
+        "dropoffDate": "2026-10-16",
+        "notes": "9:00 AM Saturday pickup. Return at Rarotonga Airport before the Friday Aitutaki flight; handoff time to confirm."
       }
     },
     "hikeOptions": {
@@ -352,8 +354,15 @@
       "title": "Aitutaki Day Trip",
       "status": "confirmed",
       "theme": "major excursion",
-      "summary": "Aitutaki day trip. One Foot Island lunch, Blue Lagoon dinner.",
+      "summary": "Return the rental car before the Aitutaki flight. One Foot Island lunch, Blue Lagoon dinner.",
       "events": [
+        {
+          "title": "Return rental car at Rarotonga Airport",
+          "time": "morning",
+          "status": "confirmed",
+          "type": "travel",
+          "notes": "Before the 8:00 AM flight. Confirm the handoff time."
+        },
         {
           "title": "GZ-612 to Aitutaki",
           "time": "08:00",
@@ -412,7 +421,7 @@
           }
         }
       ],
-      "transport": "Air Rarotonga. Ref NIPXNP.",
+      "transport": "Return rental car at Rarotonga Airport, then fly with Air Rarotonga. Ref NIPXNP.",
       "notes": "No extra big plans."
     },
     {
@@ -583,6 +592,14 @@
       "type": "dinner",
       "status": "confirmed",
       "notes": "6:30 PM."
+    },
+    {
+      "date": "2026-10-16",
+      "time": null,
+      "name": "Return rental car at Rarotonga Airport",
+      "type": "transport",
+      "status": "confirmed",
+      "notes": "Before GZ-612 at 8:00 AM; confirm handoff time."
     },
     {
       "date": "2026-10-16",
