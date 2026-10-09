@@ -1109,7 +1109,6 @@ function mapDescription(event: TripEvent) {
     "West-side beach day": "Beach and snorkeling on the west side.",
     "Black Rock stop before Antipodes": "Optional stop on the way to Antipodes.",
     "Swim With The Turtles Rarotonga": "Arrive 10-15 minutes early.",
-    "Slow villa morning at Sea Change": "Slow morning by the villa or lagoon.",
     "Raemaru Trek or a flexible land day": "Trek if the weather suits.",
     "Muri Night Market": "Dinner from the food stalls.",
     "Lagoon / beach / villa day": "Open villa, lagoon or beach day.",

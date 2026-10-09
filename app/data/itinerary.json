@@ -246,13 +246,6 @@
       "summary": "Couples massage at 10:00, then a slow afternoon and sunset platter at the villa.",
       "events": [
         {
-          "title": "Slow villa morning at Sea Change",
-          "time": "morning",
-          "status": "flexible",
-          "type": "downtime",
-          "notes": "Take a slow morning by the villa, pool, or lagoon."
-        },
-        {
           "title": "Couples massage at Sea Change Villas",
           "time": "10:00",
           "status": "confirmed",
