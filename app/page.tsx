@@ -691,12 +691,12 @@ function dayColorClass(date: string) {
 function mapColorClass(place: MapPlace) {
   const combined = `${place.name} ${place.note} ${place.area}`.toLowerCase();
   if (place.id === "sea-change-villas" || place.type === "lodging") return "type-home";
-  if (place.type === "meal" || place.type === "reservation") return "type-food";
   if (place.type === "travel") return "type-travel";
+  if (place.type === "excursion" || combined.includes("turtle") || combined.includes("snorkel")) {
+    return "type-water";
+  }
+  if (place.type === "meal" || place.type === "reservation") return "type-food";
   if (
-    place.type === "excursion" ||
-    combined.includes("turtle") ||
-    combined.includes("snorkel") ||
     combined.includes("lagoon") ||
     combined.includes("beach")
   ) {
