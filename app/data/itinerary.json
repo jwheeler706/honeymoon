@@ -224,7 +224,8 @@
           "time": "morning",
           "status": "pending",
           "type": "activity",
-          "notes": "Not booked yet. Ask for an 11:00 or 11:30 AM start at the villa; confirm the session length."
+          "duration": "45 minutes",
+          "notes": "Not booked yet. Ask for 11:30 AM at the villa, with 11:00 AM as a backup."
         },
         {
           "title": "North/east-side wander before Tamarind",
