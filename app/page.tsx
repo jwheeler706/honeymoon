@@ -1111,7 +1111,7 @@ function mapDescription(event: TripEvent) {
     "Swim With The Turtles Rarotonga": "Arrive 10-15 minutes early.",
     "Slow villa morning at Sea Change": "Slow morning by the villa or lagoon.",
     "Raemaru Trek or a flexible land day": "Trek if the weather suits.",
-    "Muri Night Market": "Food stalls for a flexible dinner.",
+    "Muri Night Market": "Dinner from the food stalls.",
     "Lagoon / beach / villa day": "Open villa, lagoon or beach day.",
   };
   return shortNotes[event.title] ?? eventDetailNote(event);
@@ -1216,9 +1216,9 @@ function periodTone(day: Day, period: Period) {
       Evening: "Tamarind House main restaurant.",
     },
     "2026-10-12": {
-      Morning: "Easy villa morning; couples massage at 11:00 if booked.",
+      Morning: "Couples massage at the villa at 10:00.",
       Afternoon: "Keep the south-side afternoon open.",
-      Evening: "Sunset platter at the villa, if arranged.",
+      Evening: "Sunset platter at the villa.",
     },
     "2026-10-13": {
       Afternoon: "West-side beach time; stay nearby for dinner.",
@@ -1227,7 +1227,7 @@ function periodTone(day: Day, period: Period) {
     "2026-10-14": {
       Morning: "Raemaru only if the trail is dry and you feel up for it.",
       Afternoon: "Rest before heading to Muri.",
-      Evening: "Muri Night Market from 5:00, if you feel like it.",
+      Evening: "Muri Night Market from 5:00.",
     },
     "2026-10-15": {
       Morning: "Slow honeymoon morning.",
@@ -2059,8 +2059,8 @@ function recommendationText(day: Day, period: Period) {
       Afternoon: ["East-coast stops", "Avarua wander"],
     },
     "2026-10-12": {
-      Morning: ["Villa breakfast", "Couples massage if booked"],
-      Evening: ["Sunset platter if booked", "Villa evening", "Quiet night"],
+      Morning: ["Villa breakfast", "Couples massage at 10:00"],
+      Evening: ["Sunset platter", "Villa evening", "Quiet night"],
     },
     "2026-10-13": {
       Morning: ["Slow breakfast", "Beach bag day"],

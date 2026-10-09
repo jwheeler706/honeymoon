@@ -241,9 +241,9 @@
       "date": "2026-10-12",
       "weekday": "Monday",
       "title": "Villa Massage and Sunset Platter",
-      "status": "flexible",
+      "status": "confirmed",
       "theme": "south-side lagoon day",
-      "summary": "Couples massage at 11:00 to book, then a slow afternoon and sunset platter at the villa to arrange.",
+      "summary": "Couples massage at 10:00, then a slow afternoon and sunset platter at the villa.",
       "events": [
         {
           "title": "Slow villa morning at Sea Change",
@@ -254,11 +254,11 @@
         },
         {
           "title": "Couples massage at Sea Change Villas",
-          "time": "11:00",
-          "status": "pending",
+          "time": "10:00",
+          "status": "confirmed",
           "type": "activity",
           "duration": "45 minutes",
-          "notes": "Booking to confirm with Sea Change Villas."
+          "notes": "Confirmed with Sea Change Villas."
         },
         {
           "title": "Lunch near the south side, maybe Charlie's",
@@ -270,9 +270,9 @@
         {
           "title": "Sunset platter at Sea Change Villas",
           "time": "evening",
-          "status": "pending",
+          "status": "confirmed",
           "type": "meal",
-          "notes": "Ask Sea Change Villas to arrange the sunset platter; booking and time to confirm."
+          "notes": "Sunset platter at the villa; serving time to confirm."
         }
       ],
       "transport": "Rental car.",
@@ -308,7 +308,7 @@
       "date": "2026-10-14",
       "weekday": "Wednesday",
       "title": "Adventure Day and Muri Night Market",
-      "status": "flexible",
+      "status": "confirmed",
       "theme": "big adventure",
       "summary": "Optional Raemaru trek, then Muri Night Market for dinner from 5:00.",
       "events": [
@@ -322,9 +322,9 @@
         {
           "title": "Muri Night Market",
           "time": "17:00",
-          "status": "flexible",
+          "status": "confirmed",
           "type": "meal",
-          "notes": "Pencil in dinner from the food stalls; arrive near opening and bring cash."
+          "notes": "Dinner from the food stalls; arrive near opening and bring cash."
         }
       ],
       "transport": "Rental car.",
