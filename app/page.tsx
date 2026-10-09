@@ -1197,7 +1197,7 @@ function periodTone(day: Day, period: Period) {
     },
     "2026-10-10": {
       Morning: "Ease into the island if you are feeling fresh.",
-      Afternoon: "Villa downtime, then the turtle snorkel at 4:30.",
+      Afternoon: "Turtle snorkel at 4:30.",
       Evening: "Nautilus dinner at 7:30 after the snorkel.",
     },
     "2026-10-11": {
@@ -2042,7 +2042,7 @@ function recommendationText(day: Day, period: Period) {
   const options: Record<string, Partial<Record<Period, string[]>>> = {
     "2026-10-10": {
       Morning: ["Punanga Nui Market", "Coffee in Avarua", "Easy market stroll"],
-      Afternoon: ["Villa pool", "Midday rest", "Get ready for the turtle snorkel"],
+      Afternoon: ["Get ready for the turtle snorkel"],
     },
     "2026-10-11": {
       Morning: ["Slow villa breakfast", "Lagoon time"],
