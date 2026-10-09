@@ -209,7 +209,7 @@
         }
       ],
       "transport": "9:00 AM pickup for the rental car.",
-      "notes": "Keep the market visit flexible and leave the midday hours open before the snorkel."
+      "notes": "Visit the market after car pickup and leave the midday hours open before the snorkel."
     },
     {
       "date": "2026-10-11",
@@ -217,22 +217,22 @@
       "title": "Villa Massage and Tamarind",
       "status": "flexible",
       "theme": "villa and easy outing",
-      "summary": "Villa massage to book, then an easy east/north outing before Tamarind.",
+      "summary": "Villa massage, then an easy east/north outing before Tamarind.",
       "events": [
         {
           "title": "Couples massage at Sea Change Villas",
-          "time": "morning",
+          "time": "11:00",
           "status": "pending",
           "type": "activity",
           "duration": "45 minutes",
-          "notes": "Not booked yet. Ask for 11:30 AM at the villa, with 11:00 AM as a backup."
+          "notes": "Booking to confirm with Sea Change Villas."
         },
         {
           "title": "North/east-side wander before Tamarind",
           "time": "afternoon",
           "status": "flexible",
           "type": "activity",
-          "notes": "Optional east-coast or Avarua stops on the way to dinner; skip the west-side loop."
+          "notes": "Optional east-coast or Avarua stops on the way to Tamarind."
         },
         {
           "title": "Dinner at Tamarind House main restaurant",
@@ -251,7 +251,7 @@
       "title": "West-Side Beach Day and On the Beach",
       "status": "confirmed",
       "theme": "beach and dinner",
-      "summary": "West-side beach time, then On the Beach at 6:00 without a villa detour.",
+      "summary": "West-side beach time, then On the Beach at 6:00.",
       "events": [
         {
           "title": "West-side beach day",
@@ -269,7 +269,7 @@
         }
       ],
       "transport": "Rental car.",
-      "notes": "No need to drive back to the villa before dinner."
+      "notes": "Stay on the west side through dinner."
     },
     {
       "date": "2026-10-13",
@@ -321,7 +321,7 @@
         }
       ],
       "transport": "Rental car.",
-      "notes": "Hike on the non-Antipodes day."
+      "notes": "Choose the trek only if weather and energy suit."
     },
     {
       "date": "2026-10-15",

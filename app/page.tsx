@@ -2041,7 +2041,7 @@ function FlightDetails({ event }: { event: TripEvent }) {
 function recommendationText(day: Day, period: Period) {
   const options: Record<string, Partial<Record<Period, string[]>>> = {
     "2026-10-10": {
-      Morning: ["Punanga Nui Market", "Coffee in Avarua", "Sleep in if needed"],
+      Morning: ["Punanga Nui Market", "Coffee in Avarua", "Easy market stroll"],
       Afternoon: ["Villa pool", "Midday rest", "Get ready for the turtle snorkel"],
     },
     "2026-10-11": {
