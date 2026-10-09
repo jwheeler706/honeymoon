@@ -2174,6 +2174,9 @@ function MapView({
       <div className="map-header">
         <div>
           <p className="section-label" id="map-title">{isAitutakiOnly ? "Aitutaki map" : "Island map"}</p>
+          <p className="map-selected-date" aria-live="polite">
+            {allDatesSelected ? "All dates" : formatLongDate(startDate)}
+          </p>
         </div>
       </div>
 

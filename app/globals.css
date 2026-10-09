@@ -1118,6 +1118,12 @@ button {
   line-height: 1.42;
 }
 
+.map-header .map-selected-date {
+  color: var(--ink);
+  font-size: 0.95rem;
+  font-weight: 650;
+}
+
 .map-layout {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
