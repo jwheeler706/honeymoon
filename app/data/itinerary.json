@@ -214,17 +214,24 @@
     {
       "date": "2026-10-11",
       "weekday": "Sunday",
-      "title": "West and North Island Day",
+      "title": "Villa Massage and Tamarind",
       "status": "flexible",
-      "theme": "scenic island day",
-      "summary": "North/west island day. Tamarind at night.",
+      "theme": "villa and easy outing",
+      "summary": "Villa massage to book, then an easy east/north outing before Tamarind.",
       "events": [
         {
-          "title": "North and west island loop",
-          "time": "09:00",
+          "title": "Couples massage at Sea Change Villas",
+          "time": "morning",
+          "status": "pending",
+          "type": "activity",
+          "notes": "Not booked yet. Ask for an 11:00 or 11:30 AM start at the villa; confirm the session length."
+        },
+        {
+          "title": "North/east-side wander before Tamarind",
+          "time": "afternoon",
           "status": "flexible",
           "type": "activity",
-          "notes": "Wander through Aroa, Arorangi, Black Rock, and a few beach stops."
+          "notes": "Optional east-coast or Avarua stops on the way to dinner; skip the west-side loop."
         },
         {
           "title": "Dinner at Tamarind House main restaurant",
@@ -234,8 +241,8 @@
           "notes": "Confirmed reservation."
         }
       ],
-      "transport": "Rental car.",
-      "notes": "Do not overpack."
+      "transport": "One easy outing toward Tamarind after the villa morning.",
+      "notes": "Keep sightseeing optional after the massage."
     },
     {
       "date": "2026-10-12",
@@ -243,14 +250,14 @@
       "title": "West-Side Beach Day and On the Beach",
       "status": "confirmed",
       "theme": "beach and dinner",
-      "summary": "West-side beach day. On the Beach at sunset.",
+      "summary": "West-side beach time, then On the Beach at 6:00 without a villa detour.",
       "events": [
         {
           "title": "West-side beach day",
-          "time": "09:00",
+          "time": "afternoon",
           "status": "flexible",
           "type": "activity",
-          "notes": "Leave the afternoon open for beach time, snorkeling, and wandering."
+          "notes": "Start when ready. Explore Aroa and Arorangi, swim if conditions suit, and stay west for dinner."
         },
         {
           "title": "Dinner at On the Beach Bar & Restaurant",
@@ -261,7 +268,7 @@
         }
       ],
       "transport": "Rental car.",
-      "notes": "Leave time before dinner."
+      "notes": "No need to drive back to the villa before dinner."
     },
     {
       "date": "2026-10-13",
@@ -338,6 +345,13 @@
           "notes": "Only if weather and energy line up."
         },
         {
+          "title": "Black Rock stop before Antipodes",
+          "time": "afternoon",
+          "status": "flexible",
+          "type": "activity",
+          "notes": "Optional short west-side stop on the way to dinner, only if weather and energy suit."
+        },
+        {
           "title": "Antipodes dinner",
           "time": "18:30",
           "status": "confirmed",
@@ -346,7 +360,7 @@
         }
       ],
       "transport": "Rental car.",
-      "notes": "Buffer day."
+      "notes": "Buffer day; Black Rock is optional en route to dinner."
     },
     {
       "date": "2026-10-16",

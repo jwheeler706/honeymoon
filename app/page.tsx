@@ -357,12 +357,12 @@ const mapPlaces: MapPlace[] = [
     lng: -159.762705,
   }),
   mappedItineraryPlace({
-    id: "black-rock",
+    id: "north-east-wander",
     date: "2026-10-11",
-    eventTitle: "North and west island loop",
-    area: "Black Rock stop (one option)",
-    lat: -21.21,
-    lng: -159.82,
+    eventTitle: "North/east-side wander before Tamarind",
+    area: "East coast (one option)",
+    lat: -21.25,
+    lng: -159.736,
   }),
   mappedItineraryPlace({
     id: "west-side-beach",
@@ -403,6 +403,14 @@ const mapPlaces: MapPlace[] = [
     area: "Raemaru (if chosen)",
     lat: -21.23646,
     lng: -159.81681,
+  }),
+  mappedItineraryPlace({
+    id: "black-rock",
+    date: "2026-10-15",
+    eventTitle: "Black Rock stop before Antipodes",
+    area: "Black Rock",
+    lat: -21.21,
+    lng: -159.82,
   }),
   mappedItineraryPlace({
     id: "antipodes",
@@ -971,7 +979,8 @@ function headerKeyForEvent(event: TripEvent): HeaderKey {
 const activityHeaderNames: Record<string, string> = {
   "Punanga Nui Market / Avarua": "Punanga Nui Market",
   "Dinner at Nautilus Resort": "Nautilus Resort",
-  "North and west island loop": "North and West Island Loop",
+  "Couples massage at Sea Change Villas": "Couples Massage",
+  "North/east-side wander before Tamarind": "East Coast Wander",
   "Dinner at Tamarind House main restaurant": "Tamarind House",
   "West-side beach day": "West-side Beach",
   "Dinner at On the Beach Bar & Restaurant": "On the Beach",
@@ -1054,11 +1063,10 @@ function mapPlaceForEvent(event: TripEvent, day?: Day) {
   if (day?.date === "2026-10-15" && title === "lagoon / beach / villa day") return "sea-change-villas";
   if (combined.includes("punanga")) return "punanga-nui-market";
   if (combined.includes("nautilus")) return "nautilus";
-  if (combined.includes("tamarind")) return "tamarind";
-  if (combined.includes("black rock") || combined.includes("arorangi") || combined.includes("north and west")) {
-    return "black-rock";
-  }
   if (title.includes("west-side beach day")) return "west-side-beach";
+  if (title.includes("north/east-side wander")) return "north-east-wander";
+  if (title.includes("black rock")) return "black-rock";
+  if (combined.includes("tamarind")) return "tamarind";
   if (combined.includes("on the beach")) return "otb";
   if (combined.includes("turtle")) return "turtles";
   if (day?.date === "2026-10-15" && title === "optional hike") return "optional-hike";
@@ -1088,8 +1096,9 @@ function eventDetailNote(event: TripEvent) {
 function mapDescription(event: TripEvent) {
   const shortNotes: Record<string, string> = {
     "Punanga Nui Market / Avarua": "Browse food and craft stalls.",
-    "North and west island loop": "Scenic loop via Aroa, Arorangi and Black Rock.",
+    "North/east-side wander before Tamarind": "Optional stops on the way to Tamarind.",
     "West-side beach day": "Beach and snorkeling on the west side.",
+    "Black Rock stop before Antipodes": "Optional stop on the way to Antipodes.",
     "Swim With The Turtles Rarotonga": "Arrive 10-15 minutes early.",
     "Slow villa morning at Sea Change": "Slow morning by the villa or lagoon.",
     "Raemaru Trek or a flexible land day": "Trek if the weather suits.",
@@ -1192,12 +1201,12 @@ function periodTone(day: Day, period: Period) {
       Evening: "Nautilus dinner at 7:30 after the snorkel.",
     },
     "2026-10-11": {
-      Morning: "Easy start before the island loop.",
-      Afternoon: "Scenic stops, beach time, and an easy reset before dinner.",
+      Morning: "Slow villa morning; couples massage if booked.",
+      Afternoon: "Easy east/north stops on the way to dinner, if you feel like it.",
       Evening: "Tamarind House main restaurant.",
     },
     "2026-10-12": {
-      Afternoon: "West-side beach day with a sunset dinner shape.",
+      Afternoon: "West-side beach time; stay nearby for dinner.",
       Evening: "On the Beach at 6:00.",
     },
     "2026-10-13": {
@@ -1212,7 +1221,7 @@ function periodTone(day: Day, period: Period) {
     },
     "2026-10-15": {
       Morning: "Slow honeymoon morning.",
-      Afternoon: "Beach, lagoon, villa, or a flexible hike.",
+      Afternoon: "Relax, or stop at Black Rock on the way to Antipodes.",
       Evening: "Antipodes at 6:30.",
     },
     "2026-10-16": {
@@ -2036,12 +2045,12 @@ function recommendationText(day: Day, period: Period) {
       Afternoon: ["Villa pool", "Midday rest", "Get ready for the turtle snorkel"],
     },
     "2026-10-11": {
-      Morning: ["Aroa Beach", "Black Rock", "Scenic driver loop"],
-      Afternoon: ["Beach drink stop", "Arorangi wandering", "Back to change before dinner"],
+      Morning: ["Slow villa breakfast", "Couples massage if booked"],
+      Afternoon: ["East-coast stops", "Avarua wander"],
     },
     "2026-10-12": {
-      Morning: ["West-side snorkel", "Slow breakfast", "Beach bag day"],
-      Afternoon: ["Lagoon time", "Sunset timing", "No-rush return"],
+      Morning: ["Slow breakfast", "Beach bag day"],
+      Afternoon: ["Aroa swim", "Arorangi wander"],
     },
     "2026-10-13": {
       Morning: ["Villa breakfast", "Titikaveka swim", "Charlie's for early lunch"],
@@ -2054,7 +2063,7 @@ function recommendationText(day: Day, period: Period) {
     },
     "2026-10-15": {
       Morning: ["Slow villa morning", "Lagoon float", "Raemaru if not done"],
-      Afternoon: ["Protected downtime", "Muri wander", "Beach nap"],
+      Afternoon: ["Protected downtime", "Black Rock on the way to dinner"],
       Evening: ["Antipodes", "Sunset timing", "Easy ride back"],
     },
     "2026-10-16": {
