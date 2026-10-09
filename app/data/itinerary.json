@@ -12,27 +12,12 @@
     },
     "transportPlan": {
       "arrival": "Late night arrival on Friday, October 9, 2026. Arrival transfer details TBD.",
-      "driverDays": [
-        "2026-10-10",
-        "2026-10-11",
-        "2026-10-12"
-      ],
-      "rentalCarStarts": "2026-10-13",
+      "rentalCarStarts": "2026-10-10",
       "rentalCar": {
-        "vehicleCategory": "Mid Sport",
-        "pickupLocation": "Rarotonga Airport",
-        "pickupDate": "2026-10-13",
+        "pickupDate": "2026-10-10",
         "pickupTime": "09:00",
-        "dropoffLocation": "Rarotonga Airport",
-        "dropoffDate": "2026-10-17",
-        "dropoffTime": "11:00",
-        "notes": "11:00 AM return."
-      },
-      "notes": [
-        "Use driver days preferentially for farther north and west-side destinations.",
-        "Keep nearby south/east/Titikaveka/Muri activities for rental-car days.",
-        "Use the rental car for flexible local logistics from October 13 onward."
-      ]
+        "notes": "9:00 AM pickup arranged."
+      }
     },
     "hikeOptions": {
       "status": "flexible",
@@ -56,8 +41,7 @@
       "Anchor each day around confirmed bookings.",
       "Keep honeymoon pacing relaxed rather than checklist-driven.",
       "Preserve buffers before and after scheduled activities.",
-      "Use chauffeur time for broader island exploration, not simple nearby transfers.",
-      "Use the rental car for flexible south/east/Titikaveka/Muri logistics from October 13 onward.",
+      "Use the rental car for flexible island exploration from October 10 onward.",
       "Mix romantic dinners with casual food and unstructured time.",
       "Aim for roughly 3-4 standout dinners, 2-3 major activities, and substantial flexible beach/villa time.",
       "Do not add another fine-dining reservation automatically.",
@@ -181,14 +165,21 @@
       "title": "Avarua, Market, and Nautilus",
       "status": "confirmed",
       "theme": "light exploration",
-      "summary": "Easy first day. Nautilus at night.",
+      "summary": "9:00 AM car pickup, then the market. Nautilus at night.",
       "events": [
         {
+          "title": "Pickup for rental car",
+          "time": "09:00",
+          "status": "confirmed",
+          "type": "travel",
+          "notes": "9:00 AM pickup arranged."
+        },
+        {
           "title": "Punanga Nui Market / Avarua",
-          "time": "morning",
+          "time": "10:00",
           "status": "suggested",
           "type": "activity",
-          "notes": "Look for poke or fruit, pearls, pareu, local crafts, and the Saturday stage."
+          "notes": "Flexible late-morning stop after the car pickup. Look for poke or fruit, pearls, pareu, local crafts, and the Saturday stage."
         },
         {
           "title": "Relax at Sea Change Villas",
@@ -205,7 +196,7 @@
           "notes": "Confirmed reservation."
         }
       ],
-      "transport": "Driver available.",
+      "transport": "9:00 AM pickup for the rental car.",
       "notes": "Stay relaxed."
     },
     {
@@ -213,7 +204,7 @@
       "weekday": "Sunday",
       "title": "West and North Island Day",
       "status": "flexible",
-      "theme": "chauffeured scenic day",
+      "theme": "scenic island day",
       "summary": "North/west island day. Tamarind at night.",
       "events": [
         {
@@ -231,7 +222,7 @@
           "notes": "Confirmed reservation."
         }
       ],
-      "transport": "Driver day.",
+      "transport": "Rental car.",
       "notes": "Do not overpack."
     },
     {
@@ -257,7 +248,7 @@
           "notes": "6:00 PM."
         }
       ],
-      "transport": "Driver day.",
+      "transport": "Rental car.",
       "notes": "Leave time before dinner."
     },
     {
@@ -268,13 +259,6 @@
       "theme": "south-side lagoon day",
       "summary": "Slow morning. Turtle snorkel at 2:30.",
       "events": [
-        {
-          "title": "Pick up Mid Sport rental car at Rarotonga Airport",
-          "time": "09:00",
-          "status": "confirmed",
-          "type": "travel",
-          "notes": "Confirmed pickup."
-        },
         {
           "title": "Slow villa morning at Sea Change",
           "time": "morning",
@@ -307,7 +291,7 @@
           "notes": "Choose takeaway or somewhere casual after the snorkel."
         }
       ],
-      "transport": "Rental car starts at 9:00 AM.",
+      "transport": "Rental car.",
       "notes": "Turtle snorkel is the anchor."
     },
     {
@@ -447,13 +431,6 @@
           "notes": "Keep plans close and easy."
         },
         {
-          "title": "Return rental car at Rarotonga Airport",
-          "time": "11:00",
-          "status": "confirmed",
-          "type": "travel",
-          "notes": "11:00 AM return."
-        },
-        {
           "title": "AS 896 to Honolulu",
           "time": "12:05",
           "status": "confirmed",
@@ -495,7 +472,7 @@
           }
         }
       ],
-      "transport": "13h 55m travel. Transfer TBD.",
+      "transport": "13h 55m travel.",
       "notes": "Keep departure easy."
     },
     {
@@ -559,6 +536,14 @@
     },
     {
       "date": "2026-10-10",
+      "time": "09:00",
+      "name": "Pickup for rental car",
+      "type": "transport",
+      "status": "confirmed",
+      "notes": "9:00 AM pickup arranged."
+    },
+    {
+      "date": "2026-10-10",
       "time": "18:00",
       "name": "Nautilus Resort",
       "type": "dinner",
@@ -580,14 +565,6 @@
       "type": "dinner",
       "status": "confirmed",
       "notes": "6:00 PM."
-    },
-    {
-      "date": "2026-10-13",
-      "time": "09:00",
-      "name": "Pick up Mid Sport rental car",
-      "type": "transport",
-      "status": "confirmed",
-      "notes": "Rarotonga Airport."
     },
     {
       "date": "2026-10-13",
@@ -622,14 +599,6 @@
       "type": "dinner",
       "status": "confirmed",
       "notes": "Tour company drop-off around 5:00 PM."
-    },
-    {
-      "date": "2026-10-17",
-      "time": "11:00",
-      "name": "Return rental car at Rarotonga Airport",
-      "type": "transport",
-      "status": "confirmed",
-      "notes": "11:00 AM return."
     }
   ]
 }

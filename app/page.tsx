@@ -375,18 +375,6 @@ const mapPlaces: MapPlace[] = [
     lng: -159.8292,
   },
   {
-    id: "rarotonga-airport-car-pickup",
-    name: "Rental car pickup",
-    date: "2026-10-13",
-    period: "Morning",
-    status: "confirmed",
-    type: "travel",
-    area: "Avarua / Nikao",
-    note: "Pick up the rental car at 9:00 AM.",
-    lat: -21.2027,
-    lng: -159.806,
-  },
-  {
     id: "turtles",
     name: "Swim With The Turtles Rarotonga",
     date: "2026-10-13",
@@ -494,7 +482,7 @@ const mapPlaces: MapPlace[] = [
     status: "confirmed",
     type: "travel",
     area: "Avarua / Nikao",
-    note: "Return the rental car at 11:00 AM, then depart on AS 896 at 12:05 PM.",
+    note: "Depart on AS 896 at 12:05 PM.",
     lat: -21.2027,
     lng: -159.806,
   },
@@ -1062,7 +1050,6 @@ function airportMapPlaceForEvent(event: TripEvent, day?: Day) {
 
   if (!combined.includes("rar") && !combined.includes("rarotonga airport")) return null;
   if (day?.date === "2026-10-09") return "rarotonga-airport-arrival";
-  if (day?.date === "2026-10-13") return "rarotonga-airport-car-pickup";
   if (day?.date === "2026-10-16" && (combined.includes("ait") || combined.includes("aitutaki"))) {
     return "aitutaki-airport";
   }
@@ -1461,9 +1448,7 @@ export default function Home() {
     if (!day) return;
 
     const matchingEvents = day.events.filter((event) => mapPlaceForEvent(event, day) === place.id);
-    const matchingEvent = place.id === "rarotonga-airport-car-pickup"
-      ? matchingEvents.find((event) => normalizedMatch(event.title).includes("rental")) ?? matchingEvents[0]
-      : matchingEvents.find((event) => event.flight) ?? matchingEvents[0];
+    const matchingEvent = matchingEvents.find((event) => event.flight) ?? matchingEvents[0];
     const targetId = matchingEvent
       ? `event-${eventKey(day, matchingEvent)}`
       : `period-${day.date}-${place.period.toLowerCase()}`;
