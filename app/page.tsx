@@ -302,7 +302,7 @@ function mappedItineraryPlace(
   return {
     ...place,
     name: event.title,
-    note: eventDetailNote(event),
+    note: mapDescription(event),
     status: event.status,
     type: event.type,
     period: eventPeriod(event),
@@ -1083,6 +1083,19 @@ function eventDetailNote(event: TripEvent) {
   const normalizedTime = formatTime(event.time).trim().toLowerCase();
   if (normalizedNote === normalizedTime) return "";
   return event.notes;
+}
+
+function mapDescription(event: TripEvent) {
+  const shortNotes: Record<string, string> = {
+    "Punanga Nui Market / Avarua": "Saturday market; closes at noon.",
+    "North and west island loop": "Scenic loop via Aroa, Arorangi and Black Rock.",
+    "West-side beach day": "Beach and snorkeling on the west side.",
+    "Swim With The Turtles Rarotonga": "Arrive 10-15 minutes early.",
+    "Slow villa morning at Sea Change": "Slow morning by the villa or lagoon.",
+    "Raemaru Trek or a flexible land day": "Trek if the weather suits.",
+    "Lagoon / beach / villa day": "Open villa, lagoon or beach day.",
+  };
+  return shortNotes[event.title] ?? eventDetailNote(event);
 }
 
 function compactMapDate(place: MapPlace) {
@@ -2092,7 +2105,7 @@ function MapView({
         ...homeBase,
         date: selectedDay.date,
         name: homeEvent.title,
-        note: eventDetailNote(homeEvent),
+        note: mapDescription(homeEvent),
         status: homeEvent.status,
         type: homeEvent.type,
         period: eventPeriod(homeEvent),
