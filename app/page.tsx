@@ -64,7 +64,7 @@ type CalendarItem = TripEvent & {
   period: Period;
 };
 
-type TripData = typeof itinerary & {
+type TripData = Omit<typeof itinerary, "days" | "reservations"> & {
   days: Day[];
   reservations: Reservation[];
 };
@@ -1818,7 +1818,7 @@ function PackingListView({
   const [draft, setDraft] = useState("");
   const [category, setCategory] = useState<PackingCategory>("Essentials");
   const [deleteCandidate, setDeleteCandidate] = useState<string | null>(null);
-  const longPressTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const longPressTimer = useRef<number | null>(null);
   const pressOrigin = useRef<{ x: number; y: number } | null>(null);
   const packedCount = items.filter((item) => item.packed).length;
 
