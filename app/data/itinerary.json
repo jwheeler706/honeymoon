@@ -352,10 +352,10 @@
     {
       "date": "2026-10-16",
       "weekday": "Friday",
-      "title": "Aitutaki Day Trip",
+      "title": "Aitutaki Boat Charter",
       "status": "confirmed",
       "theme": "major excursion",
-      "summary": "Return the rental car before the Aitutaki flight. One Foot Island lunch, Blue Lagoon dinner.",
+      "summary": "Return the rental car before the Aitutaki flight, then boat charter, One Foot Island lunch, and Blue Lagoon dinner.",
       "events": [
         {
           "title": "Return rental car at Rarotonga Airport",
@@ -383,7 +383,7 @@
           }
         },
         {
-          "title": "Aitutaki lagoon day trip",
+          "title": "Aitutaki boat charter",
           "time": "09:00",
           "status": "confirmed",
           "type": "excursion",
@@ -394,7 +394,7 @@
           "time": "afternoon",
           "status": "confirmed",
           "type": "meal",
-          "notes": "Lagoon cruise lunch stop."
+          "notes": "Lunch stop on the boat charter."
         },
         {
           "title": "Dinner at Blue Lagoon Restaurant",
@@ -621,7 +621,7 @@
     {
       "date": "2026-10-16",
       "time": "09:00",
-      "name": "Aitutaki lagoon day trip",
+      "name": "Aitutaki boat charter",
       "type": "excursion",
       "status": "confirmed",
       "notes": "GZ-612 out, GZ-621 back. Ref NIPXNP."

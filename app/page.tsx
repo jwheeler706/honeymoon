@@ -423,7 +423,7 @@ const mapPlaces: MapPlace[] = [
   mappedItineraryPlace({
     id: "aitutaki",
     date: "2026-10-16",
-    eventTitle: "Aitutaki lagoon day trip",
+    eventTitle: "Aitutaki boat charter",
     area: "Aitutaki",
     lat: -18.8585,
     lng: -159.7789,
@@ -987,7 +987,7 @@ const activityHeaderNames: Record<string, string> = {
   "Swim With The Turtles Rarotonga": "Swim With The Turtles",
   "Optional Raemaru Trek": "Raemaru Trek",
   "Antipodes dinner": "Antipodes",
-  "Aitutaki lagoon day trip": "Aitutaki Lagoon",
+  "Aitutaki boat charter": "Aitutaki Boat Charter",
   "Lunch on One Foot Island / Tapuaetai": "One Foot Island",
   "Dinner at Blue Lagoon Restaurant": "Blue Lagoon Restaurant",
 };
@@ -1102,6 +1102,7 @@ function mapDescription(event: TripEvent) {
     "Swim With The Turtles Rarotonga": "Arrive 10-15 minutes early.",
     "Optional Raemaru Trek": "Trek only if the trail is dry.",
     "Muri Night Market": "Dinner from the food stalls.",
+    "Aitutaki boat charter": "Boat charter on the lagoon.",
     "Villa or lagoon morning": "Easy villa or lagoon time.",
   };
   return shortNotes[event.title] ?? eventDetailNote(event);
