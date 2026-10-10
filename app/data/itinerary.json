@@ -255,7 +255,7 @@
         },
         {
           "title": "Sunset platter at Sea Change Villas",
-          "time": "18:00",
+          "time": "17:30",
           "status": "confirmed",
           "type": "meal",
           "notes": "Sunset dinner at the villa."
@@ -585,7 +585,7 @@
     },
     {
       "date": "2026-10-12",
-      "time": "18:00",
+      "time": "17:30",
       "name": "Sunset platter at Sea Change Villas",
       "type": "dinner",
       "status": "confirmed",
