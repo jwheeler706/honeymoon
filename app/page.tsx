@@ -492,6 +492,14 @@ const galleryImages: GalleryImage[] = [
     alt: "Lagoon View Villa at Sea Change Villas in Rarotonga.",
   },
   {
+    id: "turtles",
+    title: "Swim With The Turtles",
+    date: "2026-10-10",
+    label: "Snorkel",
+    image: "/images/turtles.webp",
+    alt: "Sea turtle underwater during a Snorkel Cook Islands excursion.",
+  },
+  {
     id: "nautilus",
     title: "Nautilus Resort",
     date: "2026-10-10",
@@ -571,14 +579,6 @@ const galleryImages: GalleryImage[] = [
     label: "Beach",
     image: "/images/south-coast-beach.jpg",
     alt: "Palm-lined beach and turquoise water on Rarotonga's south coast.",
-  },
-  {
-    id: "turtles",
-    title: "Swim With The Turtles",
-    date: "2026-10-10",
-    label: "Snorkel",
-    image: "/images/turtles.webp",
-    alt: "Sea turtle underwater during a Snorkel Cook Islands excursion.",
   },
   {
     id: "black-rock",
@@ -2006,17 +2006,8 @@ function PackingListView({
 }
 
 function GalleryView({ images }: { images: GalleryImage[] }) {
-  const scenicOrder = new Map(
-    ["lagoon", "muri-beach", "muri-islets", "rarotonga-peaks", "lagoon-swim", "palm-beach"].map((id, index) => [
-      id,
-      index,
-    ]),
-  );
-  const orderedImages = images.filter((image) => !scenicOrder.has(image.id)).sort((a, b) => {
-    const aOrder = scenicOrder.get(a.id) ?? Number.MAX_SAFE_INTEGER;
-    const bOrder = scenicOrder.get(b.id) ?? Number.MAX_SAFE_INTEGER;
-    return aOrder - bOrder;
-  });
+  const scenicIds = new Set(["lagoon", "muri-beach", "muri-islets", "rarotonga-peaks", "lagoon-swim", "palm-beach"]);
+  const orderedImages = images.filter((image) => !scenicIds.has(image.id)).sort((a, b) => a.date.localeCompare(b.date));
 
   return (
     <section className="gallery-view" aria-label="Gallery">
