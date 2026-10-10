@@ -594,6 +594,7 @@ const galleryImages: GalleryImage[] = [
     label: "Dinner",
     image: "/images/antipodes.jpg",
     alt: "Set dining table on Antipodes' ocean-view terrace in Rarotonga.",
+    position: "center 92%",
   },
   {
     id: "aitutaki",
@@ -1692,6 +1693,7 @@ export default function Home() {
                                       className="event-photo"
                                       loading="lazy"
                                       src={eventImage.image}
+                                      style={eventImage.position ? { objectPosition: eventImage.position } : undefined}
                                     />
                                   ) : null}
                                   {event.flight ? <FlightDetails event={event} /> : null}
@@ -2311,7 +2313,12 @@ function MapView({
                   type="button"
                 >
                   {selectedMapImage ? (
-                    <img alt={selectedMapImage.alt} loading="lazy" src={selectedMapImage.image} />
+                    <img
+                      alt={selectedMapImage.alt}
+                      loading="lazy"
+                      src={selectedMapImage.image}
+                      style={selectedMapImage.position ? { objectPosition: selectedMapImage.position } : undefined}
+                    />
                   ) : null}
                   <strong style={textOnlyPopupTextStyle}>{selectedMapPlace.name}</strong>
                   <span style={textOnlyPopupTextStyle}>
