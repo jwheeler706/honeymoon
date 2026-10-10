@@ -521,6 +521,7 @@ const galleryImages: GalleryImage[] = [
     date: "2026-10-13",
     label: "Island Night",
     image: "/images/edgewater-island-night.jpg",
+    position: "center 18%",
     alt: "Dancers and musicians performing on stage at Edgewater's Island Night.",
   },
   {
