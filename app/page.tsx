@@ -595,7 +595,7 @@ const galleryImages: GalleryImage[] = [
     label: "Dinner",
     image: "/images/antipodes.jpg",
     alt: "Set dining table on Antipodes' ocean-view terrace in Rarotonga.",
-    position: "center 92%",
+    position: "center 70%",
   },
   {
     id: "aitutaki",
