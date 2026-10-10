@@ -267,28 +267,35 @@
     {
       "date": "2026-10-13",
       "weekday": "Tuesday",
-      "title": "West-Side Beach Day and On the Beach",
+      "title": "West-Side Beach Day and Island Night",
       "status": "confirmed",
-      "theme": "beach and dinner",
-      "summary": "West-side beach time, then On the Beach at 6:00.",
+      "theme": "beach and island night",
+      "summary": "Optional On the Beach lunch or drinks, west-side beach time, then Island Night at Edgewater.",
       "events": [
+        {
+          "title": "Optional lunch or drinks at On the Beach",
+          "time": "afternoon",
+          "status": "flexible",
+          "type": "meal",
+          "notes": "Lunch before the beach is easiest; an early drink also works if you are nearby before Edgewater."
+        },
         {
           "title": "West-side beach day",
           "time": "afternoon",
           "status": "flexible",
           "type": "activity",
-          "notes": "Start when ready. Explore Aroa and Arorangi, swim if conditions suit, and stay west for dinner."
+          "notes": "Start when ready. Explore Aroa and Arorangi, and swim if conditions suit."
         },
         {
-          "title": "Dinner at On the Beach Bar & Restaurant",
-          "time": "18:00",
+          "title": "Island Night at Edgewater",
+          "time": "18:30",
           "status": "confirmed",
           "type": "reservation",
-          "notes": "6:00 PM."
+          "notes": "Check-in for the Island Umukai Feast and cultural show."
         }
       ],
       "transport": "Rental car.",
-      "notes": "Stay on the west side through dinner."
+      "notes": "Stay on the west side through Island Night."
     },
     {
       "date": "2026-10-14",
@@ -586,11 +593,11 @@
     },
     {
       "date": "2026-10-13",
-      "time": "18:00",
-      "name": "On the Beach Bar & Restaurant",
+      "time": "18:30",
+      "name": "Island Night at Edgewater",
       "type": "dinner",
       "status": "confirmed",
-      "notes": "6:00 PM."
+      "notes": "Check-in for the Island Umukai Feast and cultural show."
     },
     {
       "date": "2026-10-10",

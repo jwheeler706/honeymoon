@@ -375,10 +375,18 @@ const mapPlaces: MapPlace[] = [
   mappedItineraryPlace({
     id: "otb",
     date: "2026-10-13",
-    eventTitle: "Dinner at On the Beach Bar & Restaurant",
+    eventTitle: "Optional lunch or drinks at On the Beach",
     area: "West side",
     lat: -21.22471,
     lng: -159.8292,
+  }),
+  mappedItineraryPlace({
+    id: "edgewater",
+    date: "2026-10-13",
+    eventTitle: "Island Night at Edgewater",
+    area: "Arorangi",
+    lat: -21.219,
+    lng: -159.8286,
   }),
   mappedItineraryPlace({
     id: "turtles",
@@ -503,9 +511,17 @@ const galleryImages: GalleryImage[] = [
     id: "otb",
     title: "On the Beach Bar & Restaurant",
     date: "2026-10-13",
-    label: "Beach dinner",
+    label: "Lunch or drinks",
     image: "/images/otb.jpg",
     alt: "Beachfront dining room at On the Beach in Rarotonga.",
+  },
+  {
+    id: "edgewater",
+    title: "Island Night at Edgewater",
+    date: "2026-10-13",
+    label: "Island Night",
+    image: "/images/edgewater-island-night.jpg",
+    alt: "Dancers and musicians performing on stage at Edgewater's Island Night.",
   },
   {
     id: "lagoon",
@@ -562,6 +578,14 @@ const galleryImages: GalleryImage[] = [
     label: "Snorkel",
     image: "/images/turtles.webp",
     alt: "Sea turtle underwater during a Snorkel Cook Islands excursion.",
+  },
+  {
+    id: "antipodes",
+    title: "Antipodes",
+    date: "2026-10-15",
+    label: "Dinner",
+    image: "/images/antipodes.jpg",
+    alt: "Set dining table on Antipodes' ocean-view terrace in Rarotonga.",
   },
   {
     id: "aitutaki",
@@ -983,7 +1007,8 @@ const activityHeaderNames: Record<string, string> = {
   "North/east-side wander before Tamarind": "East Coast Wander",
   "Dinner at Tamarind House main restaurant": "Tamarind House",
   "West-side beach day": "West-side Beach",
-  "Dinner at On the Beach Bar & Restaurant": "On the Beach",
+  "Optional lunch or drinks at On the Beach": "On the Beach",
+  "Island Night at Edgewater": "Island Night",
   "Swim With The Turtles Rarotonga": "Swim With The Turtles",
   "Optional Raemaru Trek": "Raemaru Trek",
   "Antipodes dinner": "Antipodes",
@@ -1007,6 +1032,8 @@ function imageForEvent(event: TripEvent) {
   if (title.includes("otb") || title.includes("on the beach")) {
     return galleryImages.find((image) => image.id === "otb") ?? null;
   }
+  if (title.includes("edgewater")) return galleryImages.find((image) => image.id === "edgewater") ?? null;
+  if (title.includes("antipodes")) return galleryImages.find((image) => image.id === "antipodes") ?? null;
   if (title.includes("blue lagoon")) return galleryImages.find((image) => image.id === "blue-lagoon") ?? null;
   if (title.includes("one foot") || title.includes("tapuaetai")) {
     return galleryImages.find((image) => image.id === "one-foot") ?? null;
@@ -1069,6 +1096,7 @@ function mapPlaceForEvent(event: TripEvent, day?: Day) {
   if (title.includes("black rock")) return "black-rock";
   if (combined.includes("tamarind")) return "tamarind";
   if (combined.includes("on the beach")) return "otb";
+  if (combined.includes("edgewater")) return "edgewater";
   if (combined.includes("turtle")) return "turtles";
   if (combined.includes("raemaru") || combined.includes("hike")) return "raemaru";
   if (combined.includes("antipodes")) return "antipodes";
@@ -1098,6 +1126,8 @@ function mapDescription(event: TripEvent) {
     "Punanga Nui Market / Avarua": "Browse food and craft stalls.",
     "North/east-side wander before Tamarind": "Optional stops on the way to Tamarind.",
     "West-side beach day": "Beach and snorkeling on the west side.",
+    "Optional lunch or drinks at On the Beach": "Optional lunch or an early drink.",
+    "Island Night at Edgewater": "Island Umukai Feast and cultural show.",
     "Black Rock stop before Antipodes": "Optional stop on the way to Antipodes.",
     "Swim With The Turtles Rarotonga": "Arrive 10-15 minutes early.",
     "Optional Raemaru Trek": "Trek only if the trail is dry.",
@@ -1212,8 +1242,8 @@ function periodTone(day: Day, period: Period) {
       Evening: "Sunset platter at the villa.",
     },
     "2026-10-13": {
-      Afternoon: "West-side beach time; stay nearby for dinner.",
-      Evening: "On the Beach at 6:00.",
+      Afternoon: "Optional OTB stop and west-side beach time.",
+      Evening: "Edgewater check-in at 6:30.",
     },
     "2026-10-14": {
       Morning: "Raemaru only if the trail is dry and you feel up for it.",

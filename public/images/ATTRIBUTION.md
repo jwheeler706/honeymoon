@@ -4,6 +4,8 @@
 - `nautilus.webp`: Nautilus Resort Rarotonga.
 - `tamarind.webp`: Tamarind House Rarotonga.
 - `otb.jpg`: On the Beach Bar & Restaurant / Enjoy Cook Islands.
+- `edgewater-island-night.jpg`: [Cook Islands Tourism, Edgewater Island Night](https://cookislands.travel/supplier/island-night-umukai-feast-edgewater-resort-spa).
+- `antipodes.jpg`: [Antipodes Rarotonga, Restaurant](https://www.antipodesrarotonga.com/restaurant).
 - `turtles.webp`: Snorkel Cook Islands.
 - `blue-lagoon.jpg`: Aitutaki Village, Blue Lagoon Beach Bar and Restaurant.
 - `one-foot.jpg`: Wikimedia Commons, "One Foot Island Aitutaki Cook Islands (5651684648)", CC BY-SA 2.0.
