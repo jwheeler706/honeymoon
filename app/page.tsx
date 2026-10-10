@@ -580,6 +580,14 @@ const galleryImages: GalleryImage[] = [
     alt: "Sea turtle underwater during a Snorkel Cook Islands excursion.",
   },
   {
+    id: "black-rock",
+    title: "Black Rock",
+    date: "2026-10-15",
+    label: "Optional stop",
+    image: "/images/black-rock.jpg",
+    alt: "Black Rock's dark volcanic outcrop and beach on Rarotonga.",
+  },
+  {
     id: "antipodes",
     title: "Antipodes",
     date: "2026-10-15",
@@ -1033,6 +1041,7 @@ function imageForEvent(event: TripEvent) {
     return galleryImages.find((image) => image.id === "otb") ?? null;
   }
   if (title.includes("edgewater")) return galleryImages.find((image) => image.id === "edgewater") ?? null;
+  if (title.includes("black rock")) return galleryImages.find((image) => image.id === "black-rock") ?? null;
   if (title.includes("antipodes")) return galleryImages.find((image) => image.id === "antipodes") ?? null;
   if (title.includes("blue lagoon")) return galleryImages.find((image) => image.id === "blue-lagoon") ?? null;
   if (title.includes("one foot") || title.includes("tapuaetai")) {
