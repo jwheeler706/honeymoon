@@ -312,6 +312,19 @@ button {
   transform: translateY(-50%);
 }
 
+.title-block .header-phase {
+  margin-top: 7px;
+  font-size: 0.7rem;
+}
+
+.header-phase.is-current {
+  color: #b9f3e4;
+}
+
+.header-phase.is-up-next {
+  color: #f5d99c;
+}
+
 .title-block h1 {
   max-width: 760px;
   margin: 4px 0;

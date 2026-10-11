@@ -15,6 +15,7 @@ type TripEvent = {
   provider?: string;
   location?: string;
   duration?: string;
+  partOf?: string;
   flight?: {
     number: string;
     airline: string;
@@ -228,6 +229,7 @@ type HeaderContext = {
   title: string;
   subtitle: string;
   focusTitle?: string;
+  upNext?: boolean;
 };
 
 type WeatherInfo = {
@@ -1031,6 +1033,14 @@ function eventStartMinutes(event: TripEvent) {
   return hours * 60 + minutes;
 }
 
+function eventDurationMinutes(event: TripEvent) {
+  const duration = event.duration ?? event.flight?.duration ?? "";
+  const hours = duration.match(/(\d+(?:\.\d+)?)\s*h(?:ours?)?/i);
+  const minutes = duration.match(/(\d+)\s*m(?:in(?:ute)?s?)?/i);
+  if (hours || minutes) return Math.round(Number(hours?.[1] ?? 0) * 60 + Number(minutes?.[1] ?? 0));
+  return 150;
+}
+
 function headerKeyForEvent(event: TripEvent): HeaderKey {
   const title = event.title.toLowerCase();
   if (title.includes("turtle")) return "turtle";
@@ -1230,14 +1240,26 @@ function currentTripEvent(now = new Date()) {
   const day = data.days.find((tripDay) => tripDay.date === date);
   if (!day) return null;
 
-  const events = [...day.events].sort((a, b) => eventStartMinutes(a) - eventStartMinutes(b));
+  const events = day.events.filter((event) => !event.partOf).sort((a, b) => eventStartMinutes(a) - eventStartMinutes(b));
   const current = [...events].reverse().find((event) => eventStartMinutes(event) <= minutes);
   const next = events.find((event) => eventStartMinutes(event) > minutes);
+  const currentEnd = current
+    ? Math.min(
+        eventStartMinutes(current) + (current.type === "excursion" && next
+          ? eventStartMinutes(next) - eventStartMinutes(current)
+          : eventDurationMinutes(current)),
+        next ? eventStartMinutes(next) : 24 * 60,
+      )
+    : 0;
+  const upNext = !current || minutes >= currentEnd;
+  const event = upNext ? next : current;
+  if (!event) return null;
 
   return {
     day,
-    event: current ?? events[0],
+    event,
     next,
+    upNext,
   };
 }
 
@@ -1273,10 +1295,13 @@ function headerContext(now = new Date()): HeaderContext {
     label: "CKT",
     time: formatRarotongaTime(now),
     title: current.event.title,
-    subtitle: current.event.type === "downtime" && current.next
+    subtitle: current.upNext
+      ? formatTime(current.event.time)
+      : current.event.type === "downtime" && current.next
       ? `${formatTime(current.next.time)} · ${activityHeaderName(current.next) ?? current.next.title} next`
       : `${formatTime(current.event.time)} · ${current.day.title}`,
     focusTitle: activityHeaderName(current.event),
+    upNext: current.upNext,
   };
 }
 
@@ -1590,6 +1615,11 @@ export default function Home() {
               </>
             ) : null}
           </p>
+          {header.upNext !== undefined ? (
+            <p className={`header-phase ${header.upNext ? "is-up-next" : "is-current"}`}>
+              {header.upNext ? "Up next" : "Happening now"}
+            </p>
+          ) : null}
           <h1 className={`headline-variant-${headlineVariant}`} id="trip-title" aria-label={header.focusTitle ? header.title : undefined}>
             {header.focusTitle ? (
               <span className="trip-title-destination activity-title">{header.focusTitle}</span>

@@ -436,6 +436,7 @@
           "time": "afternoon",
           "status": "confirmed",
           "type": "meal",
+          "partOf": "Aitutaki boat charter",
           "notes": "Lunch stop on the boat charter."
         },
         {
