@@ -291,7 +291,7 @@
       "title": "West-Side Beach Day and Island Night",
       "status": "confirmed",
       "theme": "beach and island night",
-      "summary": "Optional On the Beach lunch or drinks, west-side beach time, a brewery stop, then Island Night at Edgewater.",
+      "summary": "Optional On the Beach lunch or drinks and west-side beach time, then Rarotonga Brewery at 4:30 and Island Night at Edgewater.",
       "events": [
         {
           "title": "Optional lunch or drinks at On the Beach",
@@ -309,10 +309,10 @@
         },
         {
           "title": "Rarotonga Brewery stop",
-          "time": "17:15",
-          "status": "flexible",
+          "time": "16:30",
+          "status": "confirmed",
           "type": "meal",
-          "notes": "Around 5:15, stop by across from Edgewater for local beer or Tavake spirits before Island Night."
+          "notes": "Stop by across from Edgewater for local beer or Tavake spirits before Island Night."
         },
         {
           "title": "Island Night at Edgewater",

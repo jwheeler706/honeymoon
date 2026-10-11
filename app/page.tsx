@@ -1300,8 +1300,8 @@ function periodTone(day: Day, period: Period) {
       Evening: "Sunset platter at the villa at 5:30.",
     },
     "2026-10-13": {
-      Afternoon: "Optional OTB stop and west-side beach time.",
-      Evening: "Optional brewery stop, then Edgewater check-in at 6:30.",
+      Afternoon: "Optional OTB stop and west-side beach time before the brewery at 4:30.",
+      Evening: "Edgewater check-in at 6:30.",
     },
     "2026-10-14": {
       Morning: "Raemaru only if the trail is dry and you feel up for it.",
