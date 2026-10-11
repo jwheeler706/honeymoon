@@ -259,7 +259,7 @@ button {
 }
 
 .header-turtle {
-  --header-image: url("/images/turtles.webp");
+  --header-image: url("/images/turtle-trip-01.jpg");
   background-position: center 48%;
 }
 
@@ -950,6 +950,26 @@ button {
   border-radius: 8px;
   object-fit: cover;
   object-position: center;
+}
+
+.event-photo-link {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 2px 0;
+  border: 0;
+  background: none;
+  color: var(--lagoon);
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 750;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.event-photo-link:hover,
+.event-photo-link:focus-visible {
+  color: var(--reef);
 }
 
 .flight-card {
@@ -2020,6 +2040,119 @@ button {
   gap: 10px;
 }
 
+.gallery-album {
+  min-width: 0;
+  margin-bottom: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--line);
+}
+
+.gallery-album-heading,
+.gallery-album-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.gallery-album-heading {
+  margin-bottom: 10px;
+}
+
+.gallery-album-heading span {
+  color: var(--muted);
+  font-size: 0.76rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.gallery-album-heading h2 {
+  margin: 3px 0 0;
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  line-height: 1.1;
+}
+
+.gallery-album-heading button,
+.gallery-album-controls button {
+  flex: 0 0 auto;
+  display: grid;
+  width: 36px;
+  height: 36px;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--panel-strong);
+  color: var(--ink);
+  font: inherit;
+  font-size: 1.25rem;
+  cursor: pointer;
+}
+
+.gallery-album-heading button:hover,
+.gallery-album-controls button:hover,
+.gallery-album-heading button:focus-visible,
+.gallery-album-controls button:focus-visible {
+  border-color: var(--lagoon);
+}
+
+.gallery-album-stage {
+  display: grid;
+  min-height: 210px;
+  place-items: center;
+  background: #07161b;
+}
+
+.gallery-album-stage img {
+  display: block;
+  width: 100%;
+  max-height: 68vh;
+  object-fit: contain;
+}
+
+.gallery-album-controls {
+  margin: 9px 0;
+  color: var(--muted);
+  font-size: 0.84rem;
+  font-weight: 750;
+}
+
+.gallery-album-thumbnails {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  padding: 2px 0 6px;
+  scrollbar-width: none;
+}
+
+.gallery-album-thumbnails::-webkit-scrollbar {
+  display: none;
+}
+
+.gallery-album-thumbnails button {
+  flex: 0 0 76px;
+  height: 52px;
+  overflow: hidden;
+  padding: 0;
+  border: 2px solid transparent;
+  border-radius: 5px;
+  background: var(--panel-soft);
+  cursor: pointer;
+}
+
+.gallery-album-thumbnails button[aria-pressed="true"],
+.gallery-album-thumbnails button:hover,
+.gallery-album-thumbnails button:focus-visible {
+  border-color: var(--lagoon);
+}
+
+.gallery-album-thumbnails img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 .gallery-card {
   overflow: hidden;
   border: 1px solid var(--line);
@@ -2051,6 +2184,20 @@ button {
 .gallery-card h3 {
   margin: 0;
   font-size: 1.05rem;
+}
+
+.gallery-album-card {
+  width: 100%;
+  padding: 0;
+  color: var(--ink);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.gallery-album-card:hover,
+.gallery-album-card:focus-visible {
+  border-color: var(--lagoon);
 }
 
 .packing-view {

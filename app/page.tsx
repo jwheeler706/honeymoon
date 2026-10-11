@@ -148,6 +148,8 @@ function offlineAssetUrls() {
   const urls = new Set<string>(["/", "/manifest.webmanifest", "/favicon.svg"]);
   const isLocalUrl = (url: string) => new URL(url, window.location.href).origin === window.location.origin;
 
+  eventAlbums.forEach((album) => album.photos.forEach((photo) => urls.add(photo.image)));
+
   document.querySelectorAll<HTMLLinkElement | HTMLScriptElement | HTMLImageElement>("link[href], script[src], img[src]")
     .forEach((element) => {
       const url = "href" in element ? element.href : element.src;
@@ -294,6 +296,19 @@ type GalleryImage = {
   image: string;
   alt: string;
   position?: string;
+};
+
+type AlbumPhoto = {
+  image: string;
+  alt: string;
+};
+
+type EventAlbum = {
+  id: string;
+  eventTitle: string;
+  title: string;
+  date: string;
+  photos: AlbumPhoto[];
 };
 
 function mappedItineraryPlace(
@@ -531,6 +546,24 @@ const mapPlaces: MapPlace[] = [
   },
 ];
 
+const eventAlbums: EventAlbum[] = [
+  {
+    id: "turtles",
+    eventTitle: "Swim With The Turtles Rarotonga",
+    title: "Swim With The Turtles",
+    date: "2026-10-10",
+    photos: [
+      { image: "/images/turtle-trip-01.jpg", alt: "Sea turtle swimming toward the camera beneath the surface." },
+      { image: "/images/turtle-trip-02.jpg", alt: "Sea turtle gliding through clear blue water." },
+      { image: "/images/turtle-trip-03.jpg", alt: "Sea turtle swimming just below the rippling surface." },
+      { image: "/images/turtle-trip-04.jpg", alt: "Sea turtle facing the camera with both flippers extended." },
+      { image: "/images/turtle-trip-05.jpg", alt: "Sea turtle swimming past in the blue lagoon." },
+      { image: "/images/turtle-trip-06.jpg", alt: "Jeff and his spouse smiling together in the lagoon." },
+      { image: "/images/turtle-trip-07.jpg", alt: "Jeff and his spouse together in the lagoon with Rarotonga's mountains behind them." },
+    ],
+  },
+];
+
 const galleryImages: GalleryImage[] = [
   {
     id: "sea-change",
@@ -544,9 +577,9 @@ const galleryImages: GalleryImage[] = [
     id: "turtles",
     title: "Swim With The Turtles",
     date: "2026-10-10",
-    label: "Snorkel",
-    image: "/images/turtles.webp",
-    alt: "Sea turtle underwater during a Snorkel Cook Islands excursion.",
+    label: "7 trip photos",
+    image: eventAlbums[0].photos[0].image,
+    alt: eventAlbums[0].photos[0].alt,
   },
   {
     id: "nautilus",
@@ -1419,6 +1452,7 @@ export default function Home() {
   const [forecastLoading, setForecastLoading] = useState(false);
   const [forecastError, setForecastError] = useState(false);
   const [online, setOnline] = useState(() => typeof navigator === "undefined" || navigator.onLine);
+  const [activeAlbumId, setActiveAlbumId] = useState<string | null>(null);
   const weather = online && forecasts.rarotonga && clockNow - forecasts.rarotonga.updatedAt < 3 * 60 * 60_000
     ? forecasts.rarotonga.current : null;
 
@@ -1592,6 +1626,18 @@ export default function Home() {
     });
   }
 
+  function showEventPhotos(albumId: string) {
+    setActiveAlbumId(albumId);
+    updateState({ view: "gallery" });
+    window.setTimeout(() => document.getElementById("gallery-album-title")?.focus(), 80);
+  }
+
+  function closeEventPhotos() {
+    const albumId = activeAlbumId;
+    setActiveAlbumId(null);
+    window.setTimeout(() => document.getElementById(`gallery-card-${albumId}`)?.focus(), 0);
+  }
+
   function showMapPlaceOnToday(place: MapPlace) {
     const day = data.days.find((item) => item.date === place.date);
     if (!day) return;
@@ -1693,7 +1739,12 @@ export default function Home() {
           startDate={state.mapStart}
         />
       ) : state.view === "gallery" ? (
-        <GalleryView images={galleryImages} />
+        <GalleryView
+          activeAlbumId={activeAlbumId}
+          images={galleryImages}
+          onCloseAlbum={closeEventPhotos}
+          onOpenAlbum={showEventPhotos}
+        />
       ) : state.view === "packing" ? (
         <PackingListView
           items={state.packingItems}
@@ -1756,6 +1807,7 @@ export default function Home() {
                         {events.map((event) => {
                           const key = eventKey(activeDay, event);
                           const eventImage = imageForEvent(event);
+                          const eventAlbum = eventAlbums.find((album) => album.eventTitle === event.title);
                           const inlineNote = eventInlineNote(event);
                           const detailNote = eventDetailNote(event);
                           const eventMapPlace = mapPlaceForEvent(event, activeDay);
@@ -1795,6 +1847,16 @@ export default function Home() {
                                       src={eventImage.image}
                                       style={eventImage.position ? { objectPosition: eventImage.position } : undefined}
                                     />
+                                  ) : null}
+                                  {eventAlbum ? (
+                                    <button
+                                      aria-label={`View ${eventAlbum.photos.length} trip photos for ${event.title}`}
+                                      className="event-photo-link"
+                                      onClick={() => showEventPhotos(eventAlbum.id)}
+                                      type="button"
+                                    >
+                                      View {eventAlbum.photos.length} trip photos
+                                    </button>
                                   ) : null}
                                   {event.flight ? <FlightDetails event={event} /> : null}
                                 </div>
@@ -2104,12 +2166,24 @@ function PackingListView({
   );
 }
 
-function GalleryView({ images }: { images: GalleryImage[] }) {
+function GalleryView({
+  activeAlbumId,
+  images,
+  onCloseAlbum,
+  onOpenAlbum,
+}: {
+  activeAlbumId: string | null;
+  images: GalleryImage[];
+  onCloseAlbum: () => void;
+  onOpenAlbum: (albumId: string) => void;
+}) {
   const scenicIds = new Set(["lagoon", "muri-beach", "muri-islets", "rarotonga-peaks", "lagoon-swim", "palm-beach"]);
   const orderedImages = images.filter((image) => !scenicIds.has(image.id)).sort((a, b) => a.date.localeCompare(b.date));
+  const activeAlbum = eventAlbums.find((album) => album.id === activeAlbumId);
 
   return (
     <section className="gallery-view" aria-label="Gallery">
+      {activeAlbum ? <GalleryAlbum album={activeAlbum} key={activeAlbum.id} onClose={onCloseAlbum} /> : null}
       <div className="header-scene-strip" aria-label="Island scenes">
         {scenicHeaderImages.map((image) => (
           <article key={image.title}>
@@ -2124,19 +2198,84 @@ function GalleryView({ images }: { images: GalleryImage[] }) {
         ))}
       </div>
       <div className="gallery-grid">
-        {orderedImages.map((image) => (
-          <article className="gallery-card" key={image.id}>
-            <img
-              alt={image.alt}
-              loading="lazy"
-              src={image.image}
-              style={image.position ? { objectPosition: image.position } : undefined}
-            />
-            <div>
-              <span>{formatDate(image.date)} · {image.label}</span>
-              <h3>{image.title}</h3>
-            </div>
-          </article>
+        {orderedImages.map((image) => {
+          const album = eventAlbums.find((item) => item.id === image.id);
+          const content = (
+            <>
+              <img
+                alt={image.alt}
+                loading="lazy"
+                src={image.image}
+                style={image.position ? { objectPosition: image.position } : undefined}
+              />
+              <div>
+                <span>{formatDate(image.date)} · {image.label}</span>
+                <h3>{image.title}</h3>
+              </div>
+            </>
+          );
+          return album ? (
+            <button
+              aria-label={`Open ${album.title} photo album, ${album.photos.length} photos`}
+              className="gallery-card gallery-album-card"
+              id={`gallery-card-${album.id}`}
+              key={image.id}
+              onClick={() => onOpenAlbum(album.id)}
+              type="button"
+            >
+              {content}
+            </button>
+          ) : (
+            <article className="gallery-card" key={image.id}>{content}</article>
+          );
+        })}
+      </div>
+    </section>
+  );
+}
+
+function GalleryAlbum({ album, onClose }: { album: EventAlbum; onClose: () => void }) {
+  const [photoIndex, setPhotoIndex] = useState(0);
+  const photo = album.photos[photoIndex];
+
+  useEffect(() => {
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") onClose();
+      if (event.key === "ArrowLeft") setPhotoIndex((index) => (index - 1 + album.photos.length) % album.photos.length);
+      if (event.key === "ArrowRight") setPhotoIndex((index) => (index + 1) % album.photos.length);
+    };
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [album.photos.length, onClose]);
+
+  return (
+    <section aria-labelledby="gallery-album-title" className="gallery-album" id="gallery-album">
+      <div className="gallery-album-heading">
+        <div>
+          <span>{formatLongDate(album.date)} · {album.photos.length} trip photos</span>
+          <h2 id="gallery-album-title" tabIndex={-1}>{album.title}</h2>
+        </div>
+        <button aria-label="Close photo album" className="gallery-album-close" onClick={onClose} type="button">×</button>
+      </div>
+      <div className="gallery-album-stage">
+        <img alt={photo.alt} src={photo.image} />
+      </div>
+      <div className="gallery-album-controls">
+        <button aria-label="Previous photo" onClick={() => setPhotoIndex((index) => (index - 1 + album.photos.length) % album.photos.length)} type="button">←</button>
+        <span aria-live="polite">{photoIndex + 1} of {album.photos.length}</span>
+        <button aria-label="Next photo" onClick={() => setPhotoIndex((index) => (index + 1) % album.photos.length)} type="button">→</button>
+      </div>
+      <div aria-label="Album photos" className="gallery-album-thumbnails">
+        {album.photos.map((item, index) => (
+          <button
+            aria-label={`Show photo ${index + 1} of ${album.photos.length}`}
+            aria-pressed={index === photoIndex}
+            key={item.image}
+            onClick={() => setPhotoIndex(index)}
+            type="button"
+          >
+            <img alt="" loading="lazy" src={item.image} />
+          </button>
         ))}
       </div>
     </section>

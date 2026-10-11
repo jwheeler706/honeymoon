@@ -7,7 +7,7 @@
 - `edgewater-island-night.jpg`: [Cook Islands Tourism, Edgewater Island Night](https://cookislands.travel/supplier/island-night-umukai-feast-edgewater-resort-spa).
 - `antipodes.jpg`: [Antipodes Rarotonga, Restaurant](https://www.antipodesrarotonga.com/restaurant).
 - `black-rock.jpg`: [Arcadia Rarotonga, Black Rock Beach](https://arcadiararotonga.com/explore/).
-- `turtles.webp`: Snorkel Cook Islands.
+- `turtle-trip-01.jpg` through `turtle-trip-07.jpg`: trip photos provided by Jeff.
 - `blue-lagoon.jpg`: Aitutaki Village, Blue Lagoon Beach Bar and Restaurant.
 - `one-foot.jpg`: Wikimedia Commons, "One Foot Island Aitutaki Cook Islands (5651684648)", CC BY-SA 2.0.
 - `map-aitutaki.jpg` and `map-rarotonga.jpg`: Esri World Imagery export.

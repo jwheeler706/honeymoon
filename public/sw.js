@@ -1,4 +1,4 @@
-const CACHE_NAME = "rarotonga-honeymoon-v59";
+const CACHE_NAME = "rarotonga-honeymoon-v60";
 const APP_SHELL = [
   "/",
   "/index.html",
@@ -22,7 +22,13 @@ const APP_SHELL = [
   "/images/rarotonga-peaks.jpg",
   "/images/lagoon-swim.jpg",
   "/images/south-coast-beach.jpg",
-  "/images/turtles.webp",
+  "/images/turtle-trip-01.jpg",
+  "/images/turtle-trip-02.jpg",
+  "/images/turtle-trip-03.jpg",
+  "/images/turtle-trip-04.jpg",
+  "/images/turtle-trip-05.jpg",
+  "/images/turtle-trip-06.jpg",
+  "/images/turtle-trip-07.jpg",
   "/images/one-foot.jpg",
   "/images/blue-lagoon.jpg",
   "/images/map-rarotonga.jpg",
