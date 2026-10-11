@@ -563,6 +563,17 @@ const eventAlbums: EventAlbum[] = [
       { image: "/images/turtle-trip-07.jpg", alt: "Jeff and his spouse together in the lagoon with Rarotonga's mountains behind them." },
     ],
   },
+  {
+    id: "nautilus",
+    eventTitle: "Dinner at Nautilus Resort",
+    title: "Nautilus Dinner",
+    date: "2026-10-10",
+    photos: [
+      { image: "/images/nautilus-trip-01.jpg", alt: "Jeff and his spouse together at dinner at Nautilus Resort." },
+      { image: "/images/nautilus-trip-02.jpg", alt: "Jeff's spouse smiling with a flower-garnished drink at Nautilus Resort." },
+      { image: "/images/nautilus-trip-03.jpg", alt: "Jeff smiling at the table at Nautilus Resort." },
+    ],
+  },
 ];
 
 const galleryImages: GalleryImage[] = [
@@ -586,9 +597,10 @@ const galleryImages: GalleryImage[] = [
     id: "nautilus",
     title: "Nautilus Resort",
     date: "2026-10-10",
-    label: "Dinner",
-    image: "/images/nautilus.webp",
-    alt: "Nautilus Resort pool and restaurant beside Muri Lagoon.",
+    label: "3 trip photos",
+    image: eventAlbums[1].photos[0].image,
+    alt: eventAlbums[1].photos[0].alt,
+    position: "center 36%",
   },
   {
     id: "tamarind",
