@@ -313,16 +313,11 @@ button {
 }
 
 .title-block .header-phase {
-  margin-top: 7px;
-  font-size: 0.7rem;
-}
-
-.header-phase.is-current {
-  color: #b9f3e4;
-}
-
-.header-phase.is-up-next {
-  color: #f5d99c;
+  margin: 6px 0 0;
+  color: rgba(255, 253, 248, 0.72);
+  font-size: 0.62rem;
+  font-weight: 650;
+  text-transform: uppercase;
 }
 
 .title-block h1 {

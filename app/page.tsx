@@ -1691,11 +1691,7 @@ export default function Home() {
               </>
             ) : null}
           </p>
-          {header.upNext !== undefined ? (
-            <p className={`header-phase ${header.upNext ? "is-up-next" : "is-current"}`}>
-              {header.upNext ? "Up next" : "Happening now"}
-            </p>
-          ) : null}
+          {header.upNext ? <p className="header-phase">Up next</p> : null}
           <h1 className={`headline-variant-${headlineVariant} ${activityFont}`} id="trip-title" aria-label={header.focusTitle ? header.title : undefined}>
             {header.focusTitle ? (
               <span className="trip-title-destination activity-title">{header.focusTitle}</span>
