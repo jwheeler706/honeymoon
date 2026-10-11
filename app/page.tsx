@@ -160,10 +160,13 @@ function offlineAssetUrls() {
   return [...urls];
 }
 
+const firstVisibleDate = "2026-10-10";
+const visibleDays = data.days.filter((day) => day.date >= firstVisibleDate);
+
 const initialState: AppState = {
-  activeDay: data.days[0].date,
+  activeDay: visibleDays[0].date,
   view: "plan",
-  mapStart: data.days[0].date,
+  mapStart: visibleDays[0].date,
   mapEnd: data.days[data.days.length - 1].date,
   selectedPlace: "",
   done: {},
@@ -403,6 +406,14 @@ const mapPlaces: MapPlace[] = [
     area: "West side",
     lat: -21.22471,
     lng: -159.8292,
+  }),
+  mappedItineraryPlace({
+    id: "rarotonga-brewery",
+    date: "2026-10-13",
+    eventTitle: "Rarotonga Brewery stop",
+    area: "Arorangi / opposite Edgewater",
+    lat: -21.21564,
+    lng: -159.82725,
   }),
   mappedItineraryPlace({
     id: "edgewater",
@@ -1045,6 +1056,7 @@ const activityHeaderNames: Record<string, string> = {
   "Dinner at Tamarind House main restaurant": "Tamarind House",
   "West-side beach day": "West-side Beach",
   "Optional lunch or drinks at On the Beach": "On the Beach",
+  "Rarotonga Brewery stop": "Rarotonga Brewery",
   "Island Night at Edgewater": "Island Night",
   "Swim With The Turtles Rarotonga": "Swim With The Turtles",
   "Optional Raemaru Trek": "Raemaru Trek",
@@ -1137,6 +1149,7 @@ function mapPlaceForEvent(event: TripEvent, day?: Day) {
   if (title.includes("black rock")) return "black-rock";
   if (combined.includes("tamarind")) return "tamarind";
   if (combined.includes("on the beach")) return "otb";
+  if (title.includes("rarotonga brewery")) return "rarotonga-brewery";
   if (combined.includes("edgewater")) return "edgewater";
   if (combined.includes("turtle")) return "turtles";
   if (title.includes("raemaru trek") || title.includes("hike")) return "raemaru";
@@ -1171,6 +1184,7 @@ function mapDescription(event: TripEvent) {
     "Raemaru Gallery and Muri Village": "Browse local designs and Muri Village.",
     "West-side beach day": "Beach and snorkeling on the west side.",
     "Optional lunch or drinks at On the Beach": "Optional lunch or an early drink.",
+    "Rarotonga Brewery stop": "Local beer and Tavake spirits opposite Edgewater.",
     "Island Night at Edgewater": "Island Umukai Feast and cultural show.",
     "Black Rock stop before Antipodes": "Optional stop on the way to Antipodes.",
     "Swim With The Turtles Rarotonga": "Arrive 10-15 minutes early.",
@@ -1287,7 +1301,7 @@ function periodTone(day: Day, period: Period) {
     },
     "2026-10-13": {
       Afternoon: "Optional OTB stop and west-side beach time.",
-      Evening: "Edgewater check-in at 6:30.",
+      Evening: "Optional brewery stop, then Edgewater check-in at 6:30.",
     },
     "2026-10-14": {
       Morning: "Raemaru only if the trail is dry and you feel up for it.",
@@ -1340,6 +1354,10 @@ export default function Home() {
       return {
         ...initialState,
         ...restored,
+        activeDay: restored.activeDay && restored.activeDay >= firstVisibleDate
+          ? restored.activeDay : initialState.activeDay,
+        mapStart: restored.mapStart && restored.mapStart >= firstVisibleDate
+          ? restored.mapStart : initialState.mapStart,
         view: restored.view === "packing" ? "plan" : restored.view ?? initialState.view,
         packingItems,
         packingSeedVersion: 2,
@@ -1447,7 +1465,7 @@ export default function Home() {
     };
   }, [forecastRefresh]);
 
-  const activeDay = data.days.find((day) => day.date === state.activeDay) ?? data.days[0];
+  const activeDay = visibleDays.find((day) => day.date === state.activeDay) ?? visibleDays[0];
   const scenicHeader = header.key === "countdown" || header.key === "beach" || header.key === "flight";
   const scenicImage = scenicHeaderImages[scenicIndex % scenicHeaderImages.length];
   const activeHeaderEvent = currentTripEvent()?.event;
@@ -1588,7 +1606,7 @@ export default function Home() {
               onChange={(event) => updateState({ activeDay: event.target.value, view: "plan" })}
               value={activeDay.date}
             >
-              {data.days.map((day) => (
+              {visibleDays.map((day) => (
                 <option key={day.date} value={day.date}>
                   {day.weekday} · {formatDate(day.date)}
                 </option>
@@ -1613,7 +1631,7 @@ export default function Home() {
 
       {state.view === "reservations" ? (
         <CalendarView
-          days={data.days}
+          days={visibleDays}
           onSelectDay={(activeDay) => updateState({ activeDay, view: "plan" })}
         />
       ) : state.view === "map" ? (
@@ -1622,7 +1640,7 @@ export default function Home() {
           onDateRangeChange={(mapStart, mapEnd) => updateState({ mapStart, mapEnd })}
           onOpenPlace={showMapPlaceOnToday}
           onSelectPlace={(selectedPlace) => updateState({ selectedPlace })}
-          places={mapPlaces}
+          places={mapPlaces.filter((place) => place.date >= firstVisibleDate || place.id === "sea-change-villas")}
           selectedPlaceId={state.selectedPlace}
           startDate={state.mapStart}
         />
@@ -1790,7 +1808,7 @@ function WeatherView({
   const [location, setLocation] = useState<keyof typeof weatherLocations>("rarotonga");
   const forecast = forecasts[location];
   const forecastIsOld = forecast ? now - forecast.updatedAt > 3 * 60 * 60_000 : false;
-  const tripDays = data.days.filter((day) => day.date >= "2026-10-09" && day.date <= "2026-10-17");
+  const tripDays = visibleDays.filter((day) => day.date <= "2026-10-17");
   const byDate = new Map(forecast?.days.map((day) => [day.date, day]) ?? []);
 
   return (
@@ -2165,7 +2183,7 @@ function MapView({
   startDate: string;
 }) {
   const mapShellRef = useRef<HTMLDivElement | null>(null);
-  const firstTripDate = data.days[0]?.date ?? startDate;
+  const firstTripDate = visibleDays[0]?.date ?? startDate;
   const lastTripDate = data.days[data.days.length - 1]?.date ?? endDate;
   const isAitutakiOnly = startDate === "2026-10-16" && endDate === "2026-10-16";
   const allDatesSelected = startDate === firstTripDate && endDate === lastTripDate;
@@ -2374,7 +2392,7 @@ function MapView({
               >
                 All
               </button>
-              {data.days.filter((day) => day.date !== "2026-10-08" && day.date !== "2026-10-18").map((day) => {
+              {visibleDays.filter((day) => day.date !== "2026-10-18").map((day) => {
                 const selected = !allDatesSelected && startDate === day.date && endDate === day.date;
                 return (
                   <button
