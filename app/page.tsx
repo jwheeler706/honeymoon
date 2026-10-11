@@ -370,6 +370,12 @@ const mapPlaces: MapPlace[] = [
     lng: -159.736,
   }),
   mappedItineraryPlace({
+    id: "villa-massage",
+    date: "2026-10-12",
+    eventTitle: "Couples massage at Sea Change Villas",
+    area: "Sea Change Villas / Titikaveka",
+  }),
+  mappedItineraryPlace({
     id: "kora-pearls",
     date: "2026-10-12",
     eventTitle: "Kora Pearls in Avarua",
@@ -392,6 +398,12 @@ const mapPlaces: MapPlace[] = [
     area: "Muri Village area",
     lat: -21.2575,
     lng: -159.7319,
+  }),
+  mappedItineraryPlace({
+    id: "villa-platter",
+    date: "2026-10-12",
+    eventTitle: "Sunset platter at Sea Change Villas",
+    area: "Sea Change Villas / Titikaveka",
   }),
   mappedItineraryPlace({
     id: "west-side-beach",
@@ -2229,7 +2241,8 @@ function MapView({
   const inRangePlaces = places.filter((place) => place.date >= startDate && place.date <= endDate);
   const homeBase = places.find((place) => place.id === "sea-change-villas");
   const selectedDay = startDate === endDate ? data.days.find((day) => day.date === startDate) : null;
-  const homeEvent = selectedDay?.events.find((event) => mapPlaceForEvent(event, selectedDay) === "sea-change-villas");
+  const homeEvents = selectedDay?.events.filter((event) => mapPlaceForEvent(event, selectedDay) === "sea-change-villas") ?? [];
+  const homeEvent = homeEvents[0];
   const homeBaseForDate = homeBase && selectedDay && homeEvent
     ? {
         ...homeBase,
@@ -2267,6 +2280,9 @@ function MapView({
   const selectedMapPlace = selectedPlaceId
     ? visibleMappablePlaces.find((place) => place.id === selectedPlaceId)
     : null;
+  const selectedHomeEvents = selectedMapPlace?.id === "sea-change-villas" && homeEvents.length > 1
+    ? homeEvents
+    : [];
   const selectedMapPoint = selectedMapPlace ? mapPoint(selectedMapPlace, activeMapBounds) : null;
   const selectedMapImage = selectedMapPlace ? imageForPlace(selectedMapPlace) : null;
   const popupHasImage = Boolean(selectedMapImage);
@@ -2379,7 +2395,7 @@ function MapView({
               })}
               {selectedMapPoint && selectedMapPlace ? (
                 <button
-                  aria-label={`Open ${selectedMapPlace.name} on Today`}
+                  aria-label={selectedHomeEvents.length ? "Open Sea Change Villas plans on Today" : `Open ${selectedMapPlace.name} on Today`}
                   className={popupClass}
                   onClick={() => onOpenPlace(selectedMapPlace)}
                   onPointerDown={(event) => event.stopPropagation()}
@@ -2399,12 +2415,25 @@ function MapView({
                       style={selectedMapImage.position ? { objectPosition: selectedMapImage.position } : undefined}
                     />
                   ) : null}
-                  <strong style={textOnlyPopupTextStyle}>{selectedMapPlace.name}</strong>
-                  <span style={textOnlyPopupTextStyle}>
-                    {isUnbookedMapPlace(selectedMapPlace) ? `${mapStatusLabel(selectedMapPlace)} · ` : ""}
-                    {compactMapDate(selectedMapPlace)} · {selectedMapPlace.area}
-                  </span>
-                  {selectedMapPlace.note ? <p style={textOnlyPopupTextStyle}>{selectedMapPlace.note}</p> : null}
+                  {selectedHomeEvents.length ? (
+                    <>
+                      <strong style={textOnlyPopupTextStyle}>Sea Change Villas</strong>
+                      {selectedHomeEvents.map((event) => (
+                        <span key={event.title} style={textOnlyPopupTextStyle}>
+                          {formatTime(event.time)} · {event.title}
+                        </span>
+                      ))}
+                    </>
+                  ) : (
+                    <>
+                      <strong style={textOnlyPopupTextStyle}>{selectedMapPlace.name}</strong>
+                      <span style={textOnlyPopupTextStyle}>
+                        {isUnbookedMapPlace(selectedMapPlace) ? `${mapStatusLabel(selectedMapPlace)} · ` : ""}
+                        {compactMapDate(selectedMapPlace)} · {selectedMapPlace.area}
+                      </span>
+                      {selectedMapPlace.note ? <p style={textOnlyPopupTextStyle}>{selectedMapPlace.note}</p> : null}
+                    </>
+                  )}
                 </button>
               ) : null}
               <div className="map-legend-overlay">
