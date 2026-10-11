@@ -574,6 +574,20 @@ const eventAlbums: EventAlbum[] = [
       { image: "/images/nautilus-trip-03.jpg", alt: "Jeff smiling at the table at Nautilus Resort." },
     ],
   },
+  {
+    id: "market",
+    eventTitle: "Punanga Nui Market / Avarua",
+    title: "Punanga Nui Market",
+    date: "2026-10-10",
+    photos: [
+      { image: "/images/market-trip-01.jpg", alt: "Shoppers walking through the covered Punanga Nui Market pavilion." },
+      { image: "/images/market-trip-02.jpg", alt: "Local produce and vanilla at a Punanga Nui Market stall." },
+      { image: "/images/market-trip-03.jpg", alt: "Pink and white tropical flowers at Punanga Nui Market." },
+      { image: "/images/market-trip-04.jpg", alt: "Mokoero Arts and Crafts sign at the market." },
+      { image: "/images/market-trip-05.jpg", alt: "Colorful shopfronts and shoppers at Punanga Nui Market." },
+      { image: "/images/market-trip-06.jpg", alt: "Island art prints displayed at Punanga Nui Market." },
+    ],
+  },
 ];
 
 const galleryImages: GalleryImage[] = [
@@ -584,6 +598,14 @@ const galleryImages: GalleryImage[] = [
     label: "Home base",
     image: "/images/sea-change.webp",
     alt: "Lagoon View Villa at Sea Change Villas in Rarotonga.",
+  },
+  {
+    id: "market",
+    title: "Punanga Nui Market",
+    date: "2026-10-10",
+    label: "6 trip photos",
+    image: eventAlbums[2].photos[4].image,
+    alt: eventAlbums[2].photos[4].alt,
   },
   {
     id: "turtles",
@@ -1219,6 +1241,7 @@ function imageForEvent(event: TripEvent) {
   const title = event.title.toLowerCase();
 
   if (event.flight || event.type === "travel") return null;
+  if (title.includes("punanga nui market")) return galleryImages.find((image) => image.id === "market") ?? null;
   if (title.includes("sea change")) return galleryImages.find((image) => image.id === "sea-change") ?? null;
   if (title.includes("nautilus")) return galleryImages.find((image) => image.id === "nautilus") ?? null;
   if (title.includes("tamarind")) return galleryImages.find((image) => image.id === "tamarind") ?? null;
