@@ -379,7 +379,7 @@ const mapPlaces: MapPlace[] = [
   mappedItineraryPlace({
     id: "north-east-wander",
     date: "2026-10-11",
-    eventTitle: "Muri and Avana before Tamarind",
+    eventTitle: "Muri Beach and Avana Harbour outing",
     area: "Muri / Avana",
     lat: -21.25,
     lng: -159.736,
@@ -1108,7 +1108,7 @@ const activityHeaderNames: Record<string, string> = {
   "Kora Pearls in Avarua": "Kora Pearls",
   "Romias Hut in Matavera": "Romias Hut",
   "Raemaru Gallery and Muri Village": "Muri Village",
-  "Muri and Avana before Tamarind": "Muri and Avana",
+  "Muri Beach and Avana Harbour outing": "Muri and Avana",
   "Dinner at Tamarind House main restaurant": "Tamarind House",
   "West-side beach day": "West-side Beach",
   "Optional lunch or drinks at On the Beach": "On the Beach",
@@ -1218,7 +1218,7 @@ function mapPlaceForEvent(event: TripEvent, day?: Day) {
   if (title.includes("muri night market")) return "muri-night-market";
   if (combined.includes("nautilus")) return "nautilus";
   if (title.includes("west-side beach day")) return "west-side-beach";
-  if (title.includes("north/east-side wander")) return "north-east-wander";
+  if (title.includes("muri beach and avana harbour outing")) return "north-east-wander";
   if (title.includes("black rock")) return "black-rock";
   if (combined.includes("tamarind")) return "tamarind";
   if (combined.includes("on the beach")) return "otb";
@@ -1252,7 +1252,7 @@ function mapDescription(event: TripEvent) {
   const shortNotes: Record<string, string> = {
     "Punanga Nui Market / Avarua": "Browse food and craft stalls.",
     "Relax at Sea Change Villas": "Villa downtime before the turtle snorkel.",
-    "Muri and Avana before Tamarind": "Muri Beach, Barefoot Bar, and optional Avana Harbour.",
+    "Muri Beach and Avana Harbour outing": "Muri Beach, Barefoot Bar, and optional Avana Harbour.",
     "Kora Pearls in Avarua": "Browse Cook Islands black pearls in Avarua.",
     "Romias Hut in Matavera": "Look for the Good Vibes Rarotonga shirt.",
     "Raemaru Gallery and Muri Village": "Browse local designs and Muri Village.",
