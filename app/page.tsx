@@ -620,9 +620,8 @@ const galleryImages: GalleryImage[] = [
     title: "Nautilus Resort",
     date: "2026-10-10",
     label: "3 trip photos",
-    image: eventAlbums[1].photos[0].image,
-    alt: eventAlbums[1].photos[0].alt,
-    position: "center 36%",
+    image: "/images/nautilus.webp",
+    alt: "Nautilus Resort pool and restaurant beside Muri Lagoon.",
   },
   {
     id: "tamarind",
