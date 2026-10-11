@@ -373,6 +373,14 @@ const mapPlaces: MapPlace[] = [
     lng: -159.772,
   }),
   mappedItineraryPlace({
+    id: "romias-hut",
+    date: "2026-10-12",
+    eventTitle: "Romias Hut in Matavera",
+    area: "Matavera shopping area",
+    lat: -21.2235,
+    lng: -159.7354,
+  }),
+  mappedItineraryPlace({
     id: "raemaru-gallery",
     date: "2026-10-12",
     eventTitle: "Raemaru Gallery and Muri Village",
@@ -1031,6 +1039,7 @@ const activityHeaderNames: Record<string, string> = {
   "Dinner at Nautilus Resort": "Nautilus Resort",
   "Couples massage at Sea Change Villas": "Couples Massage",
   "Kora Pearls in Avarua": "Kora Pearls",
+  "Romias Hut in Matavera": "Romias Hut",
   "Raemaru Gallery and Muri Village": "Muri Village",
   "North/east-side wander before Tamarind": "East Coast Wander",
   "Dinner at Tamarind House main restaurant": "Tamarind House",
@@ -1119,6 +1128,7 @@ function mapPlaceForEvent(event: TripEvent, day?: Day) {
   if (day?.date === "2026-10-15" && title === "villa or lagoon morning") return "sea-change-villas";
   if (combined.includes("punanga")) return "punanga-nui-market";
   if (title.includes("kora pearls")) return "kora-pearls";
+  if (title.includes("romias hut")) return "romias-hut";
   if (title.includes("raemaru gallery")) return "raemaru-gallery";
   if (title.includes("muri night market")) return "muri-night-market";
   if (combined.includes("nautilus")) return "nautilus";
@@ -1157,7 +1167,8 @@ function mapDescription(event: TripEvent) {
     "Punanga Nui Market / Avarua": "Browse food and craft stalls.",
     "North/east-side wander before Tamarind": "Optional stops on the way to Tamarind.",
     "Kora Pearls in Avarua": "Browse Cook Islands black pearls in Avarua.",
-    "Raemaru Gallery and Muri Village": "Look for the shirt, then browse Muri Village.",
+    "Romias Hut in Matavera": "Look for the Good Vibes Rarotonga shirt.",
+    "Raemaru Gallery and Muri Village": "Browse local designs and Muri Village.",
     "West-side beach day": "Beach and snorkeling on the west side.",
     "Optional lunch or drinks at On the Beach": "Optional lunch or an early drink.",
     "Island Night at Edgewater": "Island Umukai Feast and cultural show.",
@@ -1271,7 +1282,7 @@ function periodTone(day: Day, period: Period) {
     },
     "2026-10-12": {
       Morning: "Couples massage at the villa at 10:00.",
-      Afternoon: "Kora Pearls in Avarua, then Muri Village if you feel like it.",
+      Afternoon: "Kora Pearls, Romias Hut, and Muri Village if you feel like it.",
       Evening: "Sunset platter at the villa at 5:30.",
     },
     "2026-10-13": {

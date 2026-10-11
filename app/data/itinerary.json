@@ -236,7 +236,7 @@
       "title": "Massage, Shopping, and Sunset Platter",
       "status": "confirmed",
       "theme": "shopping and villa evening",
-      "summary": "Couples massage at 10:00, flexible stops in Avarua and Muri, then sunset platter at the villa.",
+      "summary": "Couples massage at 10:00, flexible shopping in Avarua, Matavera, and Muri, then sunset platter at the villa.",
       "events": [
         {
           "title": "Couples massage at Sea Change Villas",
@@ -261,11 +261,18 @@
           "notes": "Browse the black-pearl pieces at Kora Pearls in Avarua."
         },
         {
-          "title": "Raemaru Gallery and Muri Village",
-          "time": "15:15",
+          "title": "Romias Hut in Matavera",
+          "time": "14:45",
           "status": "flexible",
           "type": "activity",
-          "notes": "Look for the shirt from the market at Raemaru Gallery, then explore Muri Village."
+          "notes": "Look for the Good Vibes Rarotonga shirt upstairs from Vili's Burger Joint."
+        },
+        {
+          "title": "Raemaru Gallery and Muri Village",
+          "time": "15:30",
+          "status": "flexible",
+          "type": "activity",
+          "notes": "Browse Raemaru's local designs, then explore Muri Village."
         },
         {
           "title": "Sunset platter at Sea Change Villas",
@@ -275,7 +282,7 @@
           "notes": "Sunset dinner at the villa."
         }
       ],
-      "transport": "Rental car for Avarua and Muri.",
+      "transport": "Rental car for Avarua, Matavera, and Muri.",
       "notes": "Return to the villa before the 5:30 PM platter."
     },
     {
