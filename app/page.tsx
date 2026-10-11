@@ -1127,6 +1127,23 @@ function activityHeaderName(event: TripEvent) {
   return activityHeaderNames[event.title];
 }
 
+const dinnerHeadlineFonts = ["bodoni", "cormorant", "fraunces"] as const;
+const dinnerHeadlineEvents = data.days.flatMap((day) => day.events.filter((event) => event.title.toLowerCase().includes("dinner")));
+
+function activityHeadlineFont(eventTitle: string) {
+  const title = eventTitle.toLowerCase();
+  if (title.includes("turtle")) return "honk";
+  if (title.includes("island night") || title.includes("market")) return "kablammo";
+  if (title.includes("dinner")) {
+    const index = dinnerHeadlineEvents.findIndex((event) => event.title === eventTitle);
+    return dinnerHeadlineFonts[(index < 0 ? 0 : index) % dinnerHeadlineFonts.length];
+  }
+  if (title.includes("massage") || title.includes("villa") || title.includes("sunset platter")) return "fraunces";
+  if (title.includes("boat charter") || title.includes("beach") || title.includes("lagoon")) return "moonrocks";
+  if (title.includes("pearls") || title.includes("gallery")) return "shrikhand";
+  return "bricolage";
+}
+
 function imageForEvent(event: TripEvent) {
   const title = event.title.toLowerCase();
 
@@ -1549,6 +1566,7 @@ export default function Home() {
   const activityHeaderImage = activeHeaderEvent ? imageForEvent(activeHeaderEvent) : null;
   const headerImage = scenicHeader ? scenicImage : activityHeaderImage;
   const headlineVariant = dailyHeadlineVariant();
+  const activityFont = header.focusTitle ? `activity-font-${activityHeadlineFont(header.title)}` : "";
   const destinationHeadline = header.key === "countdown" || header.key === "beach"
     ? header.title.match(/^(.*?)(Rarotonga)$/)
     : null;
@@ -1678,7 +1696,7 @@ export default function Home() {
               {header.upNext ? "Up next" : "Happening now"}
             </p>
           ) : null}
-          <h1 className={`headline-variant-${headlineVariant}`} id="trip-title" aria-label={header.focusTitle ? header.title : undefined}>
+          <h1 className={`headline-variant-${headlineVariant} ${activityFont}`} id="trip-title" aria-label={header.focusTitle ? header.title : undefined}>
             {header.focusTitle ? (
               <span className="trip-title-destination activity-title">{header.focusTitle}</span>
             ) : destinationHeadline ? (

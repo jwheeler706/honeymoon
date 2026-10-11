@@ -419,10 +419,21 @@ button {
 }
 
 .title-block .activity-title {
+  font-family: var(--activity-font, var(--font-display));
   font-size: 2rem;
+  font-weight: var(--activity-weight, 400);
   line-height: 1.1;
   overflow-wrap: break-word;
 }
+
+.activity-font-kablammo { --activity-font: "Kablammo", Arial, sans-serif; }
+.activity-font-bricolage { --activity-font: "Bricolage Grotesque", Arial, sans-serif; --activity-weight: 700; }
+.activity-font-honk { --activity-font: "Honk", Arial, sans-serif; }
+.activity-font-moonrocks { --activity-font: "Rubik Moonrocks", Arial, sans-serif; }
+.activity-font-shrikhand { --activity-font: "Shrikhand", Georgia, serif; }
+.activity-font-bodoni { --activity-font: "Bodoni Moda", Georgia, serif; --activity-weight: 700; }
+.activity-font-cormorant { --activity-font: "Cormorant Garamond", Georgia, serif; --activity-weight: 700; }
+.activity-font-fraunces { --activity-font: "Fraunces", Georgia, serif; --activity-weight: 650; }
 
 .filter-pill,
 .day-picker select {
