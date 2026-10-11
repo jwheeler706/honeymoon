@@ -365,6 +365,22 @@ const mapPlaces: MapPlace[] = [
     lng: -159.736,
   }),
   mappedItineraryPlace({
+    id: "kora-pearls",
+    date: "2026-10-12",
+    eventTitle: "Kora Pearls in Avarua",
+    area: "Avarua shopping area",
+    lat: -21.205,
+    lng: -159.772,
+  }),
+  mappedItineraryPlace({
+    id: "raemaru-gallery",
+    date: "2026-10-12",
+    eventTitle: "Raemaru Gallery and Muri Village",
+    area: "Muri Village area",
+    lat: -21.2575,
+    lng: -159.7319,
+  }),
+  mappedItineraryPlace({
     id: "west-side-beach",
     date: "2026-10-13",
     eventTitle: "West-side beach day",
@@ -1014,6 +1030,8 @@ const activityHeaderNames: Record<string, string> = {
   "Punanga Nui Market / Avarua": "Punanga Nui Market",
   "Dinner at Nautilus Resort": "Nautilus Resort",
   "Couples massage at Sea Change Villas": "Couples Massage",
+  "Kora Pearls in Avarua": "Kora Pearls",
+  "Raemaru Gallery and Muri Village": "Muri Village",
   "North/east-side wander before Tamarind": "East Coast Wander",
   "Dinner at Tamarind House main restaurant": "Tamarind House",
   "West-side beach day": "West-side Beach",
@@ -1100,6 +1118,8 @@ function mapPlaceForEvent(event: TripEvent, day?: Day) {
   if (combined.includes("sea change")) return "sea-change-villas";
   if (day?.date === "2026-10-15" && title === "villa or lagoon morning") return "sea-change-villas";
   if (combined.includes("punanga")) return "punanga-nui-market";
+  if (title.includes("kora pearls")) return "kora-pearls";
+  if (title.includes("raemaru gallery")) return "raemaru-gallery";
   if (title.includes("muri night market")) return "muri-night-market";
   if (combined.includes("nautilus")) return "nautilus";
   if (title.includes("west-side beach day")) return "west-side-beach";
@@ -1109,7 +1129,7 @@ function mapPlaceForEvent(event: TripEvent, day?: Day) {
   if (combined.includes("on the beach")) return "otb";
   if (combined.includes("edgewater")) return "edgewater";
   if (combined.includes("turtle")) return "turtles";
-  if (combined.includes("raemaru") || combined.includes("hike")) return "raemaru";
+  if (title.includes("raemaru trek") || title.includes("hike")) return "raemaru";
   if (combined.includes("antipodes")) return "antipodes";
   if (combined.includes("one foot") || combined.includes("tapuaetai")) return "one-foot-island-lunch";
   if (combined.includes("blue lagoon")) return "blue-lagoon-restaurant";
@@ -1136,6 +1156,8 @@ function mapDescription(event: TripEvent) {
   const shortNotes: Record<string, string> = {
     "Punanga Nui Market / Avarua": "Browse food and craft stalls.",
     "North/east-side wander before Tamarind": "Optional stops on the way to Tamarind.",
+    "Kora Pearls in Avarua": "Browse Cook Islands black pearls in Avarua.",
+    "Raemaru Gallery and Muri Village": "Look for the shirt, then browse Muri Village.",
     "West-side beach day": "Beach and snorkeling on the west side.",
     "Optional lunch or drinks at On the Beach": "Optional lunch or an early drink.",
     "Island Night at Edgewater": "Island Umukai Feast and cultural show.",
@@ -1249,8 +1271,8 @@ function periodTone(day: Day, period: Period) {
     },
     "2026-10-12": {
       Morning: "Couples massage at the villa at 10:00.",
-      Afternoon: "Keep the south-side afternoon open.",
-      Evening: "Sunset platter at the villa.",
+      Afternoon: "Kora Pearls in Avarua, then Muri Village if you feel like it.",
+      Evening: "Sunset platter at the villa at 5:30.",
     },
     "2026-10-13": {
       Afternoon: "Optional OTB stop and west-side beach time.",

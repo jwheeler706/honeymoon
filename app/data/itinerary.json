@@ -233,10 +233,10 @@
     {
       "date": "2026-10-12",
       "weekday": "Monday",
-      "title": "Villa Massage and Sunset Platter",
+      "title": "Massage, Shopping, and Sunset Platter",
       "status": "confirmed",
-      "theme": "south-side lagoon day",
-      "summary": "Couples massage at 10:00, then a slow afternoon and sunset platter at the villa.",
+      "theme": "shopping and villa evening",
+      "summary": "Couples massage at 10:00, flexible stops in Avarua and Muri, then sunset platter at the villa.",
       "events": [
         {
           "title": "Couples massage at Sea Change Villas",
@@ -254,6 +254,20 @@
           "notes": "Charlie's is an easy option if lunch sounds good."
         },
         {
+          "title": "Kora Pearls in Avarua",
+          "time": "14:00",
+          "status": "flexible",
+          "type": "activity",
+          "notes": "Browse the black-pearl pieces at Kora Pearls in Avarua."
+        },
+        {
+          "title": "Raemaru Gallery and Muri Village",
+          "time": "15:15",
+          "status": "flexible",
+          "type": "activity",
+          "notes": "Look for the shirt from the market at Raemaru Gallery, then explore Muri Village."
+        },
+        {
           "title": "Sunset platter at Sea Change Villas",
           "time": "17:30",
           "status": "confirmed",
@@ -261,8 +275,8 @@
           "notes": "Sunset dinner at the villa."
         }
       ],
-      "transport": "Rental car.",
-      "notes": "Keep the afternoon open after the massage and stay at the villa for the platter."
+      "transport": "Rental car for Avarua and Muri.",
+      "notes": "Return to the villa before the 5:30 PM platter."
     },
     {
       "date": "2026-10-13",

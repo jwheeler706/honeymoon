@@ -1,4 +1,4 @@
-const CACHE_NAME = "rarotonga-honeymoon-v58";
+const CACHE_NAME = "rarotonga-honeymoon-v59";
 const APP_SHELL = [
   "/",
   "/index.html",
@@ -9,6 +9,9 @@ const APP_SHELL = [
   "/icons/app-icon-192.png",
   "/icons/app-icon-512.png",
   "/icons/app-icon-1024.png",
+  "/fonts/honk-latin.woff2",
+  "/fonts/kablammo-latin.woff2",
+  "/fonts/rubik-moonrocks-latin.woff2",
   "/images/sea-change.webp",
   "/images/nautilus.webp",
   "/images/tamarind.webp",
