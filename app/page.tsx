@@ -255,6 +255,7 @@ type IslandForecast = {
   updatedAt: number;
   current: WeatherInfo | null;
   days: WeatherDay[];
+  historicalDays?: WeatherDay[];
 };
 
 type Forecasts = Partial<Record<"rarotonga" | "aitutaki", IslandForecast>>;
@@ -1055,6 +1056,64 @@ async function fetchIslandForecast(location: keyof typeof weatherLocations): Pro
   };
 }
 
+async function fetchIslandHistory(location: keyof typeof weatherLocations): Promise<WeatherDay[]> {
+  const today = rarotongaDateParts().date;
+  const pastDays = visibleDays.filter((day) => day.date < today);
+  if (!pastDays.length) return [];
+
+  const { latitude, longitude } = weatherLocations[location];
+  const url = new URL("https://archive-api.open-meteo.com/v1/archive");
+  url.search = new URLSearchParams({
+    latitude: String(latitude),
+    longitude: String(longitude),
+    elevation: "5",
+    start_date: pastDays[0].date,
+    end_date: pastDays[pastDays.length - 1].date,
+    daily: "weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,wind_speed_10m_max",
+    temperature_unit: "fahrenheit",
+    wind_speed_unit: "mph",
+    precipitation_unit: "inch",
+    timezone: tripTimeZone,
+  }).toString();
+  const response = await fetch(url, { cache: "no-store" });
+  if (!response.ok) throw new Error("Historical weather request failed");
+  const result = (await response.json()) as {
+    daily?: {
+      time?: string[];
+      weather_code?: (number | null)[];
+      temperature_2m_max?: (number | null)[];
+      temperature_2m_min?: (number | null)[];
+      precipitation_sum?: (number | null)[];
+      wind_speed_10m_max?: (number | null)[];
+    };
+  };
+  const daily = result.daily;
+  if (!daily?.time || !daily.weather_code || !daily.temperature_2m_max || !daily.temperature_2m_min) {
+    throw new Error("Historical weather unavailable");
+  }
+  return daily.time.flatMap((date, index) => {
+    const code = daily.weather_code?.[index];
+    const high = daily.temperature_2m_max?.[index];
+    const low = daily.temperature_2m_min?.[index];
+    if (code == null || high == null || low == null) return [];
+    return [{
+      date,
+      code,
+      high,
+      low,
+      rainChance: null,
+      rainAmount: daily.precipitation_sum?.[index] ?? null,
+      wind: daily.wind_speed_10m_max?.[index] ?? null,
+    }];
+  }).filter((day) => Number.isFinite(day.code) && Number.isFinite(day.high) && Number.isFinite(day.low));
+}
+
+async function fetchIslandWeather(location: keyof typeof weatherLocations): Promise<IslandForecast> {
+  const historyRequest = fetchIslandHistory(location).catch(() => undefined);
+  const forecast = await fetchIslandForecast(location);
+  return { ...forecast, historicalDays: await historyRequest };
+}
+
 function eventPeriod(event: TripEvent): Period {
   if (event.time === "morning") return "Morning";
   if (event.time === "afternoon" || event.time === "daytime") return "Afternoon";
@@ -1533,7 +1592,7 @@ export default function Home() {
       if (!navigator.onLine) return;
       setForecastLoading(true);
       const results = await Promise.allSettled(
-        (Object.keys(weatherLocations) as (keyof typeof weatherLocations)[]).map(fetchIslandForecast),
+        (Object.keys(weatherLocations) as (keyof typeof weatherLocations)[]).map(fetchIslandWeather),
       );
       if (ignore) return;
       const updates: Forecasts = {};
@@ -1544,6 +1603,11 @@ export default function Home() {
       if (Object.keys(updates).length) {
         setForecasts((previous) => {
           const next = { ...previous, ...updates };
+          (Object.keys(updates) as (keyof typeof weatherLocations)[]).forEach((location) => {
+            if (next[location] && next[location].historicalDays === undefined) {
+              next[location] = { ...next[location], historicalDays: previous[location]?.historicalDays };
+            }
+          });
           try { window.localStorage.setItem(forecastStorageKey, JSON.stringify(next)); } catch { /* Storage may be full. */ }
           return next;
         });
@@ -1934,6 +1998,8 @@ function WeatherView({
   const forecastIsOld = forecast ? now - forecast.updatedAt > 3 * 60 * 60_000 : false;
   const tripDays = visibleDays.filter((day) => day.date <= "2026-10-17");
   const byDate = new Map(forecast?.days.map((day) => [day.date, day]) ?? []);
+  const historicalByDate = new Map(forecast?.historicalDays?.map((day) => [day.date, day]) ?? []);
+  const today = rarotongaDateParts(new Date(now)).date;
 
   return (
     <section className="weather-view" aria-labelledby="weather-title">
@@ -1984,7 +2050,8 @@ function WeatherView({
           <h3 className="weather-list-heading">Your trip days</h3>
           <div className="weather-day-list">
             {tripDays.map((tripDay) => {
-              const day = byDate.get(tripDay.date);
+              const isPast = tripDay.date < today;
+              const day = isPast ? historicalByDate.get(tripDay.date) : byDate.get(tripDay.date);
               const isAitutakiDay = tripDay.date === "2026-10-16";
               return (
                 <article className={isAitutakiDay ? "weather-day highlight" : "weather-day"} key={tripDay.date}>
@@ -1999,12 +2066,12 @@ function WeatherView({
                   </div>
                   {day ? (
                     <div className="weather-day-details">
-                      <span className="weather-day-condition"><span aria-hidden="true">{weatherEmoji(day.code)}</span>{weatherLabel(day.code)}</span>
-                      <span>Rain {day.rainChance === null ? "—" : `${Math.round(day.rainChance)}%`}</span>
+                      <span className="weather-day-condition"><span aria-hidden="true">{weatherEmoji(day.code)}</span>{isPast ? "Past weather · " : ""}{weatherLabel(day.code)}</span>
+                      {!isPast ? <span>Rain {day.rainChance === null ? "—" : `${Math.round(day.rainChance)}%`}</span> : null}
                       <span>{day.rainAmount === null ? "—" : `${day.rainAmount.toFixed(2)} in`}</span>
                       <span>Wind {day.wind === null ? "—" : `${Math.round(day.wind)} mph`}</span>
                     </div>
-                  ) : <p className="weather-unavailable">No forecast for this date</p>}
+                  ) : <p className="weather-unavailable">{isPast ? "Past weather unavailable" : "No forecast for this date"}</p>}
                 </article>
               );
             })}
