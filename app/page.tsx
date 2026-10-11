@@ -380,8 +380,8 @@ const mapPlaces: MapPlace[] = [
   mappedItineraryPlace({
     id: "north-east-wander",
     date: "2026-10-11",
-    eventTitle: "Muri Beach and Avana Harbour outing",
-    area: "Muri / Avana",
+    eventTitle: "Titikaveka and Muri beach outing",
+    area: "Titikaveka / Muri / Avana",
     lat: -21.25,
     lng: -159.736,
   }),
@@ -1167,7 +1167,7 @@ const activityHeaderNames: Record<string, string> = {
   "Kora Pearls in Avarua": "Kora Pearls",
   "Romias Hut in Matavera": "Romias Hut",
   "Raemaru Gallery and Muri Village": "Muri Village",
-  "Muri Beach and Avana Harbour outing": "Muri and Avana",
+  "Titikaveka and Muri beach outing": "Beach Stops",
   "Dinner at Tamarind House main restaurant": "Tamarind House",
   "West-side beach day": "West-side Beach",
   "Optional lunch or drinks at On the Beach": "On the Beach",
@@ -1277,7 +1277,7 @@ function mapPlaceForEvent(event: TripEvent, day?: Day) {
   if (title.includes("muri night market")) return "muri-night-market";
   if (combined.includes("nautilus")) return "nautilus";
   if (title.includes("west-side beach day")) return "west-side-beach";
-  if (title.includes("muri beach and avana harbour outing")) return "north-east-wander";
+  if (title.includes("titikaveka and muri beach outing")) return "north-east-wander";
   if (title.includes("black rock")) return "black-rock";
   if (combined.includes("tamarind")) return "tamarind";
   if (combined.includes("on the beach")) return "otb";
@@ -1311,7 +1311,7 @@ function mapDescription(event: TripEvent) {
   const shortNotes: Record<string, string> = {
     "Punanga Nui Market / Avarua": "Browse food and craft stalls.",
     "Relax at Sea Change Villas": "Villa downtime before the turtle snorkel.",
-    "Muri Beach and Avana Harbour outing": "Muri Beach, Barefoot Bar, and optional Avana Harbour.",
+    "Titikaveka and Muri beach outing": "Titikaveka and Muri beaches, Barefoot Bar, optional Avana Harbour.",
     "Kora Pearls in Avarua": "Browse Cook Islands black pearls in Avarua.",
     "Romias Hut in Matavera": "Look for the Good Vibes Rarotonga shirt.",
     "Raemaru Gallery and Muri Village": "Browse local designs and Muri Village.",
@@ -1443,7 +1443,7 @@ function periodTone(day: Day, period: Period) {
     },
     "2026-10-11": {
       Morning: "Slow start at the villa.",
-      Afternoon: "Muri Beach, Barefoot Bar, and Avana Harbour if you feel like it.",
+      Afternoon: "Titikaveka and Muri beaches, Barefoot Bar, and optional Avana Harbour.",
       Evening: "Tamarind House main restaurant.",
     },
     "2026-10-12": {
@@ -2399,7 +2399,7 @@ function recommendationText(day: Day, period: Period) {
     },
     "2026-10-11": {
       Morning: ["Slow villa breakfast", "Lagoon time"],
-      Afternoon: ["Muri Beach stroll", "Barefoot Bar", "Avana Harbour"],
+      Afternoon: ["Titikaveka beaches", "Muri Beach stroll", "Barefoot Bar", "Avana Harbour"],
     },
     "2026-10-12": {
       Morning: ["Villa breakfast", "Couples massage at 10:00"],
