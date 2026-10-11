@@ -167,7 +167,7 @@
       "title": "Market, Turtles, and Nautilus",
       "status": "confirmed",
       "theme": "light exploration",
-      "summary": "9:00 AM car pickup, then the market. Turtle snorkel at 4:30 PM and Nautilus at 7:30 PM.",
+      "summary": "Car pickup and the morning market, then villa time before the 4:30 PM turtle snorkel and 7:30 PM Nautilus dinner.",
       "events": [
         {
           "title": "Pickup for rental car",
@@ -182,6 +182,13 @@
           "status": "confirmed",
           "type": "activity",
           "notes": "After the 9:00 AM car pickup. The main Saturday market closes at noon; look for poke or fruit, pearls, pareu, local crafts, and the Saturday stage."
+        },
+        {
+          "title": "Relax at Sea Change Villas",
+          "time": "12:00",
+          "status": "flexible",
+          "type": "downtime",
+          "notes": "Easy time at the villa; leave in time to arrive 10-15 minutes before the 4:30 turtle snorkel."
         },
         {
           "title": "Swim With The Turtles Rarotonga",
@@ -202,7 +209,7 @@
         }
       ],
       "transport": "9:00 AM pickup for the rental car.",
-      "notes": "Visit the market after car pickup and leave the midday hours open before the snorkel."
+      "notes": "Visit the market after car pickup, then take it easy at the villa before the snorkel."
     },
     {
       "date": "2026-10-11",

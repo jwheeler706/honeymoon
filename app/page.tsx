@@ -1047,6 +1047,7 @@ function headerKeyForEvent(event: TripEvent): HeaderKey {
 
 const activityHeaderNames: Record<string, string> = {
   "Punanga Nui Market / Avarua": "Punanga Nui Market",
+  "Relax at Sea Change Villas": "Villa Time",
   "Dinner at Nautilus Resort": "Nautilus Resort",
   "Couples massage at Sea Change Villas": "Couples Massage",
   "Kora Pearls in Avarua": "Kora Pearls",
@@ -1178,6 +1179,7 @@ function eventDetailNote(event: TripEvent) {
 function mapDescription(event: TripEvent) {
   const shortNotes: Record<string, string> = {
     "Punanga Nui Market / Avarua": "Browse food and craft stalls.",
+    "Relax at Sea Change Villas": "Villa downtime before the turtle snorkel.",
     "North/east-side wander before Tamarind": "Optional stops on the way to Tamarind.",
     "Kora Pearls in Avarua": "Browse Cook Islands black pearls in Avarua.",
     "Romias Hut in Matavera": "Look for the Good Vibes Rarotonga shirt.",
@@ -1230,10 +1232,12 @@ function currentTripEvent(now = new Date()) {
 
   const events = [...day.events].sort((a, b) => eventStartMinutes(a) - eventStartMinutes(b));
   const current = [...events].reverse().find((event) => eventStartMinutes(event) <= minutes);
+  const next = events.find((event) => eventStartMinutes(event) > minutes);
 
   return {
     day,
     event: current ?? events[0],
+    next,
   };
 }
 
@@ -1269,7 +1273,9 @@ function headerContext(now = new Date()): HeaderContext {
     label: "CKT",
     time: formatRarotongaTime(now),
     title: current.event.title,
-    subtitle: `${formatTime(current.event.time)} · ${current.day.title}`,
+    subtitle: current.event.type === "downtime" && current.next
+      ? `${formatTime(current.next.time)} · ${activityHeaderName(current.next) ?? current.next.title} next`
+      : `${formatTime(current.event.time)} · ${current.day.title}`,
     focusTitle: activityHeaderName(current.event),
   };
 }
@@ -1286,7 +1292,7 @@ function periodTone(day: Day, period: Period) {
     },
     "2026-10-10": {
       Morning: "Ease into the island if you are feeling fresh.",
-      Afternoon: "Turtle snorkel at 4:30.",
+      Afternoon: "Villa time before the turtle snorkel at 4:30.",
       Evening: "Nautilus dinner at 7:30 after the snorkel.",
     },
     "2026-10-11": {
