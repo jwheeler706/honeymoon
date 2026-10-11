@@ -572,6 +572,8 @@ const eventAlbums: EventAlbum[] = [
       { image: "/images/nautilus-trip-01.jpg", alt: "Jeff and his spouse together at dinner at Nautilus Resort." },
       { image: "/images/nautilus-trip-02.jpg", alt: "Jeff's spouse smiling with a flower-garnished drink at Nautilus Resort." },
       { image: "/images/nautilus-trip-03.jpg", alt: "Jeff smiling at the table at Nautilus Resort." },
+      { image: "/images/nautilus-trip-04.jpg", alt: "Her dinner at Nautilus Resort, plated over a pink puree with roasted vegetables." },
+      { image: "/images/nautilus-trip-05.jpg", alt: "Jeff's seafood dinner at Nautilus Resort, served with mussels and a creamy sauce." },
     ],
   },
   {
@@ -619,7 +621,7 @@ const galleryImages: GalleryImage[] = [
     id: "nautilus",
     title: "Nautilus Resort",
     date: "2026-10-10",
-    label: "3 trip photos",
+    label: "5 trip photos",
     image: "/images/nautilus.webp",
     alt: "Nautilus Resort pool and restaurant beside Muri Lagoon.",
   },
