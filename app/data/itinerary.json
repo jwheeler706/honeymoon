@@ -217,14 +217,14 @@
       "title": "East Coast and Tamarind",
       "status": "flexible",
       "theme": "easy outing and dinner",
-      "summary": "Slow morning, optional east/north outing, then Tamarind at 6:15.",
+      "summary": "Slow morning, flexible Muri outing, then Tamarind at 6:15.",
       "events": [
         {
-          "title": "North/east-side wander before Tamarind",
+          "title": "Muri and Avana before Tamarind",
           "time": "afternoon",
           "status": "flexible",
           "type": "activity",
-          "notes": "Optional east-coast or Avarua stops on the way to Tamarind."
+          "notes": "Leave the villa around 3:30-4:00 PM. Stroll Muri Beach, then stop for a drink at Barefoot Bar at Pacific Resort (mocktail for the driver). If time and weather allow, pause at Avana Harbour. Aim to reach Tamarind around 6:00 PM."
         },
         {
           "title": "Dinner at Tamarind House main restaurant",
@@ -235,7 +235,7 @@
         }
       ],
       "transport": "Rental car for the optional outing and Tamarind dinner.",
-      "notes": "Keep sightseeing optional before dinner."
+      "notes": "Keep the Muri and Avana stops optional before dinner."
     },
     {
       "date": "2026-10-12",

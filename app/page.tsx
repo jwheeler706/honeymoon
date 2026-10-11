@@ -379,8 +379,8 @@ const mapPlaces: MapPlace[] = [
   mappedItineraryPlace({
     id: "north-east-wander",
     date: "2026-10-11",
-    eventTitle: "North/east-side wander before Tamarind",
-    area: "East coast (one option)",
+    eventTitle: "Muri and Avana before Tamarind",
+    area: "Muri / Avana",
     lat: -21.25,
     lng: -159.736,
   }),
@@ -1108,7 +1108,7 @@ const activityHeaderNames: Record<string, string> = {
   "Kora Pearls in Avarua": "Kora Pearls",
   "Romias Hut in Matavera": "Romias Hut",
   "Raemaru Gallery and Muri Village": "Muri Village",
-  "North/east-side wander before Tamarind": "East Coast Wander",
+  "Muri and Avana before Tamarind": "Muri and Avana",
   "Dinner at Tamarind House main restaurant": "Tamarind House",
   "West-side beach day": "West-side Beach",
   "Optional lunch or drinks at On the Beach": "On the Beach",
@@ -1252,7 +1252,7 @@ function mapDescription(event: TripEvent) {
   const shortNotes: Record<string, string> = {
     "Punanga Nui Market / Avarua": "Browse food and craft stalls.",
     "Relax at Sea Change Villas": "Villa downtime before the turtle snorkel.",
-    "North/east-side wander before Tamarind": "Optional stops on the way to Tamarind.",
+    "Muri and Avana before Tamarind": "Muri Beach, Barefoot Bar, and optional Avana Harbour.",
     "Kora Pearls in Avarua": "Browse Cook Islands black pearls in Avarua.",
     "Romias Hut in Matavera": "Look for the Good Vibes Rarotonga shirt.",
     "Raemaru Gallery and Muri Village": "Browse local designs and Muri Village.",
@@ -1384,7 +1384,7 @@ function periodTone(day: Day, period: Period) {
     },
     "2026-10-11": {
       Morning: "Slow start at the villa.",
-      Afternoon: "Easy east/north stops on the way to dinner, if you feel like it.",
+      Afternoon: "Muri Beach, Barefoot Bar, and Avana Harbour if you feel like it.",
       Evening: "Tamarind House main restaurant.",
     },
     "2026-10-12": {
@@ -2332,7 +2332,7 @@ function recommendationText(day: Day, period: Period) {
     },
     "2026-10-11": {
       Morning: ["Slow villa breakfast", "Lagoon time"],
-      Afternoon: ["East-coast stops", "Avarua wander"],
+      Afternoon: ["Muri Beach stroll", "Barefoot Bar", "Avana Harbour"],
     },
     "2026-10-12": {
       Morning: ["Villa breakfast", "Couples massage at 10:00"],
