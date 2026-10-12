@@ -596,6 +596,7 @@ const eventAlbums: EventAlbum[] = [
     title: "Sea Change Villas",
     date: "2026-10-09",
     photos: [
+      { image: "/images/sea-change.webp", alt: "Lagoon View Villa and private pool at Sea Change Villas in Rarotonga." },
       { image: "/images/sea-change-trip-01.jpg", alt: "View from the villa deck along a garden boardwalk toward the lagoon." },
       { image: "/images/sea-change-trip-02.jpg", alt: "A rooster standing on the garden boardwalk at Sea Change Villas." },
       { image: "/images/sea-change-trip-03.jpg", alt: "Boardwalk winding through the tropical gardens at Sea Change Villas." },
@@ -612,7 +613,7 @@ const galleryImages: GalleryImage[] = [
     id: "sea-change",
     title: "Sea Change Villas",
     date: "2026-10-09",
-    label: "Home base · 7 trip photos",
+    label: "Home base · 8 photos",
     image: "/images/sea-change.webp",
     alt: "Lagoon View Villa at Sea Change Villas in Rarotonga.",
   },
@@ -1979,12 +1980,12 @@ export default function Home() {
                                   ) : null}
                                   {eventAlbum ? (
                                     <button
-                                      aria-label={`View ${eventAlbum.photos.length} trip photos for ${event.title}`}
+                                      aria-label={`View ${eventAlbum.photos.length} photos for ${event.title}`}
                                       className="event-photo-link"
                                       onClick={() => showEventPhotos(eventAlbum.id)}
                                       type="button"
                                     >
-                                      View {eventAlbum.photos.length} trip photos
+                                      View {eventAlbum.photos.length} photos
                                     </button>
                                   ) : null}
                                   {event.flight ? <FlightDetails event={event} /> : null}
@@ -2384,7 +2385,7 @@ function GalleryAlbum({ album, onClose }: { album: EventAlbum; onClose: () => vo
     <section aria-labelledby="gallery-album-title" className="gallery-album" id="gallery-album">
       <div className="gallery-album-heading">
         <div>
-          <span>{formatLongDate(album.date)} · {album.photos.length} trip photos</span>
+          <span>{formatLongDate(album.date)} · {album.photos.length} photos</span>
           <h2 id="gallery-album-title" tabIndex={-1}>{album.title}</h2>
         </div>
         <button aria-label="Close photo album" className="gallery-album-close" onClick={onClose} type="button">×</button>
