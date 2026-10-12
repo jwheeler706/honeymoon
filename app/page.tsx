@@ -590,6 +590,21 @@ const eventAlbums: EventAlbum[] = [
       { image: "/images/market-trip-06.jpg", alt: "Island art prints displayed at Punanga Nui Market." },
     ],
   },
+  {
+    id: "sea-change",
+    eventTitle: "Check in at Sea Change Villas, Titikaveka",
+    title: "Sea Change Villas",
+    date: "2026-10-09",
+    photos: [
+      { image: "/images/sea-change-trip-01.jpg", alt: "View from the villa deck along a garden boardwalk toward the lagoon." },
+      { image: "/images/sea-change-trip-02.jpg", alt: "A rooster standing on the garden boardwalk at Sea Change Villas." },
+      { image: "/images/sea-change-trip-03.jpg", alt: "Boardwalk winding through the tropical gardens at Sea Change Villas." },
+      { image: "/images/sea-change-trip-04.jpg", alt: "White orchids blooming in the villa garden." },
+      { image: "/images/sea-change-trip-05.jpg", alt: "Green tropical leaves beside a stone planter at the villa." },
+      { image: "/images/sea-change-trip-06.jpg", alt: "Red hibiscus blooming in the Sea Change Villas garden." },
+      { image: "/images/sea-change-trip-07.jpg", alt: "Jeff and his spouse smiling together in flower leis at the villa." },
+    ],
+  },
 ];
 
 const galleryImages: GalleryImage[] = [
@@ -597,7 +612,7 @@ const galleryImages: GalleryImage[] = [
     id: "sea-change",
     title: "Sea Change Villas",
     date: "2026-10-09",
-    label: "Home base",
+    label: "Home base · 7 trip photos",
     image: "/images/sea-change.webp",
     alt: "Lagoon View Villa at Sea Change Villas in Rarotonga.",
   },
