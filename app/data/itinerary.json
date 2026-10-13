@@ -240,10 +240,10 @@
     {
       "date": "2026-10-12",
       "weekday": "Monday",
-      "title": "Massage, Shopping, and Sunset Platter",
+      "title": "Massage, Snorkeling, and Sunset Platter",
       "status": "confirmed",
-      "theme": "shopping and villa evening",
-      "summary": "Couples massage at 10:00, flexible shopping in Avarua, Matavera, and Muri, then sunset platter at the villa.",
+      "theme": "lagoon and sunset",
+      "summary": "Couples massage at 10:00, snorkeling at Fruits of Rarotonga and Aroa, Maire Nui Gardens, Trader Jacks, then the villa platter and sunset drinks at On the Beach.",
       "events": [
         {
           "title": "Couples massage at Sea Change Villas",
@@ -254,65 +254,79 @@
           "notes": "Confirmed with Sea Change Villas."
         },
         {
-          "title": "Lunch near the south side, maybe Charlie's",
-          "time": "12:30",
-          "status": "suggested",
+          "title": "Snorkeling at Fruits of Rarotonga",
+          "time": "afternoon",
+          "status": "confirmed",
+          "type": "activity",
+          "notes": "Snorkeled at the Tikioki lagoon spot."
+        },
+        {
+          "title": "Snorkeling north of The Rarotongan",
+          "time": "afternoon",
+          "status": "confirmed",
+          "type": "activity",
+          "notes": "Snorkeled in Aroa Lagoon north of the resort."
+        },
+        {
+          "title": "Maire Nui Gardens",
+          "time": "afternoon",
+          "status": "confirmed",
+          "type": "activity",
+          "notes": "Stopped at the gardens in Titikaveka before Trader Jacks."
+        },
+        {
+          "title": "Quick bite and drink at Trader Jacks",
+          "time": "afternoon",
+          "status": "confirmed",
           "type": "meal",
-          "notes": "Charlie's is an easy option if lunch sounds good."
-        },
-        {
-          "title": "Kora Pearls in Avarua",
-          "time": "14:00",
-          "status": "flexible",
-          "type": "activity",
-          "notes": "Browse the black-pearl pieces at Kora Pearls in Avarua."
-        },
-        {
-          "title": "Romias Hut in Matavera",
-          "time": "14:45",
-          "status": "flexible",
-          "type": "activity",
-          "notes": "Look for the Good Vibes Rarotonga shirt upstairs from Vili's Burger Joint."
-        },
-        {
-          "title": "Raemaru Gallery and Muri Village",
-          "time": "15:30",
-          "status": "flexible",
-          "type": "activity",
-          "notes": "Browse Raemaru's local designs, then explore Muri Village."
+          "notes": "Stopped in Avarua for a quick bite and a drink."
         },
         {
           "title": "Sunset platter at Sea Change Villas",
           "time": "17:30",
           "status": "confirmed",
           "type": "meal",
-          "notes": "Sunset dinner at the villa."
+          "notes": "Dinner platter at the villa."
+        },
+        {
+          "title": "Sunset drinks at On the Beach",
+          "time": "evening",
+          "status": "confirmed",
+          "type": "meal",
+          "notes": "Drinks by the beach after the platter to watch the sunset."
         }
       ],
-      "transport": "Rental car for Avarua, Matavera, and Muri.",
-      "notes": "Return to the villa before the 5:30 PM platter."
+      "transport": "Rental car for the snorkel stops, Avarua, and sunset drinks.",
+      "notes": "Snorkeling, Maire Nui Gardens, and Trader Jacks before the 5:30 PM platter; On the Beach afterward."
     },
     {
       "date": "2026-10-13",
       "weekday": "Tuesday",
-      "title": "West-Side Beach Day and Island Night",
+      "title": "Shopping and Island Night",
       "status": "confirmed",
-      "theme": "beach and island night",
-      "summary": "Optional On the Beach lunch or drinks and west-side beach time, then Rarotonga Brewery at 4:30 and Island Night at Edgewater.",
+      "theme": "shopping and island night",
+      "summary": "Flexible shopping in Avarua, Matavera, and Muri, then Rarotonga Brewery at 4:30 and Island Night at Edgewater.",
       "events": [
         {
-          "title": "Optional lunch or drinks at On the Beach",
-          "time": "afternoon",
-          "status": "flexible",
-          "type": "meal",
-          "notes": "Lunch before the beach is easiest; an early drink also works if you are nearby before Edgewater."
-        },
-        {
-          "title": "West-side beach day",
+          "title": "Kora Pearls in Avarua",
           "time": "afternoon",
           "status": "flexible",
           "type": "activity",
-          "notes": "Start when ready. Explore Aroa and Arorangi, and swim if conditions suit."
+          "notes": "Browse the black-pearl pieces at Kora Pearls in Avarua."
+        },
+        {
+          "title": "Romias Hut in Matavera",
+          "time": "afternoon",
+          "status": "flexible",
+          "type": "activity",
+          "notes": "Look for the Good Vibes Rarotonga shirt upstairs from Vili's Burger Joint."
+        },
+        {
+          "title": "Raemaru Gallery and Muri Village",
+          "time": "afternoon",
+          "status": "flexible",
+          "type": "activity",
+          "notes": "Browse Raemaru's local designs, then explore Muri Village."
         },
         {
           "title": "Rarotonga Brewery stop",
@@ -330,7 +344,7 @@
         }
       ],
       "transport": "Rental car.",
-      "notes": "Stay on the west side through Island Night."
+      "notes": "Allow time to get from Muri to the west-side brewery by 4:30 PM."
     },
     {
       "date": "2026-10-14",

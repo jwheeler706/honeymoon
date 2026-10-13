@@ -392,8 +392,40 @@ const mapPlaces: MapPlace[] = [
     area: "Sea Change Villas / Titikaveka",
   }),
   mappedItineraryPlace({
-    id: "kora-pearls",
+    id: "fruits-of-rarotonga",
     date: "2026-10-12",
+    eventTitle: "Snorkeling at Fruits of Rarotonga",
+    area: "Tikioki",
+    lat: -21.27072,
+    lng: -159.74358,
+  }),
+  mappedItineraryPlace({
+    id: "aroa-snorkeling",
+    date: "2026-10-12",
+    eventTitle: "Snorkeling north of The Rarotongan",
+    area: "Aroa Lagoon",
+    lat: -21.25701,
+    lng: -159.81665,
+  }),
+  mappedItineraryPlace({
+    id: "maire-nui-gardens",
+    date: "2026-10-12",
+    eventTitle: "Maire Nui Gardens",
+    area: "Titikaveka",
+    lat: -21.2725,
+    lng: -159.7525,
+  }),
+  mappedItineraryPlace({
+    id: "trader-jacks",
+    date: "2026-10-12",
+    eventTitle: "Quick bite and drink at Trader Jacks",
+    area: "Avarua Harbour",
+    lat: -21.20615,
+    lng: -159.77478,
+  }),
+  mappedItineraryPlace({
+    id: "kora-pearls",
+    date: "2026-10-13",
     eventTitle: "Kora Pearls in Avarua",
     area: "Avarua shopping area",
     lat: -21.205,
@@ -401,7 +433,7 @@ const mapPlaces: MapPlace[] = [
   }),
   mappedItineraryPlace({
     id: "romias-hut",
-    date: "2026-10-12",
+    date: "2026-10-13",
     eventTitle: "Romias Hut in Matavera",
     area: "Matavera shopping area",
     lat: -21.2235,
@@ -409,7 +441,7 @@ const mapPlaces: MapPlace[] = [
   }),
   mappedItineraryPlace({
     id: "raemaru-gallery",
-    date: "2026-10-12",
+    date: "2026-10-13",
     eventTitle: "Raemaru Gallery and Muri Village",
     area: "Muri Village area",
     lat: -21.2575,
@@ -422,18 +454,10 @@ const mapPlaces: MapPlace[] = [
     area: "Sea Change Villas / Titikaveka",
   }),
   mappedItineraryPlace({
-    id: "west-side-beach",
-    date: "2026-10-13",
-    eventTitle: "West-side beach day",
-    area: "Aroa Beach (one option)",
-    lat: -21.25701,
-    lng: -159.81665,
-  }),
-  mappedItineraryPlace({
     id: "otb",
-    date: "2026-10-13",
-    eventTitle: "Optional lunch or drinks at On the Beach",
-    area: "West side",
+    date: "2026-10-12",
+    eventTitle: "Sunset drinks at On the Beach",
+    area: "Arorangi / Manuia Beach Resort",
     lat: -21.22471,
     lng: -159.8292,
   }),
@@ -652,8 +676,8 @@ const galleryImages: GalleryImage[] = [
   {
     id: "otb",
     title: "On the Beach Bar & Restaurant",
-    date: "2026-10-13",
-    label: "Lunch or drinks",
+    date: "2026-10-12",
+    label: "Sunset drinks",
     image: "/images/otb.jpg",
     alt: "Beachfront dining room at On the Beach in Rarotonga.",
   },
@@ -1220,8 +1244,11 @@ const activityHeaderNames: Record<string, string> = {
   "Raemaru Gallery and Muri Village": "Muri Village",
   "Titikaveka and Muri beach outing": "Beach Stops",
   "Dinner at Tamarind House main restaurant": "Tamarind House",
-  "West-side beach day": "West-side Beach",
-  "Optional lunch or drinks at On the Beach": "On the Beach",
+  "Snorkeling at Fruits of Rarotonga": "Tikioki Snorkeling",
+  "Snorkeling north of The Rarotongan": "Aroa Snorkeling",
+  "Maire Nui Gardens": "Maire Nui Gardens",
+  "Quick bite and drink at Trader Jacks": "Trader Jacks",
+  "Sunset drinks at On the Beach": "On the Beach",
   "Rarotonga Brewery stop": "Rarotonga Brewery",
   "Island Night at Edgewater": "Island Night",
   "Swim With The Turtles Rarotonga": "Swim With The Turtles",
@@ -1272,6 +1299,7 @@ function imageForEvent(event: TripEvent) {
   if (title.includes("one foot") || title.includes("tapuaetai")) {
     return galleryImages.find((image) => image.id === "one-foot") ?? null;
   }
+  if (title.includes("snorkeling at fruits") || title.includes("snorkeling north")) return null;
   if (title.includes("west-side") || title.includes("lagoon") || title.includes("snorkel")) {
     return galleryImages.find((image) => image.id === "lagoon") ?? null;
   }
@@ -1323,12 +1351,15 @@ function mapPlaceForEvent(event: TripEvent, day?: Day) {
   if (combined.includes("sea change")) return "sea-change-villas";
   if (day?.date === "2026-10-15" && title === "villa or lagoon morning") return "sea-change-villas";
   if (combined.includes("punanga")) return "punanga-nui-market";
+  if (title.includes("snorkeling at fruits")) return "fruits-of-rarotonga";
+  if (title.includes("snorkeling north of the rarotongan")) return "aroa-snorkeling";
+  if (title.includes("maire nui gardens")) return "maire-nui-gardens";
+  if (title.includes("trader jacks")) return "trader-jacks";
   if (title.includes("kora pearls")) return "kora-pearls";
   if (title.includes("romias hut")) return "romias-hut";
   if (title.includes("raemaru gallery")) return "raemaru-gallery";
   if (title.includes("muri night market")) return "muri-night-market";
   if (combined.includes("nautilus")) return "nautilus";
-  if (title.includes("west-side beach day")) return "west-side-beach";
   if (title.includes("titikaveka and muri beach outing")) return "north-east-wander";
   if (title.includes("black rock")) return "black-rock";
   if (combined.includes("tamarind")) return "tamarind";
@@ -1367,8 +1398,11 @@ function mapDescription(event: TripEvent) {
     "Kora Pearls in Avarua": "Browse Cook Islands black pearls in Avarua.",
     "Romias Hut in Matavera": "Look for the Good Vibes Rarotonga shirt.",
     "Raemaru Gallery and Muri Village": "Browse local designs and Muri Village.",
-    "West-side beach day": "Beach and snorkeling on the west side.",
-    "Optional lunch or drinks at On the Beach": "Optional lunch or an early drink.",
+    "Snorkeling at Fruits of Rarotonga": "Snorkeling at Tikioki lagoon.",
+    "Snorkeling north of The Rarotongan": "Snorkeling in Aroa Lagoon.",
+    "Maire Nui Gardens": "Walked through the gardens in Titikaveka.",
+    "Quick bite and drink at Trader Jacks": "Quick bite and drink by Avarua Harbour.",
+    "Sunset drinks at On the Beach": "Drinks by the beach after the villa platter.",
     "Rarotonga Brewery stop": "Local beer and Tavake spirits opposite Edgewater.",
     "Island Night at Edgewater": "Island Umukai Feast and cultural show.",
     "Black Rock stop before Antipodes": "Optional stop on the way to Antipodes.",
@@ -1500,11 +1534,11 @@ function periodTone(day: Day, period: Period) {
     },
     "2026-10-12": {
       Morning: "Couples massage at the villa at 10:00.",
-      Afternoon: "Kora Pearls, Romias Hut, and Muri Village if you feel like it.",
-      Evening: "Sunset platter at the villa at 5:30.",
+      Afternoon: "Fruits of Rarotonga and Aroa snorkeling, Maire Nui Gardens, then Trader Jacks.",
+      Evening: "Sunset platter at the villa at 5:30, then drinks at On the Beach.",
     },
     "2026-10-13": {
-      Afternoon: "Optional OTB stop and west-side beach time before the brewery at 4:30.",
+      Afternoon: "Kora Pearls, Romias Hut, and Muri Village before the brewery at 4:30.",
       Evening: "Edgewater check-in at 6:30.",
     },
     "2026-10-14": {
@@ -2455,11 +2489,11 @@ function recommendationText(day: Day, period: Period) {
     },
     "2026-10-12": {
       Morning: ["Villa breakfast", "Couples massage at 10:00"],
-      Evening: ["Sunset platter", "Villa evening", "Quiet night"],
+      Evening: ["Sunset platter", "On the Beach drinks", "Sunset on the west side"],
     },
     "2026-10-13": {
-      Morning: ["Slow breakfast", "Beach bag day"],
-      Afternoon: ["Aroa swim", "Arorangi wander"],
+      Morning: ["Slow breakfast", "Shopping day"],
+      Afternoon: ["Kora Pearls", "Romias Hut", "Raemaru Gallery and Muri Village"],
     },
     "2026-10-14": {
       Morning: ["Raemaru if dry", "Villa time if the trail is wet", "Coffee and no agenda"],
