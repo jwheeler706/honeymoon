@@ -503,7 +503,7 @@ const mapPlaces: MapPlace[] = [
   }),
   mappedItineraryPlace({
     id: "black-rock",
-    date: "2026-10-15",
+    date: "2026-10-14",
     eventTitle: "Optional Black Rock swim",
     area: "Black Rock",
     lat: -21.21,
@@ -1403,9 +1403,9 @@ function mapDescription(event: TripEvent) {
     "Maire Nui Gardens": "Walked through the gardens in Titikaveka.",
     "Quick bite and drink at Trader Jacks": "Quick bite and drink by Avarua Harbour.",
     "Sunset drinks at On the Beach": "Drinks by the beach after the villa platter.",
-    "Rarotonga Brewery stop": "Local beer in Arorangi after Black Rock and before Antipodes.",
+    "Rarotonga Brewery stop": "Local beer in Arorangi before Antipodes.",
     "Island Night at Edgewater": "Island Umukai Feast and cultural show.",
-    "Optional Black Rock swim": "Optional midday swim or snorkel, then back to the villa to change.",
+    "Optional Black Rock swim": "Optional swim or snorkel after Raemaru, then back to the villa.",
     "Swim With The Turtles Rarotonga": "Arrive 10-15 minutes early.",
     "Optional Raemaru Trek": "Trek only if the trail is dry.",
     "Muri Night Market": "Dinner from the food stalls.",
@@ -1543,12 +1543,12 @@ function periodTone(day: Day, period: Period) {
     },
     "2026-10-14": {
       Morning: "Raemaru only if the trail is dry and you feel up for it.",
-      Afternoon: "Rest before heading to Muri.",
+      Afternoon: "Optional Black Rock swim after Raemaru, then villa time before Muri.",
       Evening: "Muri Night Market from 5:00.",
     },
     "2026-10-15": {
       Morning: "Slow honeymoon morning.",
-      Afternoon: "Optional Black Rock swim at 12:30, then back to the villa before the 5:00 brewery stop.",
+      Afternoon: "Keep it open at the villa before the 5:00 brewery stop.",
       Evening: "Antipodes at 6:30.",
     },
     "2026-10-16": {
@@ -2497,12 +2497,12 @@ function recommendationText(day: Day, period: Period) {
     },
     "2026-10-14": {
       Morning: ["Raemaru if dry", "Villa time if the trail is wet", "Coffee and no agenda"],
-      Afternoon: ["Villa recovery", "Easy reset", "Lagoon time"],
+      Afternoon: ["Black Rock swim if you feel like it", "Villa reset", "Lagoon time"],
       Evening: ["Muri Night Market", "Dinner in Muri", "Quiet villa night"],
     },
     "2026-10-15": {
       Morning: ["Slow villa morning", "Lagoon float"],
-      Afternoon: ["Black Rock swim", "Villa reset", "Rarotonga Brewery"],
+      Afternoon: ["Protected downtime", "Pool or lagoon", "Rarotonga Brewery"],
       Evening: ["Antipodes", "Sunset timing", "Easy ride back"],
     },
     "2026-10-16": {

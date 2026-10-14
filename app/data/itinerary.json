@@ -345,14 +345,28 @@
       "title": "Adventure Day and Muri Night Market",
       "status": "confirmed",
       "theme": "big adventure",
-      "summary": "Optional Raemaru trek, then Muri Night Market for dinner from 5:00.",
+      "summary": "Optional Raemaru trek and Black Rock swim, then villa time before Muri Night Market from 5:00.",
       "events": [
         {
           "title": "Optional Raemaru Trek",
           "time": "morning",
           "status": "flexible",
           "type": "activity",
-          "notes": "Go only if the trail is dry and the weather and energy suit; leave the afternoon free to rest."
+          "notes": "Go only if the trail is dry and the weather and energy suit; Black Rock can follow if you still feel like a swim."
+        },
+        {
+          "title": "Optional Black Rock swim",
+          "time": "12:30",
+          "status": "flexible",
+          "type": "activity",
+          "notes": "Swim or snorkel after the hike if conditions and energy suit. This also works as a standalone stop if you skip Raemaru."
+        },
+        {
+          "title": "Villa reset before Muri",
+          "time": "afternoon",
+          "status": "flexible",
+          "type": "downtime",
+          "notes": "Head back to the villa to rinse off, eat, and relax before leaving for the night market."
         },
         {
           "title": "Muri Night Market",
@@ -363,7 +377,7 @@
         }
       ],
       "transport": "Rental car.",
-      "notes": "Keep the hike weather-dependent and the afternoon open before the market."
+      "notes": "Keep both the hike and Black Rock flexible; leave time to return to the villa before Muri Night Market opens at 5:00 PM."
     },
     {
       "date": "2026-10-15",
@@ -371,7 +385,7 @@
       "title": "Flexible Day and Antipodes",
       "status": "confirmed",
       "theme": "protected downtime",
-      "summary": "Optional midday swim at Black Rock, time back at the villa, Rarotonga Brewery at 5:00, then Antipodes at 6:30.",
+      "summary": "Slow villa or lagoon day, Rarotonga Brewery at 5:00, then Antipodes at 6:30.",
       "events": [
         {
           "title": "Villa or lagoon morning",
@@ -381,18 +395,11 @@
           "notes": "Take it easy at the villa or lagoon."
         },
         {
-          "title": "Optional Black Rock swim",
-          "time": "12:30",
-          "status": "flexible",
-          "type": "activity",
-          "notes": "Swim or snorkel if conditions look good, or just enjoy the beach. Head back to the villa afterward to rinse off and change before the evening plans."
-        },
-        {
-          "title": "Villa reset before dinner",
+          "title": "Open afternoon at the villa",
           "time": "afternoon",
           "status": "flexible",
           "type": "downtime",
-          "notes": "Return from Black Rock with plenty of time to shower, change, and relax before heading out again."
+          "notes": "Keep the afternoon free for the pool, lagoon, or a rest before heading out for the evening."
         },
         {
           "title": "Rarotonga Brewery stop",
@@ -410,7 +417,7 @@
         }
       ],
       "transport": "Rental car.",
-      "notes": "Black Rock is a separate midday outing, so swimming is optional. Return to the villa before the 5:00 PM brewery stop; it closes at 6:00 PM. Antipodes is at 6:30."
+      "notes": "Enjoy the open afternoon before the 5:00 PM brewery stop; it closes at 6:00 PM. Antipodes is at 6:30."
     },
     {
       "date": "2026-10-16",
