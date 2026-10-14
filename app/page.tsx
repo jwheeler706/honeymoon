@@ -504,7 +504,7 @@ const mapPlaces: MapPlace[] = [
   mappedItineraryPlace({
     id: "black-rock",
     date: "2026-10-15",
-    eventTitle: "Black Rock stop before Antipodes",
+    eventTitle: "Optional Black Rock swim",
     area: "Black Rock",
     lat: -21.21,
     lng: -159.82,
@@ -1405,7 +1405,7 @@ function mapDescription(event: TripEvent) {
     "Sunset drinks at On the Beach": "Drinks by the beach after the villa platter.",
     "Rarotonga Brewery stop": "Local beer in Arorangi after Black Rock and before Antipodes.",
     "Island Night at Edgewater": "Island Umukai Feast and cultural show.",
-    "Black Rock stop before Antipodes": "Optional dry beach stroll and photos before the brewery and dinner.",
+    "Optional Black Rock swim": "Optional midday swim or snorkel, then back to the villa to change.",
     "Swim With The Turtles Rarotonga": "Arrive 10-15 minutes early.",
     "Optional Raemaru Trek": "Trek only if the trail is dry.",
     "Muri Night Market": "Dinner from the food stalls.",
@@ -1548,7 +1548,7 @@ function periodTone(day: Day, period: Period) {
     },
     "2026-10-15": {
       Morning: "Slow honeymoon morning.",
-      Afternoon: "Optional Black Rock stroll at 4:15, then Rarotonga Brewery at 5:00.",
+      Afternoon: "Optional Black Rock swim at 12:30, then back to the villa before the 5:00 brewery stop.",
       Evening: "Antipodes at 6:30.",
     },
     "2026-10-16": {
@@ -2502,7 +2502,7 @@ function recommendationText(day: Day, period: Period) {
     },
     "2026-10-15": {
       Morning: ["Slow villa morning", "Lagoon float"],
-      Afternoon: ["Protected downtime", "Black Rock on the way to dinner"],
+      Afternoon: ["Black Rock swim", "Villa reset", "Rarotonga Brewery"],
       Evening: ["Antipodes", "Sunset timing", "Easy ride back"],
     },
     "2026-10-16": {
