@@ -463,7 +463,7 @@ const mapPlaces: MapPlace[] = [
   }),
   mappedItineraryPlace({
     id: "rarotonga-brewery",
-    date: "2026-10-13",
+    date: "2026-10-15",
     eventTitle: "Rarotonga Brewery stop",
     area: "Arorangi / opposite Edgewater",
     lat: -21.21564,
@@ -1403,9 +1403,9 @@ function mapDescription(event: TripEvent) {
     "Maire Nui Gardens": "Walked through the gardens in Titikaveka.",
     "Quick bite and drink at Trader Jacks": "Quick bite and drink by Avarua Harbour.",
     "Sunset drinks at On the Beach": "Drinks by the beach after the villa platter.",
-    "Rarotonga Brewery stop": "Local beer and Tavake spirits opposite Edgewater.",
+    "Rarotonga Brewery stop": "Local beer in Arorangi after Black Rock and before Antipodes.",
     "Island Night at Edgewater": "Island Umukai Feast and cultural show.",
-    "Black Rock stop before Antipodes": "Optional stop on the way to Antipodes.",
+    "Black Rock stop before Antipodes": "Optional dry beach stroll and photos before the brewery and dinner.",
     "Swim With The Turtles Rarotonga": "Arrive 10-15 minutes early.",
     "Optional Raemaru Trek": "Trek only if the trail is dry.",
     "Muri Night Market": "Dinner from the food stalls.",
@@ -1538,7 +1538,7 @@ function periodTone(day: Day, period: Period) {
       Evening: "Sunset platter at the villa at 5:30, then drinks at On the Beach.",
     },
     "2026-10-13": {
-      Afternoon: "Kora Pearls, Romias Hut, and Muri Village before the brewery at 4:30.",
+      Afternoon: "Kora Pearls, Romias Hut, and Muri Village at your own pace.",
       Evening: "Edgewater check-in at 6:30.",
     },
     "2026-10-14": {
@@ -1548,7 +1548,7 @@ function periodTone(day: Day, period: Period) {
     },
     "2026-10-15": {
       Morning: "Slow honeymoon morning.",
-      Afternoon: "Relax, or stop at Black Rock on the way to Antipodes.",
+      Afternoon: "Optional Black Rock stroll at 4:15, then Rarotonga Brewery at 5:00.",
       Evening: "Antipodes at 6:30.",
     },
     "2026-10-16": {

@@ -305,7 +305,7 @@
       "title": "Shopping and Island Night",
       "status": "confirmed",
       "theme": "shopping and island night",
-      "summary": "Flexible shopping in Avarua, Matavera, and Muri, then Rarotonga Brewery at 4:30 and Island Night at Edgewater.",
+      "summary": "Flexible shopping in Avarua, Matavera, and Muri, then Island Night at Edgewater.",
       "events": [
         {
           "title": "Kora Pearls in Avarua",
@@ -329,13 +329,6 @@
           "notes": "Browse Raemaru's local designs, then explore Muri Village."
         },
         {
-          "title": "Rarotonga Brewery stop",
-          "time": "16:30",
-          "status": "confirmed",
-          "type": "meal",
-          "notes": "Stop by across from Edgewater for local beer or Tavake spirits before Island Night."
-        },
-        {
           "title": "Island Night at Edgewater",
           "time": "18:30",
           "status": "confirmed",
@@ -344,7 +337,7 @@
         }
       ],
       "transport": "Rental car.",
-      "notes": "Allow time to get from Muri to the west-side brewery by 4:30 PM."
+      "notes": "Keep the shopping flexible and allow time to reach Edgewater for the 6:30 PM check-in."
     },
     {
       "date": "2026-10-14",
@@ -378,7 +371,7 @@
       "title": "Flexible Day and Antipodes",
       "status": "confirmed",
       "theme": "protected downtime",
-      "summary": "Easy villa or lagoon morning, optional Black Rock stop, then Antipodes at 6:30.",
+      "summary": "Easy villa or lagoon morning, optional Black Rock stroll at 4:15, Rarotonga Brewery at 5:00, then Antipodes at 6:30.",
       "events": [
         {
           "title": "Villa or lagoon morning",
@@ -389,10 +382,17 @@
         },
         {
           "title": "Black Rock stop before Antipodes",
-          "time": "afternoon",
+          "time": "16:15",
           "status": "flexible",
           "type": "activity",
-          "notes": "Short west-side stop on the way to dinner, if you feel like it."
+          "notes": "Optional 20-30 minute beach stroll and photos. Plan to stay dry and dressed for dinner; no villa return needed."
+        },
+        {
+          "title": "Rarotonga Brewery stop",
+          "time": "17:00",
+          "status": "flexible",
+          "type": "meal",
+          "notes": "Stop in Arorangi for local beer before Antipodes. Open Thursday until 6:00 PM."
         },
         {
           "title": "Antipodes dinner",
@@ -403,7 +403,7 @@
         }
       ],
       "transport": "Rental car.",
-      "notes": "Leave room to rest before dinner."
+      "notes": "Keep Black Rock to a dry stroll, then head to the brewery at 5:00; it closes at 6:00 PM. No need to return to the villa before the 6:30 dinner."
     },
     {
       "date": "2026-10-16",
